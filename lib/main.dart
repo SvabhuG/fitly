@@ -20,11 +20,9 @@ class MyApp extends StatelessWidget {
 
 
                     body: Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.red,
-                        ),
-                          borderRadius: const BorderRadius.all(Radius.circular(20))
+                        decoration: BoxDecoration(color: Colors.red[300]
+
+                          borderRadius: BorderRadius.circular(20)
       ),
                           height: 150,
                         width: 200,
