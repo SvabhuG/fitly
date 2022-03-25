@@ -17,9 +17,9 @@ class MyApp extends StatelessWidget {
               child: Text('Workouts'),
           )
         ),
-        body: const Center(
-          child: Text('Hello World'),
-        ),
+        body: Container(
+          child: Text ('Log New Workout')
+        )
       ),
     );
   }
