@@ -17,10 +17,24 @@ class MyApp extends StatelessWidget {
               child: Text('Workouts'),
           )
         ),
-        body: Container(
-          child: Text ('Log New Workout')
-        )
+
+
+                    body: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.red,
+                        ),
+                          borderRadius: const BorderRadius.all(Radius.circular(20))
       ),
-    );
+                          height: 150,
+                        width: 200,
+                        color: Colors.blue,
+                        alignment: Alignment.center,
+                        child: const Text ('Log New Workout'),
+                    ),
+
+                ),
+
+            );
   }
 }
