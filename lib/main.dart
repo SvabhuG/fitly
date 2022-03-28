@@ -22,11 +22,10 @@ class MyApp extends StatelessWidget {
                     body: Container(
                         decoration: BoxDecoration(color: Colors.red[300]
 
-                          borderRadius: BorderRadius.circular(20)
+                          borderRadius: BorderRadius.circular(20.0)
       ),
                           height: 150,
                         width: 200,
-                        color: Colors.blue,
                         alignment: Alignment.center,
                         child: const Text ('Log New Workout'),
                     ),
