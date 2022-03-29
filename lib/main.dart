@@ -17,40 +17,24 @@ class MyApp extends StatelessWidget {
               child: Text('Workouts'),
           )
         ),
+body: Container(
+  decoration: BoxDecoration(
+      color: Colors.red,
 
+      border: Border.all(
 
-                    body: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                      )
-
-          children: [
-      SizedBox(
-                          height: 250,
-                        child: Container(
-                          decoration: BoxDecoration(color: Colors.red[300]
-                          ),
-                           border: Border.all(
-                             color: Colors.blue,
-                             width:4.0,
-                             style:BorderStyle.solid),
-
-                            borderRadius: BorderRadius.all(Radius.circular(10)
-                            ),
-
-
-                            height: 150,
-                          width: 200,
-                          alignment: Alignment.center,
-                          child: const Text ('Log New Workout'),
-      ),
-      ),
-    ],
-                    ),
     ),
+    borderRadius: const BorderRadius.all(Radius.circular(20))
+  ),
+  child: const Center(
+    child: Text ("Log New Workout"),
+  )
+)
 
-                );
+
+      ),
 
 
+);
   }
 }
