@@ -12,11 +12,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Workouts',
       theme: ThemeData(
-        primaryColor: Colors.purple,
       ),
       home: Scaffold(
           appBar: AppBar(
-
               title: const Center(
 
 
