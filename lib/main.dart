@@ -14,14 +14,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
       ),
       home: Scaffold(
-          appBar: AppBar(
-              title: const Center(
-
-
-                child: Text('Workouts'),
-
-          )),
-          body: Container(
+          body:
+          child: Text ()Container(
             height:100.0,
               decoration: BoxDecoration(
                   color: Colors.red[300],
