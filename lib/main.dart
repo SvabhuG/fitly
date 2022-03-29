@@ -11,30 +11,27 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Workouts',
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Center(
-              child: Text('Workouts'),
-          )
-        ),
-body: Container(
-  decoration: BoxDecoration(
-      color: Colors.red,
-
-      border: Border.all(
-
-    ),
-    borderRadius: const BorderRadius.all(Radius.circular(20))
-  ),
-  child: const Center(
-    child: Text ("Log New Workout"),
-  )
-)
-
-
+      theme: ThemeData(
+        primaryColor: Colors.purple,
       ),
+      home: Scaffold(
+          appBar: AppBar(
+
+              title: const Center(
 
 
-);
+                child: Text('Workouts'),
+
+          )),
+          body: Container(
+            height:100.0,
+              decoration: BoxDecoration(
+                  color: Colors.red[300],
+                  border: Border.all(),
+                  borderRadius: const BorderRadius.all(Radius.circular(50))),
+              child: const Center(
+                child: Text("Log New Workout"),
+              ))),
+    );
   }
 }
