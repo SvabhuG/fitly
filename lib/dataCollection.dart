@@ -100,15 +100,6 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                    'Info',
-                  style: questStyle,
-                )
-              ]
-            ),
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children:const [
