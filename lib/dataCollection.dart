@@ -14,8 +14,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Personalized Workout Information',
-      theme: ThemeData(scaffoldBackgroundColor: const Color(0xff161324)),
+      theme: ThemeData(scaffoldBackgroundColor: const Color(0xff15191c)),
       home: const MyHomePage(title: 'Personalized Workout Information'),
+
     );
   }
 }
@@ -44,7 +45,12 @@ class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
   TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Color(0xffaeb1b9));
-  static const TextStyle questStyle = TextStyle(color: Color(0xffaeb1b9));
+
+  static Color bgrdColor = const Color(0xff15191c);
+
+  static const TextStyle questStyle =
+  TextStyle(fontSize: 15, color: Color(0xffffffff));
+
   static const TextStyle hintStyle = TextStyle(color: Color(0xff4c4c58));
   static const List<Widget> _widgetOptions = <Widget>[
     Text(
@@ -80,10 +86,23 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+            'Information',
+            style: TextStyle(fontSize: 30)
+        ),
+        centerTitle: true,
+
+        backgroundColor: bgrdColor,
+      ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
-        child: Row(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+
+            Container(
           // Column is also a layout widget. It takes a list of children and
           // arranges them vertically. By default, it sizes itself to fit its
           // children horizontally, and tries to be as tall as its parent.
@@ -98,71 +117,82 @@ class _MyHomePageState extends State<MyHomePage> {
           // center the children vertically; the main axis here is the vertical
           // axis because Columns are vertical (the cross axis would be
           // horizontal).
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children:const [
-                Text(
-                'How much do you currently weight?',
-                  style: questStyle
-                ),
-                Text(
-                    'How much protein do you consume weekly?',
-                    style: questStyle
-                ),
-              ]
-            ),
-            Column(
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(12.0)),
+            color: Color(0xff22252d),
+          ),
+          margin: const EdgeInsets.all(30.0),
+          height: 256,
+          child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              //Row(mainAxisAlignment: MainAxisAlignment.start,children: const [Text('Hello')]),
+              children: [Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children:const [
-
-                  SizedBox(
-                      width: 70,
-                      height: 30,
-                      child: TextField(
-                        textAlign: TextAlign.center,
-                        decoration: InputDecoration(
-
-                          contentPadding: EdgeInsets.all(0),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xffaeb1b9), width: 1.0),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xffaeb1b9), width: 1.0),
-                          ),
-                          hintStyle: hintStyle,
-                          hintText: 'lbs',
-                        ),
-                      )
+                  Text(
+                  'How much do you currently weigh?',
+                    style: questStyle
                   ),
-                  SizedBox(
-                      width: 70,
-                      height: 30,
-                      child: TextField(
-                        textAlign: TextAlign.center,
-                        decoration: InputDecoration(
-
-                          contentPadding: EdgeInsets.all(0),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xffaeb1b9), width: 1.0),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xffaeb1b9), width: 1.0),
-                          ),
-                          hintStyle: hintStyle,
-                          hintText: 'lbs',
-                        ),
-                      )
-                  )
+                  Text(
+                      'How much protein do you consume weekly?',
+                      style: questStyle
+                  ),
                 ]
+              ),
+              Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children:const [
+
+                    SizedBox(
+                        width: 70,
+                        height: 30,
+                        child: TextField(
+                          textAlign: TextAlign.center,
+                          decoration: InputDecoration(
+
+                            contentPadding: EdgeInsets.all(0),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Color(0xffaeb1b9), width: 1.0),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Color(0xffaeb1b9), width: 1.0),
+                            ),
+                            hintStyle: hintStyle,
+                            hintText: 'lbs',
+                          ),
+                        )
+                    ),
+                    SizedBox(
+                        width: 70,
+                        height: 30,
+                        child: TextField(
+                          textAlign: TextAlign.center,
+                          decoration: InputDecoration(
+
+                            contentPadding: EdgeInsets.all(0),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Color(0xffaeb1b9), width: 1.0),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Color(0xffaeb1b9), width: 1.0),
+                            ),
+                            hintStyle: hintStyle,
+                            hintText: 'grams',
+                          ),
+                        )
+                    )
+                  ]
+              )
+              ]
             )
-          ],
-        ),
+          ,
+        ),]
+      ),
       ),
       bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
-          backgroundColor: const Color(0xff161324),
+          backgroundColor: const Color(0xff015191c),
           items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -187,7 +217,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
         currentIndex: _selectedIndex,
         unselectedItemColor: const Color(0xffaeb1b9),
-        selectedItemColor: const Color(0xff7793d2),
+        selectedItemColor: const Color(0xffF4442E),
         onTap: _onItemTapped,
       ),
     );
