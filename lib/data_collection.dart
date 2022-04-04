@@ -2,55 +2,24 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Personalized Workout Information',
-      theme: ThemeData(scaffoldBackgroundColor: const Color(0xff15191c)),
-      home: const MyHomePage(title: 'Personalized Workout Information'),
-
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
+class DataCollectPage extends StatefulWidget {
+  const DataCollectPage({Key? key}) : super(key: key);
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<DataCollectPage> createState() => _DataCollectPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _DataCollectPageState extends State<DataCollectPage> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
   TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Color(0xffaeb1b9));
 
-  static Color bgrdColor = const Color(0xff15191c);
+  static Color bgrdColor = const Color(0xff000000);
 
   static const TextStyle questStyle =
-  TextStyle(fontSize: 15, color: Color(0xffffffff));
+  TextStyle(fontSize: 14, color: Color(0xffffffff));
 
-  static const TextStyle hintStyle = TextStyle(color: Color(0xff4c4c58));
+  static const TextStyle hintStyle = TextStyle(color: Color(0xff4c4c58), fontSize: 10);
   static const List<Widget> _widgetOptions = <Widget>[
     Text(
       'Index 0: Dashboard',
@@ -85,14 +54,15 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
+      backgroundColor: Color(0xff000000),
       appBar: AppBar(
         title: const Text(
             'Information',
-            style: TextStyle(fontSize: 30)
-        ),
-        centerTitle: true,
+            style: TextStyle(fontSize: 30),
 
-        backgroundColor: bgrdColor,
+        ),
+        backgroundColor: Colors.black,
+        centerTitle: true,
       ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
@@ -116,11 +86,12 @@ class _MyHomePageState extends State<MyHomePage> {
           // center the children vertically; the main axis here is the vertical
           // axis because Columns are vertical (the cross axis would be
           // horizontal).
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(12.0)),
-            color: Color(0xff22252d),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(const Radius.circular(12.0)),
+            color: Color(0xff111111),
+            //color: Colors.purple
           ),
-          margin: const EdgeInsets.all(30.0),
+          margin: const EdgeInsets.all(20.0),
           height: 256,
           child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -137,6 +108,10 @@ class _MyHomePageState extends State<MyHomePage> {
                       'How much protein do you consume weekly?',
                       style: questStyle
                   ),
+                  Text(
+                      'How long have you been lifting for?',
+                      style: questStyle
+                  ),
                 ]
               ),
               Column(
@@ -144,7 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   children:const [
 
                     SizedBox(
-                        width: 70,
+                        width: 50,
                         height: 30,
                         child: TextField(
                           textAlign: TextAlign.center,
@@ -163,7 +138,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         )
                     ),
                     SizedBox(
-                        width: 70,
+                        width: 50,
                         height: 30,
                         child: TextField(
                           textAlign: TextAlign.center,
@@ -180,16 +155,51 @@ class _MyHomePageState extends State<MyHomePage> {
                             hintText: 'grams',
                           ),
                         )
+                    ),
+                    SizedBox(
+                        width: 50,
+                        height: 30,
+                        child: TextField(
+                          textAlign: TextAlign.center,
+                          decoration: InputDecoration(
+
+                            contentPadding: EdgeInsets.all(0),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Color(0xffaeb1b9), width: 1.0),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Color(0xffaeb1b9), width: 1.0),
+                            ),
+                            hintStyle: hintStyle,
+                            hintText: 'months',
+                          ),
+                        )
                     )
                   ]
               )
               ]
+            ),
+          ),
+            Container(
+                margin: const EdgeInsets.all(20.0),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [Expanded(
+                      child: LinearProgressIndicator(
+                        value: 0.2,
+                        semanticsLabel: 'Linear progress indicator',
+                        backgroundColor: Colors.purple[200],
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.purple),
+                      ),
+                    )
+
+                    ]
+                )
             )
-          ,
-        ),]
+          ]
       ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
+      /*bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           backgroundColor: const Color(0xff015191c),
           items: const <BottomNavigationBarItem>[
@@ -218,7 +228,7 @@ class _MyHomePageState extends State<MyHomePage> {
         unselectedItemColor: const Color(0xffaeb1b9),
         selectedItemColor: const Color(0xffF4442E),
         onTap: _onItemTapped,
-      ),
+      ),*/
     );
   }
 }
