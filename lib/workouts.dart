@@ -1,11 +1,22 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
+
+import 'data_collection.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp( const Workouts());
+}
+class Workouts extends StatefulWidget {
+  const Workouts({Key? key}) : super(key: key);
+
+
+  @override
+  State<Workouts> createState() => _WorkoutsState();
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class _WorkoutsState extends State<Workouts> {
 
   @override
   Widget build(BuildContext context) {
@@ -13,6 +24,16 @@ class MyApp extends StatelessWidget {
       title: 'Workouts',
       theme: ThemeData(),
       home: Scaffold(
+        backgroundColor: const Color(0xff000000),
+        appBar: AppBar(
+          title: const Text(
+            'Workouts',
+            style: TextStyle(fontSize: 30),
+
+          ),
+          backgroundColor: Colors.black,
+          centerTitle: true,
+        ),
         body: Center(
 
             child: Column(
@@ -147,7 +168,7 @@ class MyApp extends StatelessWidget {
                     Text("exercise 6"),
                   ]),
                 ),
-                CheckboxListTile(
+              /*  CheckboxListTile(
 
                   title: const Text("Completed"),
                   activeColor: Colors.lightGreen,
@@ -162,9 +183,11 @@ class MyApp extends StatelessWidget {
                   },
                   controlAffinity: ListTileControlAffinity.leading,
                 )
-                ]
 
-            )
+               */
+                ],
+
+            ),
         ),
       ),
     );
