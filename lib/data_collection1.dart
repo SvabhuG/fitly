@@ -3,48 +3,21 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
-class DataCollectPage extends StatefulWidget {
-  const DataCollectPage({Key? key}) : super(key: key);
+import 'data_collection.dart';
+
+class DataCollectPage1 extends StatefulWidget {
+  const DataCollectPage1({Key? key}) : super(key: key);
 
   @override
-  State<DataCollectPage> createState() => _DataCollectPageState();
+  State<DataCollectPage1> createState() => _DataCollectPage1State();
 }
 
-class _DataCollectPageState extends State<DataCollectPage> {
-  int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Color(0xffaeb1b9));
-
-  static Color bgrdColor = const Color(0xff000000);
+class _DataCollectPage1State extends State<DataCollectPage1> {
 
   static const TextStyle questStyle =
-  TextStyle(fontSize: 14, color: Color(0xffffffff));
+  TextStyle(fontSize: 18, color: Color(0xffffffff));
 
   static const TextStyle hintStyle = TextStyle(color: Color(0xff4c4c58), fontSize: 10);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Dashboard',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 1: Workout',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 2: Journal',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 3: Profile',
-      style: optionStyle,
-    ),
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -130,6 +103,7 @@ class _DataCollectPageState extends State<DataCollectPage> {
                 padding: EdgeInsets.only(top: 40.0, left: 20, bottom: 10, right: 20),
                 child: Text(
                     'How long have you been lifting for?',
+                  style: questStyle,
                 )
             ),
             const Padding(
@@ -171,7 +145,7 @@ class _DataCollectPageState extends State<DataCollectPage> {
                         onPressed: () {
                           Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => DataCollectPage())
+                              MaterialPageRoute(builder: (context) => const DataCollectPage())
                           );
                         },
                         child: const Text(
@@ -192,9 +166,9 @@ class _DataCollectPageState extends State<DataCollectPage> {
                       child: LinearPercentIndicator(
                         width: MediaQuery.of(context).size.width - 50,
                         animation: true,
-                        lineHeight: 15.0,
+                        lineHeight: 10.0,
                         animationDuration: 500,
-                        percent: 0.3,
+                        percent: 0.66,
                         linearStrokeCap: LinearStrokeCap.roundAll,
                         backgroundColor: Colors.purple[200],
                         progressColor: Colors.purple,
