@@ -11,11 +11,40 @@ class DataCollectPage extends StatefulWidget {
 }
 
 class _DataCollectPageState extends State<DataCollectPage> {
+  int _selectedIndex = 0;
+  static const TextStyle optionStyle =
+  TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Color(0xffaeb1b9));
+
+  static Color bgrdColor = const Color(0xff000000);
 
   static const TextStyle questStyle =
   TextStyle(fontSize: 14, color: Color(0xffffffff));
 
   static const TextStyle hintStyle = TextStyle(color: Color(0xff4c4c58), fontSize: 10);
+  static const List<Widget> _widgetOptions = <Widget>[
+    Text(
+      'Index 0: Dashboard',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 1: Workout',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 2: Journal',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 3: Profile',
+      style: optionStyle,
+    ),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

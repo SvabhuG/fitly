@@ -1,6 +1,6 @@
 import 'dart:ui';
 import 'package:flutter_fadein/flutter_fadein.dart';
-import 'package:fitly/data_collection.dart';
+import 'package:fitly/data_collection1.dart';
 import 'package:flutter/material.dart';
 
 class WelcomePage extends StatefulWidget {
