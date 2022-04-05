@@ -29,7 +29,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-   /*   theme: ThemeData(
+      /*   theme: ThemeData(
           textTheme: Theme.of(context).textTheme.apply(
             bodyColor: Colors.white,
 
@@ -39,7 +39,6 @@ class _WorkoutPageState extends State<WorkoutPage> {
       */
       home: Scaffold(
         backgroundColor: Color(0xff000000),
-
         appBar: AppBar(
           title: const Text(
             'Workouts',
@@ -53,60 +52,42 @@ class _WorkoutPageState extends State<WorkoutPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Container(
+                    margin: EdgeInsets.all(20),
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.purple,
+                          onPrimary: Colors.white,
+                          shadowColor: Colors.greenAccent,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0)),
+                          minimumSize: const Size(200, 60), //////// HERE
+                        ),
+                        onPressed: () {},
+                        child: const Text('Log New Workout',
+                            style: TextStyle(fontSize: 18))))
+              ]),
               Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [Container(
-                      margin: EdgeInsets.all(20),
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.purple,
-                            onPrimary: Colors.white,
-                            shadowColor: Colors.greenAccent,
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(32.0)),
-                            minimumSize: const Size(200, 60), //////// HERE
-                          ),
-
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => const WorkoutPage())
-                            );
-                          },
-                          child: const Text(
-                              'Next',
-                              style: TextStyle(
-                                  fontSize: 18
-                              )
-                          )
-                      )
-                  )
-                  ]
-              ),
-              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                      height: 50.0,
-                      width: 150.0,
-                      padding: const EdgeInsets.all(10.0),
-                      decoration: BoxDecoration(
-                          color: Colors.red[300],
-                          border: Border.all(),
-                          borderRadius:
-                          const BorderRadius.all(Radius.circular(10))),
-                      child: const Center(
-                        child: Text("Your Next Workout:"),
-                      )),
-                  Container(
+                    margin: EdgeInsets.all(20),
                     height: 50.0,
-                    width: 25.0,
+                    width: 200.0,
                     padding: const EdgeInsets.all(10.0),
                     decoration: BoxDecoration(
-                      color: Colors.red[300],
-                      border: Border.all(),
+                        color: Colors.purple,
+                        border: Border.all(),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10))),
+                    child: const Center(
+                      child: Text("Your Next Workout: ",
+                          style: TextStyle(color: Colors.white, fontSize: 16)),
                     ),
                   ),
+                  Container(),
                   Row(
                     children: const [
                       Text('the date lmao'),
@@ -115,7 +96,6 @@ class _WorkoutPageState extends State<WorkoutPage> {
                   )
                 ],
               ),
-
             ],
           ),
         ),
