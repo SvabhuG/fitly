@@ -23,6 +23,8 @@ class _WorkoutPageState extends State<WorkoutPage> {
   Color _bgrdcolor3 = const Color(0xff222222);
   Color _iconcolor3 = Colors.purple;
 
+  final _formKey = GlobalKey<FormState>();
+
   static const TextStyle hintStyle =
       TextStyle(color: Color(0xff4c4c58), fontSize: 10);
 
@@ -38,7 +40,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
       ),
       */
       home: Scaffold(
-        backgroundColor: Color(0xff000000),
+        backgroundColor: const Color(0xff111110),
         appBar: AppBar(
           title: const Text(
             'Workouts',
@@ -69,6 +71,9 @@ class _WorkoutPageState extends State<WorkoutPage> {
                         child: const Text('Log New Workout',
                             style: TextStyle(fontSize: 18))))
               ]),
+
+
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -87,14 +92,55 @@ class _WorkoutPageState extends State<WorkoutPage> {
                           style: TextStyle(color: Colors.white, fontSize: 16)),
                     ),
                   ),
-                  Container(),
                   Row(
-                    children: const [
-                      Text('the date lmao'),
-                      Icon(Icons.calendar_month_outlined),
-                    ],
-                  )
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'DATE',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.white, fontSize: 28),
+                        ),
+                        Icon(Icons.calendar_month_outlined,
+                            size: 65, color: _iconcolor1),
+                        const SizedBox(width: 90)
+                      ]),
                 ],
+              ),
+              const SizedBox(height: 40),
+              Container(
+                padding: const EdgeInsets.all(10.0),
+                height: 130.0,
+                width: 300.0,
+                decoration: BoxDecoration(
+                    color: Colors.purple,
+                    border: Border.all(),
+                    borderRadius: const BorderRadius.all(Radius.circular(20))),
+                child: Column(children: const [
+                  Text(
+                    "exercise 1",
+                    style: TextStyle(color: Colors.white, fontSize: 15),
+                  ),
+                  Text(
+                    "exercise 2",
+                    style: TextStyle(color: Colors.white, fontSize: 15),
+                  ),
+                  Text(
+                    "exercise 3",
+                    style: TextStyle(color: Colors.white, fontSize: 15),
+                  ),
+                  Text(
+                    "exercise 4",
+                    style: TextStyle(color: Colors.white, fontSize: 15),
+                  ),
+                  Text(
+                    "exercise 5",
+                    style: TextStyle(color: Colors.white, fontSize: 15),
+                  ),
+                  Text(
+                    "exercise 6",
+                    style: TextStyle(color: Colors.white, fontSize: 15),
+                  ),
+                ]),
               ),
             ],
           ),
@@ -102,4 +148,6 @@ class _WorkoutPageState extends State<WorkoutPage> {
       ),
     );
   }
-}
+
+  }
+
