@@ -25,12 +25,17 @@ class _WorkoutPageState extends State<WorkoutPage> {
 
   final _formKey = GlobalKey<FormState>();
 
+  bool valuefirst = false;
+
   static const TextStyle hintStyle =
       TextStyle(color: Color(0xff4c4c58), fontSize: 10);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+          unselectedWidgetColor: Colors.red,
+      ),
       /*   theme: ThemeData(
           textTheme: Theme.of(context).textTheme.apply(
             bodyColor: Colors.white,
@@ -71,9 +76,6 @@ class _WorkoutPageState extends State<WorkoutPage> {
                         child: const Text('Log New Workout',
                             style: TextStyle(fontSize: 18))))
               ]),
-
-
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -93,28 +95,29 @@ class _WorkoutPageState extends State<WorkoutPage> {
                     ),
                   ),
                   Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
+                        const SizedBox(width: 15),
                         const Text(
                           'DATE',
                           textAlign: TextAlign.center,
                           style: TextStyle(color: Colors.white, fontSize: 28),
                         ),
+                        const SizedBox(width: 15),
                         Icon(Icons.calendar_month_outlined,
                             size: 65, color: _iconcolor1),
-                        const SizedBox(width: 90)
                       ]),
                 ],
               ),
-              const SizedBox(height: 40),
               Container(
+                margin: const EdgeInsets.all(10),
                 padding: const EdgeInsets.all(10.0),
                 height: 130.0,
                 width: 300.0,
                 decoration: BoxDecoration(
                     color: Colors.purple,
                     border: Border.all(),
-                    borderRadius: const BorderRadius.all(Radius.circular(20))),
+                    borderRadius: const BorderRadius.all(Radius.circular(15))),
                 child: Column(children: const [
                   Text(
                     "exercise 1",
@@ -142,12 +145,33 @@ class _WorkoutPageState extends State<WorkoutPage> {
                   ),
                 ]),
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  const Text(
+                    'Completed?',
+                    style: TextStyle(color: Colors.white, fontSize: 17.0),
+                  ),
+                  Checkbox(
+
+                    checkColor: Colors.white,
+                    activeColor: Colors.green,
+                    value: valuefirst,
+                    onChanged: (value) {
+                      setState(() {
+                        valuefirst = value!;
+                      });
+                    },
+                  ),
+                ],
+              ),
             ],
           ),
         ),
       ),
     );
   }
-
-  }
-
+}
