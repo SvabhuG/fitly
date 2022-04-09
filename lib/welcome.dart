@@ -13,15 +13,6 @@ class WelcomePage extends StatefulWidget {
 
 class _WelcomePageState extends State<WelcomePage> {
 
-  static Color bgrdColor = const Color(0xff15191c);
-
-  static const TextStyle questStyle =
-  TextStyle(fontSize: 14, color: Color(0xffffffff));
-
-  static const TextStyle hintStyle = TextStyle(color: Color(0xff4c4c58), fontSize: 10);
-
-
-
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done

@@ -50,14 +50,14 @@ class _DataCollectPageState extends State<DataCollectPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children:[
               Container(
-                margin: EdgeInsets.only(top: 40),
+                margin: const EdgeInsets.only(top: 40),
                   child: const Text(
                       'Pleast select your gender',
                       style: TextStyle(fontSize: 24)
                   )
               ),
               Container(
-                  margin: EdgeInsets.all(30),
+                  margin: const EdgeInsets.all(30),
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         primary: _bgrdcolor1,
@@ -66,7 +66,6 @@ class _DataCollectPageState extends State<DataCollectPage> {
                             borderRadius: BorderRadius.circular(32.0)),
                         minimumSize: const Size(200, 60), //////// HERE
                       ),
-
                       onPressed: () {
                         setState(() {
                           _bgrdcolor1 = Colors.purple;
@@ -98,7 +97,7 @@ class _DataCollectPageState extends State<DataCollectPage> {
                   )
               ),
               Container(
-                  margin: EdgeInsets.all(30),
+                  margin: const EdgeInsets.all(30),
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         primary: _bgrdcolor2,
@@ -141,7 +140,7 @@ class _DataCollectPageState extends State<DataCollectPage> {
                   )
               ),
               Container(
-                  margin: EdgeInsets.all(30),
+                  margin: const EdgeInsets.all(30),
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         primary: _bgrdcolor3,
