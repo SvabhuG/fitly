@@ -4,19 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'muscles.dart';
+import 'data_collection.dart';
 
-class InfoPage extends StatefulWidget {
-  const InfoPage({Key? key}) : super(key: key);
+class DataCollectPage1 extends StatefulWidget {
+  const DataCollectPage1({Key? key}) : super(key: key);
 
   @override
-  State<InfoPage> createState() => _InfoPageState();
+  State<DataCollectPage1> createState() => _DataCollectPage1State();
+
 }
 
-class _InfoPageState extends State<InfoPage> {
+class _DataCollectPage1State extends State<DataCollectPage1> {
 
-  static const TextStyle questStyle =
-  TextStyle(fontSize: 24, color: Color(0xffffffff));
 
   String expValue = 'Less than 1 month';
   String weight = "";
@@ -49,8 +48,6 @@ class _InfoPageState extends State<InfoPage> {
 
 
   bool checkFilled(){
-    print("weight $weight");
-    print("protein $protein");
       if(weight.isEmpty || protein.isEmpty){
         return false;
       }
@@ -59,6 +56,9 @@ class _InfoPageState extends State<InfoPage> {
 
   @override
   Widget build(BuildContext context) {
+    double unitHeightValue = MediaQuery.of(context).size.width * 0.001;
+    double iconSize = unitHeightValue*50;
+    TextStyle questStyle = TextStyle(fontSize: unitHeightValue*40);
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -78,18 +78,18 @@ class _InfoPageState extends State<InfoPage> {
         centerTitle: true,
       ),
       body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.start,
           children:[
-            const Padding(
-                padding: EdgeInsets.only(top: 40.0, left: 20, bottom: 10, right: 20),
+            Padding(
+                padding: EdgeInsets.only(top: 20.0, left: 20, bottom: 15, right: 20),
                 child: Text(
                   'How much do you currently weigh?',
                   style: questStyle
                 )
             ),
             Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                 child: SizedBox(
                 height: 40,
                 child: TextField(
@@ -116,8 +116,8 @@ class _InfoPageState extends State<InfoPage> {
                 )
               ),
             ),
-            const Padding(
-                padding: EdgeInsets.only(top: 40.0, left: 20, bottom: 10, right: 20),
+            Padding(
+                padding: const EdgeInsets.only(top: 15, left: 20, bottom: 15, right: 20),
                 child: Text(
                     'How much protein do you consume weekly?',
                     style: questStyle
@@ -151,8 +151,8 @@ class _InfoPageState extends State<InfoPage> {
                     )
                 )
             ),
-            const Padding(
-                padding: EdgeInsets.only(top: 40.0, left: 20, bottom: 10, right: 20),
+            Padding(
+                padding: EdgeInsets.only(top: 15.0, left: 20, bottom: 15, right: 20),
                 child: Text(
                     'How long have you been lifting for?',
                   style: questStyle,
@@ -165,7 +165,7 @@ class _InfoPageState extends State<InfoPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
                   child: DropdownButton<String>(
                     itemHeight: 50,
-                    iconSize: 50,
+                    iconSize: iconSize,
                     value: expValue,
                     dropdownColor: const Color(0xff111111),
                     icon: const Icon(Icons.arrow_downward),
@@ -180,7 +180,7 @@ class _InfoPageState extends State<InfoPage> {
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
-                        child: Text(value),
+                        child: Text(value, style: questStyle),
                       );
                     }).toList(),
 
@@ -188,8 +188,8 @@ class _InfoPageState extends State<InfoPage> {
                 ),
               ],
             ),
-            const Padding(
-                padding: EdgeInsets.only(top: 40.0, left: 20, bottom: 10, right: 20),
+            Padding(
+                padding: EdgeInsets.only(top: 15, left: 20, bottom: 15, right: 20),
                 child: Text(
                   'Which of the following best describes your goals?',
                   style: questStyle,
@@ -202,7 +202,7 @@ class _InfoPageState extends State<InfoPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
                   child: DropdownButton<String>(
                     itemHeight: 50,
-                    iconSize: 50,
+                    iconSize: iconSize,
                     value: goalValue,
                     dropdownColor: const Color(0xff111111),
                     icon: const Icon(Icons.arrow_downward),
@@ -217,7 +217,7 @@ class _InfoPageState extends State<InfoPage> {
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
-                        child: Text(value),
+                        child: Text(value, style: questStyle),
                       );
                     }).toList(),
 
@@ -247,7 +247,7 @@ class _InfoPageState extends State<InfoPage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (
-                                    context) => const MusclesPage())
+                                    context) => const DataCollectPage())
                             );
                           }
                         },
@@ -262,7 +262,7 @@ class _InfoPageState extends State<InfoPage> {
                 ]
             ),
             Container(
-                margin: const EdgeInsets.all(20.0),
+                margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [Expanded(
