@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class WorkoutGenerator {
 
 	public static void main(String[] args) {
-//arraylists of each muscle group?
 		Exercise flyes = new Exercise("Flyes", "Chest", 125.0, 8, 6, 2);
 		Exercise benchPress = new Exercise("Bench Press", "Chest", 125.0, 12, 3, 7);
 		Exercise pullover = new Exercise("Pullover", "Chest", 20, 12, 3, 10);
