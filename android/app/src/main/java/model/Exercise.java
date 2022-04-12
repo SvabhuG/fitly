@@ -12,11 +12,11 @@ public class Exercise {
 
 //constructor
 
-	public Exercise(String name, String muscle, double userMaxWeight,
-			int userReps, int userSets, int userIntensity) {
+	public Exercise(String name, String muscle, double userMaxWeight, int userReps, int userSets, int userIntensity) {
 		exerciseName = name;
 		muscleGroup = muscle;
-		weight = Math.round(userMaxWeight * .85/5)*5;
+		weight = userMaxWeight;
+		//weight = Math.round(userMaxWeight * .85 / 5) * 5;
 		sets = userSets;
 		reps = userReps;
 		intensity = userIntensity;
@@ -35,7 +35,6 @@ public class Exercise {
 		return getSets() + " x " + getReps() + " " + getName() + " " + getWeight() + " lbs";
 	}
 
-
 	int getIntensity() {
 		return intensity;
 	}
@@ -43,7 +42,6 @@ public class Exercise {
 	private void setIntensity(int intense) {
 		intensity = intense;
 	}
-
 
 	public double getWeight() {
 		return weight;
