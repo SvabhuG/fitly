@@ -37,6 +37,7 @@ class _MusclesPageState extends State<MusclesPage> {
       appBar: AppBar(
         title: const Text(
             'Information',
+
             style: TextStyle(fontSize: 30),
 
         ),
@@ -77,11 +78,6 @@ class _MusclesPageState extends State<MusclesPage> {
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children:[
-                              Icon(
-                                  Icons.transgender,
-                                  size: iconSize,
-                                  color: _iconcolor3
-                              ),
                               Padding(
                                 padding: EdgeInsets.symmetric(vertical: 30),
                                 child: Text(
@@ -89,7 +85,6 @@ class _MusclesPageState extends State<MusclesPage> {
                                     style: buttonStyle
                                 ),
                               ),
-                              SizedBox(width: iconSize)
                             ]
                         )
                     ),
@@ -117,11 +112,6 @@ class _MusclesPageState extends State<MusclesPage> {
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children:[
-                              Icon(
-                                  Icons.transgender,
-                                  size: iconSize,
-                                  color: _iconcolor3
-                              ),
                               Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 30),
                                 child: Text(
@@ -129,7 +119,6 @@ class _MusclesPageState extends State<MusclesPage> {
                                     style: buttonStyle
                                 ),
                               ),
-                              SizedBox(width: iconSize)
                             ]
                         )
                     ),
@@ -157,19 +146,13 @@ class _MusclesPageState extends State<MusclesPage> {
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children:[
-                              Icon(
-                                  Custom.male_hips_and_quadriceps_svgrepo_com,
-                                  size: iconSize,
-                                  color: _iconcolor3
-                              ),
                               Padding(
-                                padding: EdgeInsets.symmetric(vertical: 30),
+                                padding: const EdgeInsets.symmetric(vertical: 30),
                                 child: Text(
                                     'Legs',
                                     style: buttonStyle
                                 ),
                               ),
-                              SizedBox(width: iconSize)
                             ]
                         )
                     )
@@ -202,11 +185,6 @@ class _MusclesPageState extends State<MusclesPage> {
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children:[
-                              Icon(
-                                  Icons.transgender,
-                                  size: iconSize,
-                                  color: _iconcolor3
-                              ),
                               Padding(
                                 padding: EdgeInsets.symmetric(vertical: 30),
                                 child: Text(
@@ -214,7 +192,6 @@ class _MusclesPageState extends State<MusclesPage> {
                                     style: buttonStyle
                                 ),
                               ),
-                              SizedBox(width: iconSize)
                             ]
                         )
                     ),
@@ -242,19 +219,13 @@ class _MusclesPageState extends State<MusclesPage> {
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children:[
-                              Icon(
-                                  Icons.transgender,
-                                  size: iconSize,
-                                  color: _iconcolor3
-                              ),
                               Padding(
-                                padding: EdgeInsets.symmetric(vertical: 30),
+                                padding: const EdgeInsets.symmetric(vertical: 30),
                                 child: Text(
                                     'Triceps',
                                     style: buttonStyle
                                 ),
                               ),
-                              SizedBox(width: iconSize)
                             ]
                         )
                     ),
