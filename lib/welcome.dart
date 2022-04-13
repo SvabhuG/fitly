@@ -1,9 +1,9 @@
 import 'dart:ui';
 import 'package:flutter_fadein/flutter_fadein.dart';
-import 'package:fitly/data_collection1.dart';
+import 'package:fitly/info.dart';
 import 'package:flutter/material.dart';
 
-import 'data_collection.dart';
+import 'gender.dart';
 
 class WelcomePage extends StatefulWidget {
 
@@ -73,7 +73,7 @@ class _WelcomePageState extends State<WelcomePage> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => DataCollectPage())
+                MaterialPageRoute(builder: (context) => GenderPage())
               );
             },
             child: const Text(

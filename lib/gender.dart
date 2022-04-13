@@ -3,16 +3,16 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
-import 'data_collection1.dart';
+import 'info.dart';
 
-class DataCollectPage extends StatefulWidget {
-  const DataCollectPage({Key? key}) : super(key: key);
+class GenderPage extends StatefulWidget {
+  const GenderPage({Key? key}) : super(key: key);
 
   @override
-  State<DataCollectPage> createState() => _DataCollectPageState();
+  State<GenderPage> createState() => _GenderPageState();
 }
 
-class _DataCollectPageState extends State<DataCollectPage> {
+class _GenderPageState extends State<GenderPage> {
 
   Color _bgrdcolor1 = const Color(0xff222222);
   Color _iconcolor1 = Colors.purple;
@@ -200,7 +200,7 @@ class _DataCollectPageState extends State<DataCollectPage> {
                           onPressed: () {
                             Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => DataCollectPage1())
+                                MaterialPageRoute(builder: (context) => InfoPage())
                             );
                           },
                           child: const Text(
@@ -229,12 +229,10 @@ class _DataCollectPageState extends State<DataCollectPage> {
                           progressColor: Colors.purple,
                         ),
                       )
-
                       ]
                   )
               )
             ]
-
         ),
       )
     );
