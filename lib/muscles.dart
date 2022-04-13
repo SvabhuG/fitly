@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:fitly/custom_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
@@ -27,12 +28,10 @@ class _MusclesPageState extends State<MusclesPage> {
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
+    double unitHeightValue = MediaQuery.of(context).size.width * 0.001;
+    double iconSize = unitHeightValue*100;
+    TextStyle buttonStyle = TextStyle(fontSize: unitHeightValue*40);
+    TextStyle questStyle = TextStyle(fontSize: unitHeightValue*40);
     return Scaffold(
       backgroundColor: Color(0xff000000),
       appBar: AppBar(
@@ -60,7 +59,7 @@ class _MusclesPageState extends State<MusclesPage> {
                           elevation: 0,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(32.0)),
-                          minimumSize: const Size(200, 60), //////// HERE
+                          minimumSize: const Size(240, 60), //////// HERE
                         ),
 
                         onPressed: () {
@@ -80,23 +79,104 @@ class _MusclesPageState extends State<MusclesPage> {
                             children:[
                               Icon(
                                   Icons.transgender,
-                                  size: 75,
+                                  size: iconSize,
                                   color: _iconcolor3
                               ),
-                              const Padding(
+                              Padding(
                                 padding: EdgeInsets.symmetric(vertical: 30),
                                 child: Text(
-                                    'Other',
-                                    style: TextStyle(fontSize: 28)
+                                    'Chest',
+                                    style: buttonStyle
                                 ),
                               ),
-                              const SizedBox(width: 75)
+                              SizedBox(width: iconSize)
+                            ]
+                        )
+                    ),
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: _bgrdcolor3,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(32.0)),
+                          minimumSize: const Size(240, 60), //////// HERE
+                        ),
+
+                        onPressed: () {
+                          setState(() {
+                            _bgrdcolor3 = Colors.purple;
+                            _iconcolor3 = Colors.white;
+
+                            _bgrdcolor2 = const Color(0xff222222);
+                            _iconcolor2 = Colors.purple;
+
+                            _bgrdcolor1 = const Color(0xff222222);
+                            _iconcolor1 = Colors.purple;
+                          });
+                        },
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children:[
+                              Icon(
+                                  Icons.transgender,
+                                  size: iconSize,
+                                  color: _iconcolor3
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 30),
+                                child: Text(
+                                    'Biceps',
+                                    style: buttonStyle
+                                ),
+                              ),
+                              SizedBox(width: iconSize)
+                            ]
+                        )
+                    ),
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: _bgrdcolor3,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(32.0)),
+                          minimumSize: const Size(240, 60), //////// HERE
+                        ),
+
+                        onPressed: () {
+                          setState(() {
+                            _bgrdcolor3 = Colors.purple;
+                            _iconcolor3 = Colors.white;
+
+                            _bgrdcolor2 = const Color(0xff222222);
+                            _iconcolor2 = Colors.purple;
+
+                            _bgrdcolor1 = const Color(0xff222222);
+                            _iconcolor1 = Colors.purple;
+                          });
+                        },
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children:[
+                              Icon(
+                                  Custom.male_hips_and_quadriceps_svgrepo_com,
+                                  size: iconSize,
+                                  color: _iconcolor3
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(vertical: 30),
+                                child: Text(
+                                    'Legs',
+                                    style: buttonStyle
+                                ),
+                              ),
+                              SizedBox(width: iconSize)
                             ]
                         )
                     )
                   ]
                 ),
                 Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -104,7 +184,7 @@ class _MusclesPageState extends State<MusclesPage> {
                           elevation: 0,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(32.0)),
-                          minimumSize: const Size(200, 60), //////// HERE
+                          minimumSize: const Size(240, 60), //////// HERE
                         ),
 
                         onPressed: () {
@@ -124,17 +204,97 @@ class _MusclesPageState extends State<MusclesPage> {
                             children:[
                               Icon(
                                   Icons.transgender,
-                                  size: 75,
+                                  size: iconSize,
                                   color: _iconcolor3
                               ),
-                              const Padding(
+                              Padding(
                                 padding: EdgeInsets.symmetric(vertical: 30),
                                 child: Text(
-                                    '',
-                                    style: TextStyle(fontSize: 28)
+                                    'Back',
+                                    style: buttonStyle
                                 ),
                               ),
-                              const SizedBox(width: 75)
+                              SizedBox(width: iconSize)
+                            ]
+                        )
+                    ),
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: _bgrdcolor3,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(32.0)),
+                          minimumSize: const Size(240, 60), //////// HERE
+                        ),
+
+                        onPressed: () {
+                          setState(() {
+                            _bgrdcolor3 = Colors.purple;
+                            _iconcolor3 = Colors.white;
+
+                            _bgrdcolor2 = const Color(0xff222222);
+                            _iconcolor2 = Colors.purple;
+
+                            _bgrdcolor1 = const Color(0xff222222);
+                            _iconcolor1 = Colors.purple;
+                          });
+                        },
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children:[
+                              Icon(
+                                  Icons.transgender,
+                                  size: iconSize,
+                                  color: _iconcolor3
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(vertical: 30),
+                                child: Text(
+                                    'Triceps',
+                                    style: buttonStyle
+                                ),
+                              ),
+                              SizedBox(width: iconSize)
+                            ]
+                        )
+                    ),
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: _bgrdcolor3,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(32.0)),
+                          minimumSize: const Size(240, 60), //////// HERE
+                        ),
+
+                        onPressed: () {
+                          setState(() {
+                            _bgrdcolor3 = Colors.purple;
+                            _iconcolor3 = Colors.white;
+
+                            _bgrdcolor2 = const Color(0xff222222);
+                            _iconcolor2 = Colors.purple;
+
+                            _bgrdcolor1 = const Color(0xff222222);
+                            _iconcolor1 = Colors.purple;
+                          });
+                        },
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children:[
+                              Icon(
+                                  Icons.transgender,
+                                  size: iconSize,
+                                  color: _iconcolor3
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 30),
+                                child: Text(
+                                    'Shoulders',
+                                    style: buttonStyle
+                                ),
+                              ),
+                              SizedBox(width: iconSize)
                             ]
                         )
                     )

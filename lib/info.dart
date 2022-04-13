@@ -4,17 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'data_collection.dart';
+import 'muscles.dart';
 
-class DataCollectPage1 extends StatefulWidget {
-  const DataCollectPage1({Key? key}) : super(key: key);
+class InfoPage extends StatefulWidget {
+  const InfoPage({Key? key}) : super(key: key);
 
   @override
-  State<DataCollectPage1> createState() => _DataCollectPage1State();
+  State<InfoPage> createState() => _InfoPageState();
 
 }
 
-class _DataCollectPage1State extends State<DataCollectPage1> {
+class _InfoPageState extends State<InfoPage> {
 
 
   String expValue = 'Less than 1 month';
@@ -247,7 +247,7 @@ class _DataCollectPage1State extends State<DataCollectPage1> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (
-                                    context) => const DataCollectPage())
+                                    context) => const MusclesPage())
                             );
                           }
                         },
