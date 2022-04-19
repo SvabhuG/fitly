@@ -48,45 +48,75 @@ class _MusclesPageState extends State<MusclesPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Text("Please select the muscles groups that you would like to train"),
+            Text("Please select muscles groups you would like to train", style: questStyle),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Column(
                   children: [
-                    ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          primary: _bgrdcolor3,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(32.0)),
-                          minimumSize: const Size(240, 60), //////// HERE
-                        ),
+                    Container(
+                      margin: EdgeInsets.symmetric(vertical: 20),
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: _bgrdcolor3,
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(32.0)),
+                            minimumSize: const Size(240, 60), //////// HERE
+                          ),
 
-                        onPressed: () {
-                          setState(() {
-                            _bgrdcolor3 = Colors.purple;
-                            _iconcolor3 = Colors.white;
+                          onPressed: () {
+                            setState(() {
+                              _bgrdcolor3 = Colors.purple;
+                              _iconcolor3 = Colors.white;
 
-                            _bgrdcolor2 = const Color(0xff222222);
-                            _iconcolor2 = Colors.purple;
+                              _bgrdcolor2 = const Color(0xff222222);
+                              _iconcolor2 = Colors.purple;
 
-                            _bgrdcolor1 = const Color(0xff222222);
-                            _iconcolor1 = Colors.purple;
-                          });
-                        },
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children:[
-                              Padding(
-                                padding: EdgeInsets.symmetric(vertical: 30),
-                                child: Text(
-                                    'Chest',
-                                    style: buttonStyle
-                                ),
-                              ),
-                            ]
-                        )
+                              _bgrdcolor1 = const Color(0xff222222);
+                              _iconcolor1 = Colors.purple;
+                            });
+                          },
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 30),
+                            child: Text(
+                                'Chest',
+                                style: buttonStyle
+                            ),
+                          ),
+                      )
+                    ),
+                    Container(
+                      margin: EdgeInsets.symmetric(vertical: 20),
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: _bgrdcolor3,
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(32.0)),
+                            minimumSize: const Size(240, 60), //////// HERE
+                          ),
+
+                          onPressed: () {
+                            setState(() {
+                              _bgrdcolor3 = Colors.purple;
+                              _iconcolor3 = Colors.white;
+
+                              _bgrdcolor2 = const Color(0xff222222);
+                              _iconcolor2 = Colors.purple;
+
+                              _bgrdcolor1 = const Color(0xff222222);
+                              _iconcolor1 = Colors.purple;
+                            });
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 30),
+                            child: Text(
+                                'Biceps',
+                                style: buttonStyle
+                            ),
+                          ),
+                      ),
                     ),
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -109,57 +139,18 @@ class _MusclesPageState extends State<MusclesPage> {
                             _iconcolor1 = Colors.purple;
                           });
                         },
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children:[
-                              Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 30),
-                                child: Text(
-                                    'Biceps',
-                                    style: buttonStyle
-                                ),
-                              ),
-                            ]
-                        )
-                    ),
-                    ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          primary: _bgrdcolor3,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(32.0)),
-                          minimumSize: const Size(240, 60), //////// HERE
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 30),
+                          child: Text(
+                              'Legs',
+                              style: buttonStyle
+                          ),
                         ),
-
-                        onPressed: () {
-                          setState(() {
-                            _bgrdcolor3 = Colors.purple;
-                            _iconcolor3 = Colors.white;
-
-                            _bgrdcolor2 = const Color(0xff222222);
-                            _iconcolor2 = Colors.purple;
-
-                            _bgrdcolor1 = const Color(0xff222222);
-                            _iconcolor1 = Colors.purple;
-                          });
-                        },
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children:[
-                              Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 30),
-                                child: Text(
-                                    'Legs',
-                                    style: buttonStyle
-                                ),
-                              ),
-                            ]
-                        )
                     )
                   ]
                 ),
                 Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -216,18 +207,13 @@ class _MusclesPageState extends State<MusclesPage> {
                             _iconcolor1 = Colors.purple;
                           });
                         },
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children:[
-                              Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 30),
-                                child: Text(
-                                    'Triceps',
-                                    style: buttonStyle
-                                ),
-                              ),
-                            ]
-                        )
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 30),
+                          child: Text(
+                              'Triceps',
+                              style: buttonStyle
+                          ),
+                        ),
                     ),
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -250,24 +236,13 @@ class _MusclesPageState extends State<MusclesPage> {
                             _iconcolor1 = Colors.purple;
                           });
                         },
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children:[
-                              Icon(
-                                  Icons.transgender,
-                                  size: iconSize,
-                                  color: _iconcolor3
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 30),
-                                child: Text(
-                                    'Shoulders',
-                                    style: buttonStyle
-                                ),
-                              ),
-                              SizedBox(width: iconSize)
-                            ]
-                        )
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 30),
+                          child: Text(
+                              'Shoulders',
+                              style: buttonStyle
+                          ),
+                        ),
                     )
                   ]
                 )
