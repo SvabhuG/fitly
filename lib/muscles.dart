@@ -1,8 +1,11 @@
 import 'dart:ui';
 
 import 'package:fitly/custom_icons.dart';
+import 'package:fitly/workout.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'info.dart';
 
@@ -18,14 +21,33 @@ class _MusclesPageState extends State<MusclesPage> {
   var bgrdcolors = List.generate(6, (_) => Color(0xff222222));
 
   static const TextStyle hintStyle = TextStyle(color: Color(0xff4c4c58), fontSize: 10);
+  var muscles = <String>[];
+  Future<void> setData() async {
+    final prefs = await SharedPreferences.getInstance();
+    if(muscles.isNotEmpty) {
+
+      prefs.setString("Muscles", muscles.toString());
+      print(muscles.toString());
+    }
+    else{
+      Fluttertoast.showToast(
+          msg: "Please enter focus areas before proceeding",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
 
-
     double unitHeightValue = MediaQuery.of(context).size.width * 0.001;
     double iconSize = unitHeightValue*100;
-    var muscles = <String>[];
+
 
     TextStyle buttonStyle = TextStyle(fontSize: unitHeightValue*40);
     TextStyle questStyle = TextStyle(fontSize: unitHeightValue*40);
@@ -258,7 +280,7 @@ class _MusclesPageState extends State<MusclesPage> {
                         animation: true,
                         lineHeight: 10.0,
                         animationDuration: 500,
-                        percent: 0.33,
+                        percent: 1,
                         linearStrokeCap: LinearStrokeCap.roundAll,
                         backgroundColor: Colors.purple[200],
                         progressColor: Colors.purple,
@@ -285,7 +307,7 @@ class _MusclesPageState extends State<MusclesPage> {
                         onPressed: () {
                           Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => InfoPage())
+                              MaterialPageRoute(builder: (context) => WorkoutPage())
                           );
                         },
                         child: const Text(

@@ -1,10 +1,7 @@
 import 'dart:ui';
-
+import 'package:overlay/overlay.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(WorkoutPage());
-}
 
 class WorkoutPage extends StatefulWidget {
   const WorkoutPage({Key? key}) : super(key: key);
@@ -14,16 +11,31 @@ class WorkoutPage extends StatefulWidget {
 }
 
 class _WorkoutPageState extends State<WorkoutPage> {
-  Color _bgrdcolor1 = const Color(0xff222222);
-  Color _iconcolor1 = Colors.purple;
+  Color overlaycolor = const Color(0xff1e1e1e);
 
-  Color _bgrdcolor2 = const Color(0xff222222);
-  Color _iconcolor2 = Colors.purple;
+  int _selectedIndex = 0;
+  static const TextStyle optionStyle =
+  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  static const List<Widget> _widgetOptions = <Widget>[
+    Text(
+      'Index 0: Home',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 1: Business',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 2: School',
+      style: optionStyle,
+    ),
+  ];
 
-  Color _bgrdcolor3 = const Color(0xff222222);
-  Color _iconcolor3 = Colors.purple;
-
-  final _formKey = GlobalKey<FormState>();
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   bool valuefirst = false;
 
@@ -51,7 +63,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
             'Workouts',
             style: TextStyle(fontSize: 30),
           ),
-          backgroundColor: Colors.black,
+          backgroundColor: overlaycolor,
           centerTitle: true,
         ),
         body: Center(
@@ -59,6 +71,52 @@ class _WorkoutPageState extends State<WorkoutPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              Container(
+                margin: EdgeInsets.all(30),
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: overlaycolor,
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(32.0)),
+                        minimumSize: const Size(200, 60), //////// HERE
+                      ),
+
+                      onPressed: () {
+                        setState(() {
+
+                        });
+                      },
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                          children:const [
+                            Padding(
+                              padding: EdgeInsets.all(20),
+                              child: Text(
+                                  'Recommended',
+                                  style: TextStyle(fontSize: 24)
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.all(20),
+                              child: Text(
+                                  'Muscle Groups: Biceps, Chest',
+                                  style: TextStyle(fontSize: 18)
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.all(20),
+                              child: Text(
+                                  'Exercises: Curls 4x12, Bench Press 5x5',
+                                  style: TextStyle(fontSize: 18)
+                              ),
+                            ),
+
+                          ]
+                      )
+                  )
+              ),
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 Container(
                     margin: EdgeInsets.all(20),
@@ -72,8 +130,34 @@ class _WorkoutPageState extends State<WorkoutPage> {
                               borderRadius: BorderRadius.circular(20.0)),
                           minimumSize: const Size(200, 60), //////// HERE
                         ),
-                        onPressed: () {},
-                        child: const Text('Log New Workout',
+                        onPressed: () => CustomOverlay(
+                          context: context,
+                          // Builder passes aa function removeOverlay as argument which can be used to manually remove the overlay
+                          builder: (removeOverlay) => Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Card(
+                              child: Padding(
+                                padding: EdgeInsets.all(8),
+                                child: Column(
+                                  children: <Widget>[
+                                    Text(
+                                      'This widget is passed to the overlay using the builder method so there is a close button, but you can also close this overlay by tapping anywhere in the darker areas.',
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: <Widget>[
+                                        TextButton(
+                                            onPressed: removeOverlay,
+                                            child: Text('Close'))
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        child: const Text('Log Custom Workout',
                             style: TextStyle(fontSize: 18))))
               ]),
               Row(
@@ -96,16 +180,16 @@ class _WorkoutPageState extends State<WorkoutPage> {
                   ),
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        const SizedBox(width: 15),
-                        const Text(
+                      children: const [
+                        SizedBox(width: 15),
+                        Text(
                           'DATE',
                           textAlign: TextAlign.center,
                           style: TextStyle(color: Colors.white, fontSize: 28),
                         ),
-                        const SizedBox(width: 15),
+                        SizedBox(width: 15),
                         Icon(Icons.calendar_month_outlined,
-                            size: 65, color: _iconcolor1),
+                            size: 65, color: Colors.purple),
                       ]),
                 ],
               ),
@@ -170,6 +254,27 @@ class _WorkoutPageState extends State<WorkoutPage> {
               ),
             ],
           ),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: Color(0xff1e1e1e),
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Dashboard',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.business),
+              label: 'Workouts',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.school),
+              label: 'Profile',
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.purple,
+          unselectedItemColor: Colors.white,
+          onTap: _onItemTapped,
         ),
       ),
     );
