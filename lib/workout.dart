@@ -36,13 +36,17 @@ class _WorkoutPageState extends State<WorkoutPage> {
   }
 
   bool valuefirst = false;
-
   static const TextStyle hintStyle =
       TextStyle(color: Color(0xff4c4c58), fontSize: 10);
   var customExs = <String>[];
 
+  String expValue = "None";
+
   @override
   Widget build(BuildContext context) {
+    double unitHeightValue = MediaQuery.of(context).size.width * 0.001;
+    double iconSize = unitHeightValue*50;
+    TextStyle questStyle = TextStyle(fontSize: unitHeightValue*40);
     return MaterialApp(
       theme: ThemeData(
           unselectedWidgetColor: Colors.red,
@@ -137,6 +141,49 @@ class _WorkoutPageState extends State<WorkoutPage> {
                               alignment: Alignment.center,
                               content: Column(
                                 children: [
+                                  Row(
+                                    children:[
+                                      Text("Select muscle group: "),
+                                      Container(
+                                        margin: EdgeInsets.all(20),
+                                        child: DropdownButton<String>(
+                                          itemHeight: 50,
+                                          iconSize: iconSize,
+                                          value: expValue,
+                                          dropdownColor: const Color(0xff111111),
+                                          icon: const Icon(Icons.arrow_downward),
+                                          elevation: 16,
+                                          style: const TextStyle(color: Colors.purple, fontSize: 28),
+                                          onChanged: (String? newValue) {
+                                            setState(() {
+                                              expValue = newValue!;
+                                            });
+                                          },
+                                          items: <String>['None','Chest', 'Back', 'Biceps', 'Triceps', 'Shoulders', 'Legs']
+                                              .map<DropdownMenuItem<String>>((String value) {
+                                            return DropdownMenuItem<String>(
+                                              value: value,
+                                              child: Text(value, style: questStyle),
+                                            );
+                                          }).toList(),
+
+                                        ),
+                                      )
+                                    ]
+                                  ),
+                                  ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                    primary: Colors.purple,
+                                    onPrimary: Colors.white,
+                                    shadowColor: Colors.greenAccent,
+                                    elevation: 0,
+                                    shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20.0)),
+                                    minimumSize: const Size(200, 60), //////// HERE
+                                    ),
+                                    onPressed: () {},
+                                      child: const Text('Add Exercise',
+                                          style: TextStyle(fontSize: 18)))
 
                                 ]
                               )
