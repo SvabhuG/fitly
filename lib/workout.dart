@@ -1,5 +1,4 @@
 import 'dart:ui';
-import 'package:overlay/overlay.dart';
 import 'package:flutter/material.dart';
 
 
@@ -12,7 +11,6 @@ class WorkoutPage extends StatefulWidget {
 
 class _WorkoutPageState extends State<WorkoutPage> {
   Color overlaycolor = const Color(0xff1e1e1e);
-
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
   TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
@@ -41,6 +39,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
 
   static const TextStyle hintStyle =
       TextStyle(color: Color(0xff4c4c58), fontSize: 10);
+  var customExs = <String>[];
 
   @override
   Widget build(BuildContext context) {
@@ -130,33 +129,20 @@ class _WorkoutPageState extends State<WorkoutPage> {
                               borderRadius: BorderRadius.circular(20.0)),
                           minimumSize: const Size(200, 60), //////// HERE
                         ),
-                        onPressed: () => CustomOverlay(
-                          context: context,
-                          // Builder passes aa function removeOverlay as argument which can be used to manually remove the overlay
-                          builder: (removeOverlay) => Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Card(
-                              child: Padding(
-                                padding: EdgeInsets.all(8),
-                                child: Column(
-                                  children: <Widget>[
-                                    Text(
-                                      'This widget is passed to the overlay using the builder method so there is a close button, but you can also close this overlay by tapping anywhere in the darker areas.',
-                                    ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: <Widget>[
-                                        TextButton(
-                                            onPressed: removeOverlay,
-                                            child: Text('Close'))
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
+                        onPressed: () {
+                          showDialog(context: context, builder: (BuildContext context){
+                            return AlertDialog(
+                              backgroundColor: overlaycolor,
+                              title: Text('Record Workout'),
+                              alignment: Alignment.center,
+                              content: Column(
+                                children: [
+
+                                ]
+                              )
+                            );
+                          });
+                        },
                         child: const Text('Log Custom Workout',
                             style: TextStyle(fontSize: 18))))
               ]),
