@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 
 class WorkoutPage extends StatefulWidget {
@@ -40,26 +41,46 @@ class _WorkoutPageState extends State<WorkoutPage> {
       TextStyle(color: Color(0xff4c4c58), fontSize: 10);
   var customExs = <String>[];
 
-  String expValue = "None";
+  String customMuscleTemp = "None";
+  String customExTemp = "None";
+  String customExTempSets = "";
+
+  List<Widget> _customExList = [];
+
+  void _addCustomExWidget(String muscle, String ex, String sets) {
+    setState(() {
+      _customExList.add(_customEx(muscle, ex, sets));
+      print(_customExList.length);
+    });
+  }
+
+  Widget _customEx(String muscle, String ex, String sets) {
+    return Column(
+      children: [
+        Text(
+          "Muscle: $muscle"
+        ),
+        Text(
+          "Exercise: $ex"
+        ),
+        Text(
+          "Sets: $sets"
+        )
+      ]
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     double unitHeightValue = MediaQuery.of(context).size.width * 0.001;
     double iconSize = unitHeightValue*50;
-    TextStyle questStyle = TextStyle(fontSize: unitHeightValue*40);
+    TextStyle alertTextStyle = TextStyle(fontSize: unitHeightValue*30);
     return MaterialApp(
       theme: ThemeData(
           unselectedWidgetColor: Colors.red,
       ),
-      /*   theme: ThemeData(
-          textTheme: Theme.of(context).textTheme.apply(
-            bodyColor: Colors.white,
-
-            displayColor: Colors.white,
-          ),
-      ),
-      */
       home: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: const Color(0xff111110),
         appBar: AppBar(
           title: const Text(
@@ -74,50 +95,34 @@ class _WorkoutPageState extends State<WorkoutPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
-                margin: EdgeInsets.all(30),
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: overlaycolor,
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(32.0)),
-                        minimumSize: const Size(200, 60), //////// HERE
-                      ),
+              Card(
+                color: overlaycolor,
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children:const [
+                        Padding(
+                          padding: EdgeInsets.all(20),
+                          child: Text(
+                              'Recommended',
+                              style: TextStyle(color: Colors.white, fontSize: 24)
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(20),
+                          child: Text(
+                              'Muscle Groups: Biceps, Chest',
+                              style: TextStyle(color: Colors.white, fontSize: 18)
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(20),
+                          child: Text(
+                              'Exercises: Curls 4x12, Bench Press 5x5',
+                              style: TextStyle(color: Colors.white, fontSize: 18)
+                          ),
+                        ),
 
-                      onPressed: () {
-                        setState(() {
-
-                        });
-                      },
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
-                          children:const [
-                            Padding(
-                              padding: EdgeInsets.all(20),
-                              child: Text(
-                                  'Recommended',
-                                  style: TextStyle(fontSize: 24)
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.all(20),
-                              child: Text(
-                                  'Muscle Groups: Biceps, Chest',
-                                  style: TextStyle(fontSize: 18)
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.all(20),
-                              child: Text(
-                                  'Exercises: Curls 4x12, Bench Press 5x5',
-                                  style: TextStyle(fontSize: 18)
-                              ),
-                            ),
-
-                          ]
-                      )
+                      ]
                   )
               ),
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -134,62 +139,175 @@ class _WorkoutPageState extends State<WorkoutPage> {
                           minimumSize: const Size(200, 60), //////// HERE
                         ),
                         onPressed: () {
-                          showDialog(context: context, builder: (BuildContext context){
-                            return AlertDialog(
-                              backgroundColor: overlaycolor,
-                              title: Text('Record Workout'),
-                              alignment: Alignment.center,
-                              content: Column(
-                                children: [
-                                  Row(
-                                    children:[
-                                      Text("Select muscle group: "),
-                                      Container(
-                                        margin: EdgeInsets.all(20),
-                                        child: DropdownButton<String>(
-                                          itemHeight: 50,
-                                          iconSize: iconSize,
-                                          value: expValue,
-                                          dropdownColor: const Color(0xff111111),
-                                          icon: const Icon(Icons.arrow_downward),
-                                          elevation: 16,
-                                          style: const TextStyle(color: Colors.purple, fontSize: 28),
-                                          onChanged: (String? newValue) {
-                                            setState(() {
-                                              expValue = newValue!;
-                                            });
-                                          },
-                                          items: <String>['None','Chest', 'Back', 'Biceps', 'Triceps', 'Shoulders', 'Legs']
-                                              .map<DropdownMenuItem<String>>((String value) {
-                                            return DropdownMenuItem<String>(
-                                              value: value,
-                                              child: Text(value, style: questStyle),
-                                            );
-                                          }).toList(),
-
+                          showDialog(context: context, builder: (context) {
+                            return StatefulBuilder(builder: (context, setState) {
+                              return AlertDialog(
+                                  backgroundColor: overlaycolor,
+                                  title: Text('Record Workout'),
+                                  alignment: Alignment.center,
+                                  content: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Container(
+                                          width: 300,
+                                          height: 200,
+                                          child: ListView.builder(
+                                              itemCount: _customExList.length,
+                                              itemBuilder: (context,index){
+                                                return _customExList[index];
+                                              }),
                                         ),
-                                      )
-                                    ]
-                                  ),
-                                  ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                    primary: Colors.purple,
-                                    onPrimary: Colors.white,
-                                    shadowColor: Colors.greenAccent,
-                                    elevation: 0,
-                                    shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20.0)),
-                                    minimumSize: const Size(200, 60), //////// HERE
-                                    ),
-                                    onPressed: () {},
-                                      child: const Text('Add Exercise',
-                                          style: TextStyle(fontSize: 18)))
+                                        Row(
+                                            children: [
+                                              Column(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children:[
+                                                    Container(
+                                                        height: unitHeightValue*90,
+                                                        margin: EdgeInsets.only(right: 15),
+                                                        child: Center(
+                                                          child: Text("Select muscle group: ", style: alertTextStyle),
+                                                        )
+                                                    ),
+                                                    Container(
+                                                        height: unitHeightValue*90,
+                                                        margin: EdgeInsets.only(right:15),
+                                                        child: Center(
+                                                          child: Text("Select exercise: ", style: alertTextStyle),
+                                                        )
+                                                    ),
+                                                    Container(
+                                                        height: unitHeightValue*90,
+                                                        margin: EdgeInsets.only(right:15),
+                                                        child: Center(
+                                                          child: Text("Select # of sets: ", style: alertTextStyle),
+                                                        )
+                                                    ),
+                                                  ]
+                                              ),
+                                              Column(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                                  children:[
+                                                    SizedBox(
+                                                        height: unitHeightValue*90,
+                                                        child: Center(
+                                                          child: DropdownButton<String>(
+                                                            itemHeight: unitHeightValue*90,
+                                                            iconSize: iconSize,
+                                                            value: customMuscleTemp,
+                                                            dropdownColor: const Color(0xff111111),
+                                                            icon: const Icon(Icons.arrow_downward),
+                                                            elevation: 16,
+                                                            style: const TextStyle(color: Colors.purple, fontSize: 28),
+                                                            onChanged: (String? newValue) {
+                                                              setState(() {
+                                                                customMuscleTemp = newValue!;
+                                                              });
+                                                            },
+                                                            items: <String>['None','Chest', 'Back', 'Biceps', 'Triceps', 'Shoulders', 'Legs']
+                                                                .map<DropdownMenuItem<String>>((String value) {
+                                                              return DropdownMenuItem<String>(
+                                                                value: value,
+                                                                child: Text(value, style: alertTextStyle),
+                                                              );
+                                                            }).toList(),
 
-                                ]
-                              )
+                                                          ),
+                                                        )
+                                                    ),
+                                                    SizedBox(
+                                                        height: unitHeightValue*90,
+                                                        child: Center(
+                                                          child: DropdownButton<String>(
+                                                            itemHeight: 50,
+                                                            iconSize: iconSize,
+                                                            value: customExTemp,
+                                                            dropdownColor: const Color(0xff111111),
+                                                            icon: const Icon(Icons.arrow_downward),
+                                                            elevation: 16,
+                                                            style: const TextStyle(color: Colors.purple, fontSize: 28),
+                                                            onChanged: (String? newValue) {
+                                                              setState(() {
+                                                                customExTemp = newValue!;
+                                                              });
+                                                            },
+                                                            items: <String>['None','Bench Press','Pec Flyes', 'Incline Press']
+                                                                .map<DropdownMenuItem<String>>((String value) {
+                                                              return DropdownMenuItem<String>(
+                                                                value: value,
+                                                                child: Text(value, style: alertTextStyle),
+                                                              );
+                                                            }).toList(),
+
+                                                          ),
+                                                        )
+                                                    ),
+                                                    SizedBox(
+                                                      height: unitHeightValue*90,
+                                                      child: Center(
+                                                        child: SizedBox(
+                                                            height: unitHeightValue*60,
+                                                            width: unitHeightValue*180,
+                                                            child: TextField(
+                                                              onChanged: (text) {
+                                                                customExTempSets = text;
+                                                              },
+                                                              keyboardType: TextInputType.number,
+                                                              inputFormatters: [
+                                                                FilteringTextInputFormatter.digitsOnly
+                                                              ],
+                                                              textAlign: TextAlign.center,
+                                                              decoration: const InputDecoration(
+
+                                                                contentPadding: EdgeInsets.all(0),
+                                                                focusedBorder: OutlineInputBorder(
+                                                                  borderSide: BorderSide(color: Color(0xffaeb1b9), width: 1.0),
+                                                                ),
+                                                                enabledBorder: OutlineInputBorder(
+                                                                  borderSide: BorderSide(color: Color(0xffaeb1b9), width: 1.0),
+                                                                ),
+                                                                hintStyle: hintStyle,
+                                                                hintText: 'sets',
+                                                              ),
+                                                            )
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ]
+                                              ),
+                                            ]
+                                        ),
+                                        ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              primary: Colors.purple,
+                                              onPrimary: Colors.white,
+                                              shadowColor: Colors.greenAccent,
+                                              elevation: 0,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(20.0)),
+                                              minimumSize: const Size(200, 60), //////// HERE
+                                            ),
+                                            onPressed: () {
+                                              setState((){
+                                                _addCustomExWidget(
+                                                    customMuscleTemp,
+                                                    customExTemp,
+                                                    customExTempSets);
+                                              });
+                                            },
+                                            child: const Text('Add Exercise',
+                                                style: TextStyle(fontSize: 18)))
+
+                                      ]
+                                  )
+                              );
+                            }
                             );
                           });
                         },
+
                         child: const Text('Log Custom Workout',
                             style: TextStyle(fontSize: 18))))
               ]),
