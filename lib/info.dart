@@ -225,8 +225,29 @@ class _InfoPageState extends State<InfoPage> {
                 ),
               ],
             ),
+
+            Container(
+                margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [Expanded(
+                      child: LinearPercentIndicator(
+                        width: MediaQuery.of(context).size.width - 50,
+                        animation: true,
+                        lineHeight: 10.0,
+                        animationDuration: 500,
+                        percent: 0.66,
+                        linearStrokeCap: LinearStrokeCap.roundAll,
+                        backgroundColor: Colors.purple[200],
+                        progressColor: Colors.purple,
+                      ),
+                    )
+
+                    ]
+                )
+            ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [Container(
                     margin: const EdgeInsets.all(20),
                     child: ElevatedButton(
@@ -261,26 +282,6 @@ class _InfoPageState extends State<InfoPage> {
                 )
                 ]
             ),
-            Container(
-                margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [Expanded(
-                      child: LinearPercentIndicator(
-                        width: MediaQuery.of(context).size.width - 50,
-                        animation: true,
-                        lineHeight: 10.0,
-                        animationDuration: 500,
-                        percent: 0.66,
-                        linearStrokeCap: LinearStrokeCap.roundAll,
-                        backgroundColor: Colors.purple[200],
-                        progressColor: Colors.purple,
-                      ),
-                    )
-
-                    ]
-                )
-            )
           ]
 
       ),

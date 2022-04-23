@@ -182,6 +182,25 @@ class _GenderPageState extends State<GenderPage> {
                       )
                   )
               ),
+              Container(
+                  margin: const EdgeInsets.all(20.0),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [Expanded(
+                        child: LinearPercentIndicator(
+                          width: MediaQuery.of(context).size.width - 50,
+                          animation: true,
+                          lineHeight: 10.0,
+                          animationDuration: 500,
+                          percent: 0.33,
+                          linearStrokeCap: LinearStrokeCap.roundAll,
+                          backgroundColor: Colors.purple[200],
+                          progressColor: Colors.purple,
+                        ),
+                      )
+                      ]
+                  )
+              ),
               Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [Container(
@@ -213,25 +232,6 @@ class _GenderPageState extends State<GenderPage> {
                   )
                   ]
               ),
-              Container(
-                  margin: const EdgeInsets.all(20.0),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [Expanded(
-                        child: LinearPercentIndicator(
-                          width: MediaQuery.of(context).size.width - 50,
-                          animation: true,
-                          lineHeight: 10.0,
-                          animationDuration: 500,
-                          percent: 0.33,
-                          linearStrokeCap: LinearStrokeCap.roundAll,
-                          backgroundColor: Colors.purple[200],
-                          progressColor: Colors.purple,
-                        ),
-                      )
-                      ]
-                  )
-              )
             ]
         ),
       )
