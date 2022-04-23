@@ -142,6 +142,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                           showDialog(context: context, builder: (context) {
                             return StatefulBuilder(builder: (context, setState) {
                               return AlertDialog(
+
                                   backgroundColor: overlaycolor,
                                   title: Text('Record Workout'),
                                   alignment: Alignment.center,
@@ -150,7 +151,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                       children: [
                                         Container(
                                           width: 300,
-                                          height: 200,
+                                          height: 250,
                                           child: ListView.builder(
                                               itemCount: _customExList.length,
                                               itemBuilder: (context,index){
@@ -164,21 +165,21 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                   children:[
                                                     Container(
-                                                        height: unitHeightValue*90,
+                                                        height: unitHeightValue*80,
                                                         margin: EdgeInsets.only(right: 15),
                                                         child: Center(
                                                           child: Text("Select muscle group: ", style: alertTextStyle),
                                                         )
                                                     ),
                                                     Container(
-                                                        height: unitHeightValue*90,
+                                                        height: unitHeightValue*80,
                                                         margin: EdgeInsets.only(right:15),
                                                         child: Center(
                                                           child: Text("Select exercise: ", style: alertTextStyle),
                                                         )
                                                     ),
                                                     Container(
-                                                        height: unitHeightValue*90,
+                                                        height: unitHeightValue*80,
                                                         margin: EdgeInsets.only(right:15),
                                                         child: Center(
                                                           child: Text("Select # of sets: ", style: alertTextStyle),
@@ -191,10 +192,10 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                                   crossAxisAlignment: CrossAxisAlignment.end,
                                                   children:[
                                                     SizedBox(
-                                                        height: unitHeightValue*90,
+                                                        height: unitHeightValue*80,
                                                         child: Center(
                                                           child: DropdownButton<String>(
-                                                            itemHeight: unitHeightValue*90,
+                                                            itemHeight: unitHeightValue*80,
                                                             iconSize: iconSize,
                                                             value: customMuscleTemp,
                                                             dropdownColor: const Color(0xff111111),
@@ -218,7 +219,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                                         )
                                                     ),
                                                     SizedBox(
-                                                        height: unitHeightValue*90,
+                                                        height: unitHeightValue*80,
                                                         child: Center(
                                                           child: DropdownButton<String>(
                                                             itemHeight: 50,
@@ -245,7 +246,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                                         )
                                                     ),
                                                     SizedBox(
-                                                      height: unitHeightValue*90,
+                                                      height: unitHeightValue*80,
                                                       child: Center(
                                                         child: SizedBox(
                                                             height: unitHeightValue*60,

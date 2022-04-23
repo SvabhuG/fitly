@@ -81,7 +81,7 @@ class _MusclesPageState extends State<MusclesPage> {
                             elevation: 0,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(32.0)),
-                            minimumSize: const Size(240, 60), //////// HERE
+                            minimumSize: Size(unitHeightValue*400, 60), //////// HERE
                           ),
 
                           onPressed: () {
@@ -114,7 +114,7 @@ class _MusclesPageState extends State<MusclesPage> {
                             elevation: 0,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(32.0)),
-                            minimumSize: const Size(240, 60), //////// HERE
+                            minimumSize: Size(unitHeightValue*400, 60), //////// HERE
                           ),
 
                         onPressed: () {
@@ -145,7 +145,7 @@ class _MusclesPageState extends State<MusclesPage> {
                             elevation: 0,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(32.0)),
-                            minimumSize: const Size(240, 60), //////// HERE
+                            minimumSize: Size(unitHeightValue*400, 60), //////// HERE
                           ),
 
                         onPressed: () {
@@ -181,7 +181,7 @@ class _MusclesPageState extends State<MusclesPage> {
                             elevation: 0,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(32.0)),
-                            minimumSize: const Size(240, 60), //////// HERE
+                            minimumSize: Size(unitHeightValue*400, 60), //////// HERE
                           ),
 
                         onPressed: () {
@@ -212,7 +212,7 @@ class _MusclesPageState extends State<MusclesPage> {
                             elevation: 0,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(32.0)),
-                            minimumSize: const Size(240, 60), //////// HERE
+                            minimumSize: Size(unitHeightValue*400, 60), //////// HERE
                           ),
 
                         onPressed: () {
@@ -243,7 +243,7 @@ class _MusclesPageState extends State<MusclesPage> {
                             elevation: 0,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(32.0)),
-                            minimumSize: const Size(240, 60), //////// HERE
+                            minimumSize: Size(unitHeightValue*400, 60), //////// HERE
                           ),
 
                         onPressed: () {
