@@ -3,12 +3,11 @@ package model;
 public class Exercise {
 
 //data
-	private double weight;
-	private int intensity;
 	private int sets;
 	private int reps;
 	private String exerciseName;
 	private String muscleGroup;
+	private int maxlastreps;
 
 //constructor
 	/**
@@ -17,22 +16,46 @@ public class Exercise {
 	 * 
 	 * @param name          name of the exercise
 	 * @param muscle        name of the muscle group
-	 * @param userWeight    last used weight
 	 * @param userReps      last number of reps
 	 * @param userSets      last number of sets
-	 * @param userIntensity user-opinion of intensity of the exercise
 	 */
-	public Exercise(String name, String muscle, double userWeight, int userReps, int userSets, int userIntensity) {
+	public Exercise(String name, String muscle, int userReps, int userSets) {
 		exerciseName = name;
 		muscleGroup = muscle;
-		weight = userWeight;
-		// weight = Math.round(userMaxWeight * .85 / 5) * 5;
 		sets = userSets;
 		reps = userReps;
-		intensity = userIntensity;
+		maxlastreps = 0;
 
 	}
 
+	/**
+	 * Creates a new exercise object with a given name and muscle group, sets and reps are set to 0
+	 * @param name
+	 * @param muscle
+	 */
+	public Exercise(String name, String muscle) {
+		exerciseName = name;
+		muscleGroup = muscle;
+		sets = 0;
+		reps = 0;
+		maxlastreps=0;
+	}
+
+	/**
+	 * returns the max reps that the user could do on the last set
+	 * @return max last reps user did
+	 */
+	public int getMaxlastreps() {
+		return maxlastreps;
+	}
+	
+	/**
+	 * sets the maxlastreps to how many reps the user did
+	 * @param maxreps the number of reps the user completed
+	 */
+	public void setMaxlastreps(int maxreps) {
+		maxlastreps=maxreps;
+	}
 	/**
 	 * returns the muscle group
 	 * 
@@ -56,44 +79,11 @@ public class Exercise {
 	 * exercise
 	 */
 	public String toString() {
-		return getSets() + " x " + getReps() + " " + getName() + " " + getWeight() + " lbs";
+		//return getSets() + " x " + getReps() + " " + getName() + " " + getWeight() + " lbs";
+	return getName() + " " + getMuscleGroup();
 	}
 
-	/**
-	 * returns the intensity of the exercise
-	 * 
-	 * @return intensity
-	 */
-	public int getIntensity() {
-		return intensity;
-	}
 
-	/**
-	 * sets the intensity to a given intensity
-	 * 
-	 * @param intense the new intensity
-	 */
-	private void setIntensity(int intense) {
-		intensity = intense;
-	}
-
-	/**
-	 * returns the current weight that the user is lifting
-	 * 
-	 * @return the weight
-	 */
-	public double getWeight() {
-		return weight;
-	}
-
-	/**
-	 * sets the weight to a given weight
-	 * 
-	 * @param weight the new weight
-	 */
-	public void setWeight(double weight) {
-		this.weight = weight;
-	}
 
 	/**
 	 * returns the current sets the user is doing
