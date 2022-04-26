@@ -9,14 +9,19 @@ public class WorkoutProgression {
 		User me = new User(2);
 		me.buildUser();
 		me.baseWorkout();
-		me.getRotation();
+		me.getExercises().get(0).setMaxlastreps(12);
+		me.getExercises().get(1).setMaxlastreps(8);
+		me.getExercises().get(2).setMaxlastreps(3);
 		me.workoutUpdate();
-		me.workoutUpdate();
-		me.workoutUpdate();
-		me.workoutUpdate();
-		me.workoutUpdate();
+		me.getExercises().get(0).setMaxlastreps(20);
+		me.getExercises().get(1).setMaxlastreps(3);
+		me.getExercises().get(2).setMaxlastreps(15);
 
-		//ccurrently is getting into strength not hypertrophy??
+		me.workoutUpdate();
+//		me.workoutUpdate();
+	//	me.workoutUpdate();
+		//me.workoutUpdate();
+
 		
 	}
 
