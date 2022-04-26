@@ -37,34 +37,37 @@ class _WorkoutPageState extends State<WorkoutPage> {
   }
 
   bool valuefirst = false;
-  static const TextStyle hintStyle =
-      TextStyle(color: Color(0xff4c4c58), fontSize: 10);
+
   var customExs = <String>[];
 
-  String customMuscleTemp = "None";
-  String customExTemp = "None";
-  String customExTempSets = "";
+  String customTempMaxReps = "";
+  String customTempEx = "None";
+  String customTempSets = "";
+  String customTempReps = "";
 
   List<Widget> _customExList = [];
 
-  void _addCustomExWidget(String muscle, String ex, String sets) {
+  void _addCustomExWidget(String ex, String sets, String reps, String maxReps) {
     setState(() {
-      _customExList.add(_customEx(muscle, ex, sets));
+      _customExList.add(_customEx(ex, sets, reps, maxReps));
       print(_customExList.length);
     });
   }
 
-  Widget _customEx(String muscle, String ex, String sets) {
+  Widget _customEx(String ex, String sets, String reps, String maxReps) {
     return Column(
       children: [
-        Text(
-          "Muscle: $muscle"
-        ),
         Text(
           "Exercise: $ex"
         ),
         Text(
           "Sets: $sets"
+        ),
+        Text(
+            "Reps: $reps"
+        ),
+        Text(
+            "Max Reps: $maxReps"
         )
       ]
     );
@@ -74,6 +77,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
   Widget build(BuildContext context) {
     double unitHeightValue = MediaQuery.of(context).size.width * 0.001;
     double iconSize = unitHeightValue*50;
+    TextStyle hintStyle = TextStyle(color: Color(0xff4c4c58), fontSize: unitHeightValue*30);
     TextStyle alertTextStyle = TextStyle(fontSize: unitHeightValue*30);
     return MaterialApp(
       theme: ThemeData(
@@ -166,23 +170,47 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                                   children:[
                                                     Container(
                                                         height: unitHeightValue*80,
-                                                        margin: EdgeInsets.only(right: 15),
-                                                        child: Center(
-                                                          child: Text("Select muscle group: ", style: alertTextStyle),
-                                                        )
-                                                    ),
-                                                    Container(
-                                                        height: unitHeightValue*80,
                                                         margin: EdgeInsets.only(right:15),
                                                         child: Center(
                                                           child: Text("Select exercise: ", style: alertTextStyle),
                                                         )
                                                     ),
+                                                    SizedBox(
+                                                      height: unitHeightValue*80,
+                                                      child: Center(
+                                                        child: SizedBox(
+                                                            height: unitHeightValue*60,
+                                                            width: unitHeightValue*180,
+                                                            child: TextField(
+                                                              onChanged: (text) {
+                                                                customTempSets = text;
+                                                              },
+                                                              keyboardType: TextInputType.number,
+                                                              inputFormatters: [
+                                                                FilteringTextInputFormatter.digitsOnly
+                                                              ],
+                                                              textAlign: TextAlign.center,
+                                                              decoration: InputDecoration(
+
+                                                                contentPadding: EdgeInsets.all(0),
+                                                                focusedBorder: const OutlineInputBorder(
+                                                                  borderSide: BorderSide(color: Color(0xffaeb1b9), width: 1.0),
+                                                                ),
+                                                                enabledBorder: const OutlineInputBorder(
+                                                                  borderSide: BorderSide(color: Color(0xffaeb1b9), width: 1.0),
+                                                                ),
+                                                                hintStyle: hintStyle,
+                                                                hintText: 'sets',
+                                                              ),
+                                                            )
+                                                        ),
+                                                      ),
+                                                    ),
                                                     Container(
                                                         height: unitHeightValue*80,
                                                         margin: EdgeInsets.only(right:15),
                                                         child: Center(
-                                                          child: Text("Select # of sets: ", style: alertTextStyle),
+                                                          child: Text("Perform max reps\non last set: ", style: alertTextStyle),
                                                         )
                                                     ),
                                                   ]
@@ -195,43 +223,16 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                                         height: unitHeightValue*80,
                                                         child: Center(
                                                           child: DropdownButton<String>(
-                                                            itemHeight: unitHeightValue*80,
-                                                            iconSize: iconSize,
-                                                            value: customMuscleTemp,
-                                                            dropdownColor: const Color(0xff111111),
-                                                            icon: const Icon(Icons.arrow_downward),
-                                                            elevation: 16,
-                                                            style: const TextStyle(color: Colors.purple, fontSize: 28),
-                                                            onChanged: (String? newValue) {
-                                                              setState(() {
-                                                                customMuscleTemp = newValue!;
-                                                              });
-                                                            },
-                                                            items: <String>['None','Chest', 'Back', 'Biceps', 'Triceps', 'Shoulders', 'Legs']
-                                                                .map<DropdownMenuItem<String>>((String value) {
-                                                              return DropdownMenuItem<String>(
-                                                                value: value,
-                                                                child: Text(value, style: alertTextStyle),
-                                                              );
-                                                            }).toList(),
-
-                                                          ),
-                                                        )
-                                                    ),
-                                                    SizedBox(
-                                                        height: unitHeightValue*80,
-                                                        child: Center(
-                                                          child: DropdownButton<String>(
                                                             itemHeight: 50,
                                                             iconSize: iconSize,
-                                                            value: customExTemp,
+                                                            value: customTempEx,
                                                             dropdownColor: const Color(0xff111111),
                                                             icon: const Icon(Icons.arrow_downward),
                                                             elevation: 16,
                                                             style: const TextStyle(color: Colors.purple, fontSize: 28),
                                                             onChanged: (String? newValue) {
                                                               setState(() {
-                                                                customExTemp = newValue!;
+                                                                customTempEx = newValue!;
                                                               });
                                                             },
                                                             items: <String>['None','Bench Press','Pec Flyes', 'Incline Press']
@@ -245,6 +246,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                                           ),
                                                         )
                                                     ),
+
                                                     SizedBox(
                                                       height: unitHeightValue*80,
                                                       child: Center(
@@ -253,14 +255,14 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                                             width: unitHeightValue*180,
                                                             child: TextField(
                                                               onChanged: (text) {
-                                                                customExTempSets = text;
+                                                                customTempReps = text;
                                                               },
                                                               keyboardType: TextInputType.number,
                                                               inputFormatters: [
                                                                 FilteringTextInputFormatter.digitsOnly
                                                               ],
                                                               textAlign: TextAlign.center,
-                                                              decoration: const InputDecoration(
+                                                              decoration: InputDecoration(
 
                                                                 contentPadding: EdgeInsets.all(0),
                                                                 focusedBorder: OutlineInputBorder(
@@ -270,7 +272,38 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                                                   borderSide: BorderSide(color: Color(0xffaeb1b9), width: 1.0),
                                                                 ),
                                                                 hintStyle: hintStyle,
-                                                                hintText: 'sets',
+                                                                hintText: 'reps',
+                                                              ),
+                                                            )
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      height: unitHeightValue*80,
+                                                      child: Center(
+                                                        child: SizedBox(
+                                                            height: unitHeightValue*60,
+                                                            width: unitHeightValue*180,
+                                                            child: TextField(
+                                                              onChanged: (text) {
+                                                                customTempMaxReps = text;
+                                                              },
+                                                              keyboardType: TextInputType.number,
+                                                              inputFormatters: [
+                                                                FilteringTextInputFormatter.digitsOnly
+                                                              ],
+                                                              textAlign: TextAlign.center,
+                                                              decoration: InputDecoration(
+
+                                                                contentPadding: EdgeInsets.all(0),
+                                                                focusedBorder: OutlineInputBorder(
+                                                                  borderSide: BorderSide(color: Color(0xffaeb1b9), width: 1.0),
+                                                                ),
+                                                                enabledBorder: OutlineInputBorder(
+                                                                  borderSide: BorderSide(color: Color(0xffaeb1b9), width: 1.0),
+                                                                ),
+                                                                hintStyle: hintStyle,
+                                                                hintText: 'reps',
                                                               ),
                                                             )
                                                         ),
@@ -293,9 +326,10 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                             onPressed: () {
                                               setState((){
                                                 _addCustomExWidget(
-                                                    customMuscleTemp,
-                                                    customExTemp,
-                                                    customExTempSets);
+                                                    customTempEx,
+                                                    customTempSets,
+                                                    customTempReps,
+                                                    customTempMaxReps);
                                               });
                                             },
                                             child: const Text('Add Exercise',
