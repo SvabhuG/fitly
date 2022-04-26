@@ -90,30 +90,38 @@ public class User {
 			if (e.getClass() == Bodyweight.class) {
 				e.setReps(4);
 				e.setSets(3);
+				System.out.println("Sets: " + e.getSets() + " Reps: " + e.getReps() + " of " + e.getName());
+
 			}
 			if (e.getClass() == Dumbbell.class) {
 				((Dumbbell) e).setWeight(10);
 				e.setReps(8);
 				e.setSets(3);
+				System.out.println("Sets: " + e.getSets() + " Reps: " + e.getReps() + " of " + e.getName()
+				+ " with " + ((Dumbbell) e).getWeight() + " lb dumbbells");
+
 			}
 			if (e.getClass() == Barbell.class) {
 				((Barbell) e).setWeight(45);
 				e.setReps(8);
 				e.setSets(3);
+				System.out.println("Sets: " + e.getSets() + " Reps: " + e.getReps() + " of " + e.getName()
+				+ " at " + ((Barbell) e).getWeight() + " lbs");
+
 			}
 		}
 	}
 
 	public void workoutUpdate() {
 
-		if (workoutcounter == workoutsperweek * 8)
-			switchRotation();
+	//	if (workoutcounter == workoutsperweek * 8)
+	//		switchRotation();
 
-		workoutcounter++;
+	//	workoutcounter++;
 		System.out.println("\nWorkout!!\n");
 
 		// hypertrophy:
-		if (rotation) {
+		//if (rotation) {
 			for (Exercise e : getExercises()) {
 				// figure out how to not hard code 0 and 2 and rather get it to cycle through
 				// the muscle groups
@@ -122,17 +130,16 @@ public class User {
 				// workoutsperweek) for lower bound - gets weird if odd muscle groups higher
 				// bound is that + totalmuscles/workoutsperweek?
 
-				// ADD CHECKER IF THEIR MAX REPS ARE LESS THAN RECCOMMENDED BY LIKE A LOT THEN
-				// GO DOWN WEIGHT
-				if (getMuscles().subList(0, 2).contains(e.getMuscleGroup())) {
+					if (getMuscles().subList(0, 1).contains(e.getMuscleGroup())) {
 					if (e.getClass() == Bodyweight.class) {
 
 						if (e.getReps() < e.getMaxlastreps())
 							e.setReps((int) (e.getMaxlastreps() * 0.5));
-						if (e.getReps() > e.getMaxlastreps())
+						if (e.getReps()*3/4 > e.getMaxlastreps())
 							e.setReps((int) (e.getReps() - 1));
-
+						System.out.println("Sets: " + e.getSets() + " Reps: " + e.getReps() + " of " + e.getName());
 					}
+					
 					if (e.getClass() == Dumbbell.class) {
 						if (e.getSets() == 5 && e.getReps() == 10) {
 							if (e.getMaxlastreps() > 15 && e.getMaxlastreps() < 20)
@@ -141,14 +148,15 @@ public class User {
 								((Dumbbell) e).updateWeighthard();
 
 						} // end if for weight scaling
-						else if (e.getReps() != 10)
+					
+						else if (e.getReps()<e.getMaxlastreps()&& e.getReps() != 10)
 							e.setReps(10);
-						else if (e.getSets() < 5)
+						else if (e.getSets() < 5 && e.getMaxlastreps()>e.getReps()+2)
 							e.setSets(e.getSets() + 1);
 						System.out.println("Sets: " + e.getSets() + " Reps: " + e.getReps() + " of " + e.getName()
 								+ " with " + ((Dumbbell) e).getWeight() + " lb dumbbells");
 
-					}
+					}//end db
 					if (e.getClass() == Barbell.class) {
 						if (e.getSets() == 5 && e.getReps() == 10) {
 							if (e.getMaxlastreps() > 15 && e.getMaxlastreps() < 20)
@@ -167,10 +175,10 @@ public class User {
 
 			} // end for
 
-		} // end hypertrophy if
+		//} // end hypertrophy if
 
 		// strength:
-		else {
+		/** else {
 			for (Exercise e : getExercises()) {
 				// figure out how to not hard code 0 and 2 and rather get it to cycle through
 				// the muscle groups
@@ -205,7 +213,6 @@ public class User {
 					}
 					if (e.getClass() == Barbell.class) {
 						if (e.getSets() == 5 && e.getReps() == 5)
-							// add another if using workoutcounter so weight is updated less often?
 
 							((Barbell) e).updateWeighthard();
 						else if (e.getReps() != 5)
@@ -220,6 +227,7 @@ public class User {
 
 			}
 		} // end else
+		*/
 	}
 
 	/**
