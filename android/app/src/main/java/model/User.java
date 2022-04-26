@@ -121,30 +121,26 @@ public class User {
 				// for that idea: workoutcounter % workoutsperweek * (total musclegroups /
 				// workoutsperweek) for lower bound - gets weird if odd muscle groups higher
 				// bound is that + totalmuscles/workoutsperweek?
-				
-				
-				//ADD CHECKER IF THEIR MAX REPS ARE LESS THAN RECCOMMENDED BY LIKE A LOT THEN GO DOWN WEIGHT
+
+				// ADD CHECKER IF THEIR MAX REPS ARE LESS THAN RECCOMMENDED BY LIKE A LOT THEN
+				// GO DOWN WEIGHT
 				if (getMuscles().subList(0, 2).contains(e.getMuscleGroup())) {
 					if (e.getClass() == Bodyweight.class) {
 
-						if (e.getReps()<e.getMaxlastreps())
-						e.setReps((int)(e.getMaxlastreps()*0.5));
-						if(e.getReps()>e.getMaxlastreps())
-							e.setReps((int)(e.getReps()-1));
-						
-						/**if (workoutcounter % 4 == 0 && e.getReps() < 12)
-							e.setReps(e.getReps() + 2);
-						System.out.println("Sets: " + e.getSets() + " Reps: " + e.getReps() + " of " + e.getName());
-*/
+						if (e.getReps() < e.getMaxlastreps())
+							e.setReps((int) (e.getMaxlastreps() * 0.5));
+						if (e.getReps() > e.getMaxlastreps())
+							e.setReps((int) (e.getReps() - 1));
+
 					}
 					if (e.getClass() == Dumbbell.class) {
 						if (e.getSets() == 5 && e.getReps() == 10) {
-							if (e.getMaxlastreps()>15 && e.getMaxlastreps()<20)
-							((Dumbbell) e).updateWeightsoft();
-							else if (e.getMaxlastreps()>=20) 
+							if (e.getMaxlastreps() > 15 && e.getMaxlastreps() < 20)
+								((Dumbbell) e).updateWeightsoft();
+							else if (e.getMaxlastreps() >= 20)
 								((Dumbbell) e).updateWeighthard();
 
-														}//end if for weight scaling
+						} // end if for weight scaling
 						else if (e.getReps() != 10)
 							e.setReps(10);
 						else if (e.getSets() < 5)
@@ -155,12 +151,11 @@ public class User {
 					}
 					if (e.getClass() == Barbell.class) {
 						if (e.getSets() == 5 && e.getReps() == 10) {
-							if (e.getMaxlastreps()>15 && e.getMaxlastreps()<20)
+							if (e.getMaxlastreps() > 15 && e.getMaxlastreps() < 20)
 								((Barbell) e).updateWeightsoft();
-								else if (e.getMaxlastreps()>=20) 
-									((Barbell) e).updateWeighthard();
-						}
-						else if (e.getReps() != 10)
+							else if (e.getMaxlastreps() >= 20)
+								((Barbell) e).updateWeighthard();
+						} else if (e.getReps() != 10)
 							e.setReps(10);
 						else if (e.getSets() < 5)
 							e.setSets(e.getSets() + 1);
@@ -181,26 +176,32 @@ public class User {
 				// the muscle groups
 				if (getMuscles().subList(0, 2).contains(e.getMuscleGroup())) {
 					if (e.getClass() == Bodyweight.class) {
-						
-							if (e.getReps()<e.getMaxlastreps())
-								e.setReps((int)(e.getMaxlastreps()*0.5));
-							if(e.getReps()>e.getMaxlastreps())
-								e.setReps((int)(e.getReps()-1));
-								
+
+						if (e.getReps() < e.getMaxlastreps())
+							e.setReps((int) (e.getMaxlastreps() * 0.5));
+						if (e.getReps() > e.getMaxlastreps())
+							e.setReps((int) (e.getReps() - 1));
+
 						System.out.println("Sets: " + e.getSets() + " Reps: " + e.getReps() + " of " + e.getName());
 
 					}
 					if (e.getClass() == Dumbbell.class) {
-						if (e.getSets() == 5 && e.getReps() == 5)
-;
-							//((Dumbbell) e).updateWeight();
-						else if (e.getReps() != 5)
-							e.setReps(5);
-						else if (e.getSets() < 5)
-							e.setSets(e.getSets() + 1);
-						System.out.println("Sets: " + e.getSets() + " Reps: " + e.getReps() + " of " + e.getName()
-								+ " with " + ((Dumbbell) e).getWeight() + " lb dumbbells");
+						if (e.getSets() == 5 && e.getReps() == 5) {
+							if (e.getSets() == 5 && e.getReps() == 10) {
+								if (e.getMaxlastreps() > 15 && e.getMaxlastreps() < 20)
+									((Dumbbell) e).updateWeightsoft();
+								else if (e.getMaxlastreps() >= 20)
+									((Dumbbell) e).updateWeighthard();
+							}
 
+							else if (e.getReps() != 5)
+								e.setReps(5);
+							else if (e.getSets() < 5)
+								e.setSets(e.getSets() + 1);
+							System.out.println("Sets: " + e.getSets() + " Reps: " + e.getReps() + " of " + e.getName()
+									+ " with " + ((Dumbbell) e).getWeight() + " lb dumbbells");
+
+						}
 					}
 					if (e.getClass() == Barbell.class) {
 						if (e.getSets() == 5 && e.getReps() == 5)
