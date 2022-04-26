@@ -7,6 +7,7 @@ public class Exercise {
 	private int reps;
 	private String exerciseName;
 	private String muscleGroup;
+	private int maxlastreps;
 
 //constructor
 	/**
@@ -23,6 +24,7 @@ public class Exercise {
 		muscleGroup = muscle;
 		sets = userSets;
 		reps = userReps;
+		maxlastreps = 0;
 
 	}
 
@@ -36,8 +38,24 @@ public class Exercise {
 		muscleGroup = muscle;
 		sets = 0;
 		reps = 0;
+		maxlastreps=0;
 	}
 
+	/**
+	 * returns the max reps that the user could do on the last set
+	 * @return max last reps user did
+	 */
+	public int getMaxlastreps() {
+		return maxlastreps;
+	}
+	
+	/**
+	 * sets the maxlastreps to how many reps the user did
+	 * @param maxreps the number of reps the user completed
+	 */
+	public void setMaxlastreps(int maxreps) {
+		maxlastreps=maxreps;
+	}
 	/**
 	 * returns the muscle group
 	 * 
