@@ -8,8 +8,9 @@ public class User {
 	private ArrayList<String> muscles;
 	private ArrayList<Exercise> exercises;
 	private boolean rotation;
-	private int workoutcounter;
-	private int workoutsperweek;
+	private int dayssincelast;
+	private int mpw;
+	private int lastmusclegroup;
 
 	/**
 	 * default construction of user with empty arraylists of string for muscles and
@@ -17,12 +18,12 @@ public class User {
 	 * the strength cycle. When rotation is true after 8 weeks, then they switch to
 	 * hypertrophy
 	 */
-	public User(int wpw) {
+	public User(int muscle) {
 		muscles = new ArrayList<String>();
 		exercises = new ArrayList<Exercise>();
 		rotation = false;
-		workoutcounter = 0;
-		workoutsperweek = wpw;
+		lastmusclegroup=0;
+		mpw= muscle;
 	}
 
 	/**
@@ -80,6 +81,20 @@ public class User {
 		this.muscles = muscles;
 	}
 
+	
+	public ArrayList<String> getNextTwoMuscles(){
+		ArrayList<String> groups = new ArrayList<String>();
+		System.out.println("thing " + lastmusclegroup);
+		if (lastmusclegroup >= muscles.size()-mpw) {
+			groups.addAll( muscles.subList(lastmusclegroup, muscles.size()));
+			groups.addAll(muscles.subList(0, muscles.size()-lastmusclegroup));
+		}
+		else groups.addAll( muscles.subList(lastmusclegroup, mpw+lastmusclegroup));
+		lastmusclegroup=(lastmusclegroup+mpw)%muscles.size();
+		return groups;
+	}
+	
+	
 	/**
 	 * if the user has done no workouts before, then this method with assign a base
 	 * of sets and reps to work with for each exercise they plan to do
@@ -122,15 +137,10 @@ public class User {
 
 		// hypertrophy:
 		//if (rotation) {
+		ArrayList<String> musclesToday = getNextTwoMuscles();
 			for (Exercise e : getExercises()) {
-				// figure out how to not hard code 0 and 2 and rather get it to cycle through
-				// the muscle groups
-
-				// for that idea: workoutcounter % workoutsperweek * (total musclegroups /
-				// workoutsperweek) for lower bound - gets weird if odd muscle groups higher
-				// bound is that + totalmuscles/workoutsperweek?
-
-					if (getMuscles().subList(0, 1).contains(e.getMuscleGroup())) {
+				
+					if (musclesToday.contains(e.getMuscleGroup())) {
 					if (e.getClass() == Bodyweight.class) {
 
 						if (e.getReps() < e.getMaxlastreps())
@@ -153,9 +163,11 @@ public class User {
 							e.setReps(10);
 						else if (e.getSets() < 5 && e.getMaxlastreps()>e.getReps()+2)
 							e.setSets(e.getSets() + 1);
+						else if (e.getMaxlastreps()==0) 
+							((Dumbbell) e).setWeight((int) ((Dumbbell) e).getWeight()-5);
 						System.out.println("Sets: " + e.getSets() + " Reps: " + e.getReps() + " of " + e.getName()
-								+ " with " + ((Dumbbell) e).getWeight() + " lb dumbbells");
-
+						+ " with " + ((Dumbbell) e).getWeight() + " lb dumbbells");
+					
 					}//end db
 					if (e.getClass() == Barbell.class) {
 						if (e.getSets() == 5 && e.getReps() == 10) {
@@ -163,10 +175,12 @@ public class User {
 								((Barbell) e).updateWeightsoft();
 							else if (e.getMaxlastreps() >= 20)
 								((Barbell) e).updateWeighthard();
-						} else if (e.getReps() != 10)
+						} else if (e.getReps()<e.getMaxlastreps()&& e.getReps() != 10)
 							e.setReps(10);
-						else if (e.getSets() < 5)
+						else if (e.getSets() < 5 && e.getMaxlastreps()>e.getReps()+2)
 							e.setSets(e.getSets() + 1);
+						else if (e.getMaxlastreps()==0) 
+							((Barbell) e).setWeight((int) ((Barbell) e).getWeight()-10);
 						System.out.println("Sets: " + e.getSets() + " Reps: " + e.getReps() + " of " + e.getName()
 								+ " at " + ((Barbell) e).getWeight() + " lbs");
 
@@ -229,6 +243,8 @@ public class User {
 		} // end else
 		*/
 	}
+
+	
 
 	/**
 	 * didn't know where to put this so it's going here??? basically just sets up
