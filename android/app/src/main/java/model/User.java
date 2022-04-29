@@ -105,23 +105,23 @@ public class User {
 			if (e.getClass() == Bodyweight.class) {
 				e.setReps(4);
 				e.setSets(3);
-				System.out.println("Sets: " + e.getSets() + " Reps: " + e.getReps() + " of " + e.getName());
+				//System.out.println("Sets: " + e.getSets() + " Reps: " + e.getReps() + " of " + e.getName());
 
 			}
 			if (e.getClass() == Dumbbell.class) {
 				((Dumbbell) e).setWeight(10);
 				e.setReps(8);
 				e.setSets(3);
-				System.out.println("Sets: " + e.getSets() + " Reps: " + e.getReps() + " of " + e.getName()
-				+ " with " + ((Dumbbell) e).getWeight() + " lb dumbbells");
+			//	System.out.println("Sets: " + e.getSets() + " Reps: " + e.getReps() + " of " + e.getName()
+				//+ " with " + ((Dumbbell) e).getWeight() + " lb dumbbells");
 
 			}
 			if (e.getClass() == Barbell.class) {
 				((Barbell) e).setWeight(45);
 				e.setReps(8);
 				e.setSets(3);
-				System.out.println("Sets: " + e.getSets() + " Reps: " + e.getReps() + " of " + e.getName()
-				+ " at " + ((Barbell) e).getWeight() + " lbs");
+			//	System.out.println("Sets: " + e.getSets() + " Reps: " + e.getReps() + " of " + e.getName()
+			//	+ " at " + ((Barbell) e).getWeight() + " lbs");
 
 			}
 		}
@@ -147,6 +147,8 @@ public class User {
 							e.setReps((int) (e.getMaxlastreps() * 0.5));
 						if (e.getReps()*3/4 > e.getMaxlastreps())
 							e.setReps((int) (e.getReps() - 1));
+						else if (e.getMaxlastreps()<=e.getReps()*.25) 
+							e.setReps((int) (e.getReps()*.75));
 						System.out.println("Sets: " + e.getSets() + " Reps: " + e.getReps() + " of " + e.getName());
 					}
 					
@@ -165,6 +167,8 @@ public class User {
 							e.setSets(e.getSets() + 1);
 						else if (e.getMaxlastreps()==0) 
 							((Dumbbell) e).setWeight((int) ((Dumbbell) e).getWeight()-5);
+						else if (e.getMaxlastreps()<=e.getReps()*.25) 
+							e.setReps((int) (e.getReps()*.75));
 						System.out.println("Sets: " + e.getSets() + " Reps: " + e.getReps() + " of " + e.getName()
 						+ " with " + ((Dumbbell) e).getWeight() + " lb dumbbells");
 					
@@ -181,9 +185,11 @@ public class User {
 							e.setSets(e.getSets() + 1);
 						else if (e.getMaxlastreps()==0) 
 							((Barbell) e).setWeight((int) ((Barbell) e).getWeight()-10);
+						
+						else if (e.getMaxlastreps()<=e.getReps()*.25) 
+							e.setReps((int) (e.getReps()*.75));
 						System.out.println("Sets: " + e.getSets() + " Reps: " + e.getReps() + " of " + e.getName()
-								+ " at " + ((Barbell) e).getWeight() + " lbs");
-
+						+ " at " + ((Barbell) e).getWeight() + " lbs");
 					}
 				}
 
