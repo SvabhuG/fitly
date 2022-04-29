@@ -2,6 +2,8 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import model.Exercise;
+import model.User;
 
 public class WorkoutProgression {
 
