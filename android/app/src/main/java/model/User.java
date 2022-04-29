@@ -8,7 +8,6 @@ public class User {
 	private ArrayList<String> muscles;
 	private ArrayList<Exercise> exercises;
 	private boolean rotation;
-	private int dayssincelast;
 	private int mpw;
 	private int lastmusclegroup;
 
@@ -22,8 +21,8 @@ public class User {
 		muscles = new ArrayList<String>();
 		exercises = new ArrayList<Exercise>();
 		rotation = false;
-		lastmusclegroup=0;
-		mpw= muscle;
+		lastmusclegroup = 0;
+		mpw = muscle;
 	}
 
 	/**
@@ -81,23 +80,28 @@ public class User {
 		this.muscles = muscles;
 	}
 
-	
-	public ArrayList<String> getNextTwoMuscles(){
+	/**
+	 * determines the next muscle groups the user will target
+	 * 
+	 * @return arraylist of the muscle groups
+	 */
+	public ArrayList<String> getNextMuscles() {
 		ArrayList<String> groups = new ArrayList<String>();
 		System.out.println("thing " + lastmusclegroup);
-		if (lastmusclegroup >= muscles.size()-mpw) {
-			groups.addAll( muscles.subList(lastmusclegroup, muscles.size()));
-			groups.addAll(muscles.subList(0, muscles.size()-lastmusclegroup));
-		}
-		else groups.addAll( muscles.subList(lastmusclegroup, mpw+lastmusclegroup));
-		lastmusclegroup=(lastmusclegroup+mpw)%muscles.size();
+		if (lastmusclegroup >= muscles.size() - mpw) {
+			groups.addAll(muscles.subList(lastmusclegroup, muscles.size()));
+			groups.addAll(muscles.subList(0, muscles.size() - lastmusclegroup));
+		} else
+			groups.addAll(muscles.subList(lastmusclegroup, mpw + lastmusclegroup));
+		lastmusclegroup = (lastmusclegroup + mpw) % muscles.size();
 		return groups;
 	}
-	
-	
+
 	/**
 	 * if the user has done no workouts before, then this method with assign a base
-	 * of sets and reps to work with for each exercise they plan to do
+	 * of sets and reps to work with for each exercise they plan to do - they start
+	 * lifting just the bar for the barbell exercises (generally 45 lbs), and with
+	 * light dumbbells.
 	 */
 	public void baseWorkout() {
 		// starts with hypertrophy
@@ -105,156 +109,129 @@ public class User {
 			if (e.getClass() == Bodyweight.class) {
 				e.setReps(4);
 				e.setSets(3);
-				//System.out.println("Sets: " + e.getSets() + " Reps: " + e.getReps() + " of " + e.getName());
-
 			}
 			if (e.getClass() == Dumbbell.class) {
 				((Dumbbell) e).setWeight(10);
 				e.setReps(8);
 				e.setSets(3);
-			//	System.out.println("Sets: " + e.getSets() + " Reps: " + e.getReps() + " of " + e.getName()
-				//+ " with " + ((Dumbbell) e).getWeight() + " lb dumbbells");
-
 			}
 			if (e.getClass() == Barbell.class) {
 				((Barbell) e).setWeight(45);
 				e.setReps(8);
 				e.setSets(3);
-			//	System.out.println("Sets: " + e.getSets() + " Reps: " + e.getReps() + " of " + e.getName()
-			//	+ " at " + ((Barbell) e).getWeight() + " lbs");
-
+				
 			}
 		}
 	}
 
+	/**
+	 * scales the workouts based on the max reps they did in the last set
+	 */
 	public void workoutUpdate() {
 
-	//	if (workoutcounter == workoutsperweek * 8)
-	//		switchRotation();
-
-	//	workoutcounter++;
 		System.out.println("\nWorkout!!\n");
 
-		// hypertrophy:
-		//if (rotation) {
-		ArrayList<String> musclesToday = getNextTwoMuscles();
-			for (Exercise e : getExercises()) {
-				
-					if (musclesToday.contains(e.getMuscleGroup())) {
-					if (e.getClass() == Bodyweight.class) {
+		// if (rotation) {
+		ArrayList<String> musclesToday = getNextMuscles();
+		for (Exercise e : getExercises()) {
 
-						if (e.getReps() < e.getMaxlastreps())
-							e.setReps((int) (e.getMaxlastreps() * 0.5));
-						if (e.getReps()*3/4 > e.getMaxlastreps())
-							e.setReps((int) (e.getReps() - 1));
-						else if (e.getMaxlastreps()<=e.getReps()*.25) 
-							e.setReps((int) (e.getReps()*.75));
-						System.out.println("Sets: " + e.getSets() + " Reps: " + e.getReps() + " of " + e.getName());
-					}
-					
-					if (e.getClass() == Dumbbell.class) {
-						if (e.getSets() == 5 && e.getReps() == 10) {
-							if (e.getMaxlastreps() > 15 && e.getMaxlastreps() < 20)
-								((Dumbbell) e).updateWeightsoft();
-							else if (e.getMaxlastreps() >= 20)
-								((Dumbbell) e).updateWeighthard();
+			if (musclesToday.contains(e.getMuscleGroup())) {
+				if (e.getClass() == Bodyweight.class) {
 
-						} // end if for weight scaling
-					
-						else if (e.getReps()<e.getMaxlastreps()&& e.getReps() != 10)
-							e.setReps(10);
-						else if (e.getSets() < 5 && e.getMaxlastreps()>e.getReps()+2)
-							e.setSets(e.getSets() + 1);
-						else if (e.getMaxlastreps()==0) 
-							((Dumbbell) e).setWeight((int) ((Dumbbell) e).getWeight()-5);
-						else if (e.getMaxlastreps()<=e.getReps()*.25) 
-							e.setReps((int) (e.getReps()*.75));
-						System.out.println("Sets: " + e.getSets() + " Reps: " + e.getReps() + " of " + e.getName()
-						+ " with " + ((Dumbbell) e).getWeight() + " lb dumbbells");
-					
-					}//end db
-					if (e.getClass() == Barbell.class) {
-						if (e.getSets() == 5 && e.getReps() == 10) {
-							if (e.getMaxlastreps() > 15 && e.getMaxlastreps() < 20)
-								((Barbell) e).updateWeightsoft();
-							else if (e.getMaxlastreps() >= 20)
-								((Barbell) e).updateWeighthard();
-						} else if (e.getReps()<e.getMaxlastreps()&& e.getReps() != 10)
-							e.setReps(10);
-						else if (e.getSets() < 5 && e.getMaxlastreps()>e.getReps()+2)
-							e.setSets(e.getSets() + 1);
-						else if (e.getMaxlastreps()==0) 
-							((Barbell) e).setWeight((int) ((Barbell) e).getWeight()-10);
-						
-						else if (e.getMaxlastreps()<=e.getReps()*.25) 
-							e.setReps((int) (e.getReps()*.75));
-						System.out.println("Sets: " + e.getSets() + " Reps: " + e.getReps() + " of " + e.getName()
-						+ " at " + ((Barbell) e).getWeight() + " lbs");
-					}
-				}
+					if (e.getReps() < e.getMaxlastreps())
+						e.setReps((int) (e.getMaxlastreps() * 0.5));
+					if (e.getReps() * 3 / 4 > e.getMaxlastreps())
+						e.setReps((int) (e.getReps() - 1));
+					else if (e.getMaxlastreps() <= e.getReps() * .25)
+						e.setReps((int) (e.getReps() * .75));
+					System.out.println("Sets: " + e.getSets() + " Reps: " + e.getReps() + " of " + e.getName());
+				}//end bodyweight
 
-			} // end for
+				if (e.getClass() == Dumbbell.class) {
+					if (e.getSets() == 5 && e.getReps() == 10) {
+						if (e.getMaxlastreps() > 15 && e.getMaxlastreps() < 20)
+							((Dumbbell) e).updateWeightsoft();
+						else if (e.getMaxlastreps() >= 20)
+							((Dumbbell) e).updateWeighthard();
 
-		//} // end hypertrophy if
+					} // end if for weight scaling
+
+					else if (e.getReps() < e.getMaxlastreps() && e.getReps() != 10)
+						e.setReps(10);
+					else if (e.getSets() < 5 && e.getMaxlastreps() > e.getReps() + 2)
+						e.setSets(e.getSets() + 1);
+					else if (e.getMaxlastreps() == 0)
+						((Dumbbell) e).setWeight((int) ((Dumbbell) e).getWeight() - 5);
+					else if (e.getMaxlastreps() <= e.getReps() * .25)
+						e.setReps((int) (e.getReps() * .75));
+					System.out.println("Sets: " + e.getSets() + " Reps: " + e.getReps() + " of " + e.getName()
+							+ " with " + ((Dumbbell) e).getWeight() + " lb dumbbells");
+
+				} // end db
+				if (e.getClass() == Barbell.class) {
+					if (e.getSets() == 5 && e.getReps() == 10) {
+						if (e.getMaxlastreps() > 15 && e.getMaxlastreps() < 20)
+							((Barbell) e).updateWeightsoft();
+						else if (e.getMaxlastreps() >= 20)
+							((Barbell) e).updateWeighthard();
+					} else if (e.getReps() < e.getMaxlastreps() && e.getReps() != 10)
+						e.setReps(10);
+					else if (e.getSets() < 5 && e.getMaxlastreps() > e.getReps() + 2)
+						e.setSets(e.getSets() + 1);
+					else if (e.getMaxlastreps() == 0)
+						((Barbell) e).setWeight((int) ((Barbell) e).getWeight() - 10);
+
+					else if (e.getMaxlastreps() <= e.getReps() * .25)
+						e.setReps((int) (e.getReps() * .75));
+					System.out.println("Sets: " + e.getSets() + " Reps: " + e.getReps() + " of " + e.getName() + " at "
+							+ ((Barbell) e).getWeight() + " lbs");
+				}//end barbell
+			}
+
+		} // end for
+
+		// } // end hypertrophy if
 
 		// strength:
-		/** else {
-			for (Exercise e : getExercises()) {
-				// figure out how to not hard code 0 and 2 and rather get it to cycle through
-				// the muscle groups
-				if (getMuscles().subList(0, 2).contains(e.getMuscleGroup())) {
-					if (e.getClass() == Bodyweight.class) {
-
-						if (e.getReps() < e.getMaxlastreps())
-							e.setReps((int) (e.getMaxlastreps() * 0.5));
-						if (e.getReps() > e.getMaxlastreps())
-							e.setReps((int) (e.getReps() - 1));
-
-						System.out.println("Sets: " + e.getSets() + " Reps: " + e.getReps() + " of " + e.getName());
-
-					}
-					if (e.getClass() == Dumbbell.class) {
-						if (e.getSets() == 5 && e.getReps() == 5) {
-							if (e.getSets() == 5 && e.getReps() == 10) {
-								if (e.getMaxlastreps() > 15 && e.getMaxlastreps() < 20)
-									((Dumbbell) e).updateWeightsoft();
-								else if (e.getMaxlastreps() >= 20)
-									((Dumbbell) e).updateWeighthard();
-							}
-
-							else if (e.getReps() != 5)
-								e.setReps(5);
-							else if (e.getSets() < 5)
-								e.setSets(e.getSets() + 1);
-							System.out.println("Sets: " + e.getSets() + " Reps: " + e.getReps() + " of " + e.getName()
-									+ " with " + ((Dumbbell) e).getWeight() + " lb dumbbells");
-
-						}
-					}
-					if (e.getClass() == Barbell.class) {
-						if (e.getSets() == 5 && e.getReps() == 5)
-
-							((Barbell) e).updateWeighthard();
-						else if (e.getReps() != 5)
-							e.setReps(5);
-						else if (e.getSets() < 5)
-							e.setSets(e.getSets() + 1);
-						System.out.println("Sets: " + e.getSets() + " Reps: " + e.getReps() + " of " + e.getName()
-								+ " at " + ((Barbell) e).getWeight() + " lbs");
-
-					}
-				}
-
-			}
-		} // end else
-		*/
+		/**
+		 * else { for (Exercise e : getExercises()) { // figure out how to not hard code
+		 * 0 and 2 and rather get it to cycle through // the muscle groups if
+		 * (getMuscles().subList(0, 2).contains(e.getMuscleGroup())) { if (e.getClass()
+		 * == Bodyweight.class) {
+		 * 
+		 * if (e.getReps() < e.getMaxlastreps()) e.setReps((int) (e.getMaxlastreps() *
+		 * 0.5)); if (e.getReps() > e.getMaxlastreps()) e.setReps((int) (e.getReps() -
+		 * 1));
+		 * 
+		 * System.out.println("Sets: " + e.getSets() + " Reps: " + e.getReps() + " of "
+		 * + e.getName());
+		 * 
+		 * } if (e.getClass() == Dumbbell.class) { if (e.getSets() == 5 && e.getReps()
+		 * == 5) { if (e.getSets() == 5 && e.getReps() == 10) { if (e.getMaxlastreps() >
+		 * 15 && e.getMaxlastreps() < 20) ((Dumbbell) e).updateWeightsoft(); else if
+		 * (e.getMaxlastreps() >= 20) ((Dumbbell) e).updateWeighthard(); }
+		 * 
+		 * else if (e.getReps() != 5) e.setReps(5); else if (e.getSets() < 5)
+		 * e.setSets(e.getSets() + 1); System.out.println("Sets: " + e.getSets() + "
+		 * Reps: " + e.getReps() + " of " + e.getName() + " with " + ((Dumbbell)
+		 * e).getWeight() + " lb dumbbells");
+		 * 
+		 * } } if (e.getClass() == Barbell.class) { if (e.getSets() == 5 && e.getReps()
+		 * == 5)
+		 * 
+		 * ((Barbell) e).updateWeighthard(); else if (e.getReps() != 5) e.setReps(5);
+		 * else if (e.getSets() < 5) e.setSets(e.getSets() + 1);
+		 * System.out.println("Sets: " + e.getSets() + " Reps: " + e.getReps() + " of "
+		 * + e.getName() + " at " + ((Barbell) e).getWeight() + " lbs");
+		 * 
+		 * } }
+		 * 
+		 * } } // end else
+		 */
 	}
 
-	
-
 	/**
-	 * didn't know where to put this so it's going here??? basically just sets up
-	 * what muscle groups and exercises the user plans on doing
+	 * sets up what muscle groups and exercises the user plans on doing
 	 */
 	public void buildUser() {
 		// all possible exercises we would offer them
@@ -336,7 +313,5 @@ public class User {
 		// assign exercises to user
 		this.setExercises(UserExercises);
 
-		// debug check (delete)
-		System.out.println(this.getExercises().toString() + " \n" + this.getMuscles().toString());
 	}
 }

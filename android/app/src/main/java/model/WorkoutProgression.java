@@ -8,6 +8,7 @@ public class WorkoutProgression {
 	public static void main(String[] args) {
 		User me = new User(2);
 		me.buildUser();
+		//set the max last reps to 8 for db/bb and 4 for bodyweight after build user so it doesn't scale prematurely
 		me.baseWorkout();
 		me.getExercises().get(0).setMaxlastreps(12);
 		me.getExercises().get(1).setMaxlastreps(8);
