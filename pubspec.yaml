@@ -29,6 +29,8 @@ environment:
 dependencies:
   percent_indicator: ^3.4.00
   flutter_fadein: ^2.0.0
+  shared_preferences: ^2.0.13
+  fluttertoast: ^8.0.9
   flutter:
     sdk: flutter
 

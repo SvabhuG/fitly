@@ -1,9 +1,9 @@
 import 'dart:ui';
 import 'package:flutter_fadein/flutter_fadein.dart';
-import 'package:fitly/data_collection1.dart';
+import 'package:fitly/info.dart';
 import 'package:flutter/material.dart';
 
-import 'data_collection.dart';
+import 'gender.dart';
 
 class WelcomePage extends StatefulWidget {
 
@@ -12,15 +12,6 @@ class WelcomePage extends StatefulWidget {
 }
 
 class _WelcomePageState extends State<WelcomePage> {
-
-  static Color bgrdColor = const Color(0xff15191c);
-
-  static const TextStyle questStyle =
-  TextStyle(fontSize: 14, color: Color(0xffffffff));
-
-  static const TextStyle hintStyle = TextStyle(color: Color(0xff4c4c58), fontSize: 10);
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +73,7 @@ class _WelcomePageState extends State<WelcomePage> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => DataCollectPage())
+                MaterialPageRoute(builder: (context) => GenderPage())
               );
             },
             child: const Text(

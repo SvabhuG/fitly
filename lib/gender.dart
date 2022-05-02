@@ -3,16 +3,16 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
-import 'data_collection1.dart';
+import 'info.dart';
 
-class DataCollectPage extends StatefulWidget {
-  const DataCollectPage({Key? key}) : super(key: key);
+class GenderPage extends StatefulWidget {
+  const GenderPage({Key? key}) : super(key: key);
 
   @override
-  State<DataCollectPage> createState() => _DataCollectPageState();
+  State<GenderPage> createState() => _GenderPageState();
 }
 
-class _DataCollectPageState extends State<DataCollectPage> {
+class _GenderPageState extends State<GenderPage> {
 
   Color _bgrdcolor1 = const Color(0xff222222);
   Color _iconcolor1 = Colors.purple;
@@ -50,14 +50,14 @@ class _DataCollectPageState extends State<DataCollectPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children:[
               Container(
-                margin: EdgeInsets.only(top: 40),
+                margin: const EdgeInsets.only(top: 40),
                   child: const Text(
                       'Pleast select your gender',
                       style: TextStyle(fontSize: 24)
                   )
               ),
               Container(
-                  margin: EdgeInsets.all(30),
+                  margin: const EdgeInsets.all(30),
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         primary: _bgrdcolor1,
@@ -66,7 +66,6 @@ class _DataCollectPageState extends State<DataCollectPage> {
                             borderRadius: BorderRadius.circular(32.0)),
                         minimumSize: const Size(200, 60), //////// HERE
                       ),
-
                       onPressed: () {
                         setState(() {
                           _bgrdcolor1 = Colors.purple;
@@ -98,7 +97,7 @@ class _DataCollectPageState extends State<DataCollectPage> {
                   )
               ),
               Container(
-                  margin: EdgeInsets.all(30),
+                  margin: const EdgeInsets.all(30),
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         primary: _bgrdcolor2,
@@ -141,7 +140,7 @@ class _DataCollectPageState extends State<DataCollectPage> {
                   )
               ),
               Container(
-                  margin: EdgeInsets.all(30),
+                  margin: const EdgeInsets.all(30),
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         primary: _bgrdcolor3,
@@ -183,6 +182,25 @@ class _DataCollectPageState extends State<DataCollectPage> {
                       )
                   )
               ),
+              Container(
+                  margin: const EdgeInsets.all(20.0),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [Expanded(
+                        child: LinearPercentIndicator(
+                          width: MediaQuery.of(context).size.width - 50,
+                          animation: true,
+                          lineHeight: 10.0,
+                          animationDuration: 500,
+                          percent: 0.33,
+                          linearStrokeCap: LinearStrokeCap.roundAll,
+                          backgroundColor: Colors.purple[200],
+                          progressColor: Colors.purple,
+                        ),
+                      )
+                      ]
+                  )
+              ),
               Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [Container(
@@ -201,7 +219,7 @@ class _DataCollectPageState extends State<DataCollectPage> {
                           onPressed: () {
                             Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => DataCollectPage1())
+                                MaterialPageRoute(builder: (context) => InfoPage())
                             );
                           },
                           child: const Text(
@@ -214,28 +232,7 @@ class _DataCollectPageState extends State<DataCollectPage> {
                   )
                   ]
               ),
-              Container(
-                  margin: const EdgeInsets.all(20.0),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [Expanded(
-                        child: LinearPercentIndicator(
-                          width: MediaQuery.of(context).size.width - 50,
-                          animation: true,
-                          lineHeight: 10.0,
-                          animationDuration: 500,
-                          percent: 0.33,
-                          linearStrokeCap: LinearStrokeCap.roundAll,
-                          backgroundColor: Colors.purple[200],
-                          progressColor: Colors.purple,
-                        ),
-                      )
-
-                      ]
-                  )
-              )
             ]
-
         ),
       )
     );
