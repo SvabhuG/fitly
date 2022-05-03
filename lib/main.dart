@@ -1,8 +1,11 @@
+import 'package:fitly/GoodMorning.dart';
 import 'package:fitly/welcome.dart';
 import 'package:flutter/material.dart';
 
+import 'gender.dart';
+
 void main() {
-  runApp(MyApp());
+  runApp(GoodMorningPage());
 }
 
 class MyApp extends StatelessWidget {
