@@ -2,6 +2,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'algo/User.dart';
+
 
 class WorkoutPage extends StatefulWidget {
   const WorkoutPage({Key? key}) : super(key: key);
@@ -72,6 +74,8 @@ class _WorkoutPageState extends State<WorkoutPage> {
       ]
     );
   }
+
+  User user = User(2);
 
   @override
   Widget build(BuildContext context) {

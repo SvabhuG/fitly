@@ -25,8 +25,11 @@ class _MusclesPageState extends State<MusclesPage> {
   Future<void> setData() async {
     final prefs = await SharedPreferences.getInstance();
     if(muscles.isNotEmpty) {
-
-      prefs.setString("Muscles", muscles.toString());
+      String save = "";
+      for(String muscle in muscles){
+        save = save + muscle + " ";
+      }
+      prefs.setString("Muscles", save);
       print(muscles.toString());
     }
     else{
