@@ -12,6 +12,7 @@ class User
   bool rotation = false;
   int mpw = 0;
   int lastmusclegroup = 0;
+  List<String> musclesToday = <String>[];
 
   User(int muscle)
   {
@@ -85,10 +86,9 @@ class User
     }
   }
 
-  void workoutUpdate()
-  {
-    print("\nWorkout!!\n");
-    List<String> musclesToday = getNextMuscles();
+  List<Exercise> workoutUpdate() {
+    List<Exercise> exercisesToday = <Exercise>[];
+    musclesToday = getNextMuscles();
     for (Exercise e in getExercises()) {
       if (musclesToday.contains(e.getMuscleGroup())) {
         if (e is Bodyweight) {
@@ -102,6 +102,7 @@ class User
               e.setReps((e.getReps() * 0.75).toInt());
             }
           }
+
           print((((("Sets: " + e.getSets().toString()) + " Reps: ") + e.getReps().toString()) + " of ") + e.getName());
         }
         if (e is Dumbbell) {
@@ -160,8 +161,10 @@ class User
           }
           print(((((((("Sets: " + e.getSets().toString()) + " Reps: ") + e.getReps().toString()) + " of ") + e.getName()) + " at ") + e.getWeight().toString()) + " lbs");
         }
+        exercisesToday.add(e);
       }
     }
+    return exercisesToday;
   }
   getMusclesData() async {
     final prefs = await SharedPreferences.getInstance();

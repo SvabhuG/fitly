@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'algo/Exercise.dart';
 import 'algo/User.dart';
 
 
@@ -14,6 +15,7 @@ class WorkoutPage extends StatefulWidget {
 
 class _WorkoutPageState extends State<WorkoutPage> {
   Color overlaycolor = const Color(0xff1e1e1e);
+
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
   TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
@@ -49,12 +51,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
 
   List<Widget> _customExList = [];
 
-  void _addCustomExWidget(String ex, String sets, String reps, String maxReps) {
-    setState(() {
-      _customExList.add(_customEx(ex, sets, reps, maxReps));
-      print(_customExList.length);
-    });
-  }
+
 
   Widget _customEx(String ex, String sets, String reps, String maxReps) {
     return Column(
@@ -74,8 +71,36 @@ class _WorkoutPageState extends State<WorkoutPage> {
       ]
     );
   }
-
+  bool userBuilt = false;
   User user = User(2);
+
+  void buildUser(){
+    if(!userBuilt){
+      user.baseWorkout();
+      userBuilt = true;
+    }
+  }
+
+  void _addCustomExWidget(String ex, String sets, String reps, String maxReps) {
+    var exercises = user.getExercises();
+    setState(() {
+      _customExList.add(_customEx(ex, sets, reps, maxReps));
+      print(_customExList.length);
+    });
+    for(Exercise exercise in exercises){
+      if(exercise.getName() == ex){
+        exercise.setMaxlastreps(int.parse(maxReps));
+      }
+    }
+  }
+
+  void updateRecommended(){
+    var newExercises = user.workoutUpdate();
+
+
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -83,6 +108,9 @@ class _WorkoutPageState extends State<WorkoutPage> {
     double iconSize = unitHeightValue*50;
     TextStyle hintStyle = TextStyle(color: Color(0xff4c4c58), fontSize: unitHeightValue*30);
     TextStyle alertTextStyle = TextStyle(fontSize: unitHeightValue*30);
+
+    buildUser();
+
     return MaterialApp(
       theme: ThemeData(
           unselectedWidgetColor: Colors.red,
@@ -337,6 +365,22 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                               });
                                             },
                                             child: const Text('Add Exercise',
+                                                style: TextStyle(fontSize: 18))
+                                        ),
+                                        ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              primary: Colors.purple,
+                                              onPrimary: Colors.white,
+                                              shadowColor: Colors.greenAccent,
+                                              elevation: 0,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(20.0)),
+                                              minimumSize: const Size(200, 60), //////// HERE
+                                            ),
+                                            onPressed: () {
+
+                                            },
+                                            child: const Text('Submit Workout',
                                                 style: TextStyle(fontSize: 18)))
 
                                       ]
