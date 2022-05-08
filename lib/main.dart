@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'gender.dart';
 
 void main() {
-  runApp(GoodMorningPage());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {

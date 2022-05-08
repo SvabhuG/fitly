@@ -1,9 +1,8 @@
+import 'dart:html';
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:flutter/services.dart';
 
-import 'info.dart';
 
 class GenderPage extends StatefulWidget {
   const GenderPage({Key? key}) : super(key: key);
@@ -13,228 +12,167 @@ class GenderPage extends StatefulWidget {
 }
 
 class _GenderPageState extends State<GenderPage> {
+  Color overlaycolor = const Color(0xff1e1e1e);
+  int _selectedIndex = 0;
+  static const TextStyle optionStyle =
+  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  static const List<Widget> _widgetOptions = <Widget>[
+    Text(
+      'Index 0: Home',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 1: Business',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 2: School',
+      style: optionStyle,
+    ),
+  ];
 
-  Color _bgrdcolor1 = const Color(0xff222222);
-  Color _iconcolor1 = Colors.purple;
-
-  Color _bgrdcolor2 = const Color(0xff222222);
-  Color _iconcolor2 = Colors.purple;
-
-  Color _bgrdcolor3 = const Color(0xff222222);
-  Color _iconcolor3 = Colors.purple;
-
-  static const TextStyle hintStyle = TextStyle(color: Color(0xff4c4c58), fontSize: 10);
-
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      backgroundColor: Color(0xff000000),
-      appBar: AppBar(
-        title: const Text(
-            'Information',
-            style: TextStyle(fontSize: 30),
-
-        ),
-        backgroundColor: Colors.black,
-        centerTitle: true,
+    double unitHeightValue = MediaQuery.of(context).size.width * 0.001;
+    double iconSize = unitHeightValue*50;
+    TextStyle hintStyle = TextStyle(color: Color(0xff4c4c58), fontSize: unitHeightValue*30);
+    TextStyle alertTextStyle = TextStyle(fontSize: unitHeightValue*30);
+    return MaterialApp(
+      theme: ThemeData(
+        unselectedWidgetColor: Colors.red,
       ),
-      body: Center(
-        child: Column(
+      home: Scaffold(
+        resizeToAvoidBottomInset: false,
+        backgroundColor: const Color(0xff111110),
+        appBar: AppBar(
+          title: const Text(
+            'Good Morning!',
+            style: TextStyle(fontSize: 30),
+          ),
+          backgroundColor: overlaycolor,
+          centerTitle: true,
+        ),
+        body: Center(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children:[
-              Container(
+            children: [
+                Container(
                 margin: const EdgeInsets.only(top: 40),
-                  child: const Text(
-                      'Pleast select your gender',
-                      style: TextStyle(fontSize: 24)
-                  )
-              ),
-              Container(
-                  margin: const EdgeInsets.all(30),
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: _bgrdcolor1,
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(32.0)),
-                        minimumSize: const Size(200, 60), //////// HERE
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          _bgrdcolor1 = Colors.purple;
-                          _iconcolor1 = Colors.white;
-
-                          _bgrdcolor2 = const Color(0xff222222);
-                          _iconcolor2 = Colors.purple;
-
-                          _bgrdcolor3 = const Color(0xff222222);
-                          _iconcolor3 = Colors.purple;
-                        });
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children:[
-                            Icon(
-                              Icons.male,
-                              size: 90,
-                              color: _iconcolor1
-                            ),
-                            const Text(
-                                'Male',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 28)
-                            ),
-                            const SizedBox(width: 90)
-                          ]
-                      )
-                  )
-              ),
-              Container(
-                  margin: const EdgeInsets.all(30),
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: _bgrdcolor2,
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(32.0)),
-                        minimumSize: const Size(200, 60), //////// HERE
-                      ),
-
-                      onPressed: () {
-                        setState(() {
-                          _bgrdcolor2 = Colors.purple;
-                          _iconcolor2 = Colors.white;
-
-                          _bgrdcolor1 = const Color(0xff222222);
-                          _iconcolor1 = Colors.purple;
-
-                          _bgrdcolor3 = const Color(0xff222222);
-                          _iconcolor3 = Colors.purple;
-                        });
-                      },
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
-                          children:[
-                            Icon(
-                                Icons.female,
-                                size: 90,
-                                color: _iconcolor2
-                            ),
-                            const Text(
-                                'Female',
-                                style: TextStyle(fontSize: 28)
-                            ),
-                            const SizedBox(
-                              width: 90,
-                            )
-                          ]
-                      )
-                  )
-              ),
-              Container(
-                  margin: const EdgeInsets.all(30),
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: _bgrdcolor3,
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(32.0)),
-                        minimumSize: const Size(200, 60), //////// HERE
-                      ),
-
-                      onPressed: () {
-                        setState(() {
-                          _bgrdcolor3 = Colors.purple;
-                          _iconcolor3 = Colors.white;
-
-                          _bgrdcolor2 = const Color(0xff222222);
-                          _iconcolor2 = Colors.purple;
-
-                          _bgrdcolor1 = const Color(0xff222222);
-                          _iconcolor1 = Colors.purple;
-                        });
-                      },
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children:[
-                            Icon(
-                                Icons.transgender,
-                                size: 75,
-                                color: _iconcolor3
-                            ),
-                            const Padding(
-                                padding: EdgeInsets.symmetric(vertical: 30),
-                                child: Text(
-                                'Other',
-                                style: TextStyle(fontSize: 28)
-                              ),
-                            ),
-                            const SizedBox(width: 75)
-                          ]
-                      )
-                  )
-              ),
+                child: const Text(
+                    'Inspirational message of the day',
+                    style: TextStyle(fontSize: 24, color: Colors.white)
+                )
+            ),
               Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [Container(
-                      margin: EdgeInsets.all(20),
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.purple,
-                            onPrimary: Colors.white,
-                            shadowColor: Colors.greenAccent,
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(32.0)),
-                            minimumSize: const Size(200, 60), //////// HERE
-                          ),
-
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => InfoPage())
-                            );
-                          },
-                          child: const Text(
-                              'Next',
-                              style: TextStyle(
-                                  fontSize: 18
-                              )
-                          )
-                      )
-                  )
-                  ]
-              ),
-              Container(
-                  margin: const EdgeInsets.all(20.0),
-                  child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    margin: EdgeInsets.all(20),
+                    height: 75.0,
+                    width: 200.0,
+                    padding: const EdgeInsets.all(10.0),
+                    decoration: BoxDecoration(
+                        color: Colors.purple,
+                        border: Border.all(),
+                        borderRadius:
+                        const BorderRadius.all(Radius.circular(10))),
+                    child: const Center(
+                      child: Text("Your next workout is scheduled for:",
+                          style: TextStyle(color: Colors.white, fontSize: 16, )),
+                    ),
+                  ),
+                  Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [Expanded(
-                        child: LinearPercentIndicator(
-                          width: MediaQuery.of(context).size.width - 50,
-                          animation: true,
-                          lineHeight: 10.0,
-                          animationDuration: 500,
-                          percent: 0.33,
-                          linearStrokeCap: LinearStrokeCap.roundAll,
-                          backgroundColor: Colors.purple[200],
-                          progressColor: Colors.purple,
+                      children: const [
+                        SizedBox(width: 15),
+                        Icon(Icons.calendar_month_outlined,
+                            size: 65, color: Colors.purple),
+                        Text(
+                          '--/--/--',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.white, fontSize: 28),
                         ),
-                      )
+                      ]),
+                ],
+              ),
+              Card(
+                  color: overlaycolor,
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.all(20),
+                          child: Text(
+                              'Your last workout     --/--/--',
+                              style: TextStyle(color: Colors.white, fontSize: 24)
+                          ),
+                        ),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              SizedBox(width: 30, height:200),
+                          Icon(Icons.monitor_heart_outlined,
+                              size: 90, color: Colors.purple),
+                              SizedBox(width: 30, height:200),
+                          Icon(Icons.fastfood_outlined,
+                              size: 90, color: Colors.purple),
+                        ]),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              SizedBox(width: 30, height:200),
+                              Icon(Icons.timelapse_outlined,
+                                  size: 90, color: Colors.purple),
+                              SizedBox(width: 30, height:200),
+                              Icon(Icons.emoji_people_outlined ,
+                                  size: 90, color: Colors.purple),
+                            ]),
+                        Container(
+                          margin: EdgeInsets.all(20),
+                          height: 50.0,
+                          width: 200.0,
+                          padding: const EdgeInsets.all(10.0),
+                          decoration: BoxDecoration(
+                              color: Colors.purple,
+                              border: Border.all(),
+                              borderRadius:
+                              const BorderRadius.all(Radius.circular(10))),
+                          child: const Center(
+                            child: Text("Full summary ",
+                                style: TextStyle(color: Colors.white, fontSize: 16)),
+                          ),
+                        ),
                       ]
                   )
-              )
-            ]
+              ),
+            ],
+          ),
         ),
-      )
+        bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: Color(0xff1e1e1e),
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Dashboard',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.business),
+              label: 'Workouts',
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.purple,
+          unselectedItemColor: Colors.white,
+          onTap: _onItemTapped,
+        ),
+      ),
     );
   }
 }
+
