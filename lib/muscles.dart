@@ -24,13 +24,14 @@ class _MusclesPageState extends State<MusclesPage> {
   var muscles = <String>[];
   Future<void> setData() async {
     final prefs = await SharedPreferences.getInstance();
+
+
     if(muscles.isNotEmpty) {
       String save = "";
       for(String muscle in muscles){
         save = save + muscle + " ";
       }
       prefs.setString("Muscles", save);
-      print(muscles.toString());
     }
     else{
       Fluttertoast.showToast(
@@ -308,6 +309,7 @@ class _MusclesPageState extends State<MusclesPage> {
                         ),
 
                         onPressed: () {
+                          setData();
                           Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) => WorkoutPage())

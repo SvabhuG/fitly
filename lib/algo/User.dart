@@ -20,6 +20,7 @@ class User
     rotation = false;
     lastmusclegroup = 0;
     mpw = muscle;
+    buildUser();
   }
 
   List<String> getMuscles()
@@ -55,13 +56,14 @@ class User
   List<String> getNextMuscles()
   {
     var groups = <String>[];
-    print("thing " + lastmusclegroup.toString());
+    print("thing: " + lastmusclegroup.toString());
     if (lastmusclegroup >= (muscles.length - mpw)) {
       groups.addAll(muscles.sublist(lastmusclegroup, muscles.length));
       groups.addAll(muscles.sublist(0, muscles.length - lastmusclegroup));
     } else {
       groups.addAll(muscles.sublist(lastmusclegroup, mpw + lastmusclegroup));
     }
+    print("groups: " + groups.length.toString());
     lastmusclegroup = ((lastmusclegroup + mpw) % muscles.length);
     return groups;
   }
@@ -89,6 +91,7 @@ class User
   List<Exercise> workoutUpdate() {
     List<Exercise> exercisesToday = <Exercise>[];
     musclesToday = getNextMuscles();
+    print("Muscles today: " + musclesToday.toString());
     for (Exercise e in getExercises()) {
       if (musclesToday.contains(e.getMuscleGroup())) {
         if (e is Bodyweight) {
@@ -164,15 +167,16 @@ class User
         exercisesToday.add(e);
       }
     }
+    print("exercises today: " + exercisesToday.length.toString());
     return exercisesToday;
   }
-  getMusclesData() async {
+  Future<String> getMusclesData() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getString("Muscles");
+    String val = prefs.getString("Muscles") ?? "";
+    return val;
   }
 
-  void buildUser()
-  {
+  Future<void> buildUser() async {
     Dumbbell flyes = new Dumbbell("Flyes", "Chest");
     Barbell benchPress = new Barbell("Bench Press", "Chest");
     Dumbbell pullover = new Dumbbell("Pullover", "Chest");
@@ -191,29 +195,32 @@ class User
     Barbell backsquat = new Barbell("Back Squat", "Legs");
     Bodyweight boxjumps = new Bodyweight("Box Jumps", "Legs");
     Bodyweight splitsquats = new Bodyweight("Split Squats", "Legs");
-    var PossibleExercises = <Exercise>[];
-    PossibleExercises.add(flyes);
-    PossibleExercises.add(benchPress);
-    PossibleExercises.add(pullover);
-    PossibleExercises.add(deadlift);
-    PossibleExercises.add(dbrows);
-    PossibleExercises.add(pullups);
-    PossibleExercises.add(skullcrushers);
-    PossibleExercises.add(dips);
-    PossibleExercises.add(tricepextensions);
-    PossibleExercises.add(bicepcurls);
-    PossibleExercises.add(inclinecurls);
-    PossibleExercises.add(preachercurls);
-    PossibleExercises.add(lateralraises);
-    PossibleExercises.add(shoulderpress);
-    PossibleExercises.add(inclinebenchpress);
-    PossibleExercises.add(backsquat);
-    PossibleExercises.add(boxjumps);
-    PossibleExercises.add(splitsquats);
 
-    muscles = getMusclesData().split(" ");
+    exercises.add(flyes);
+    exercises.add(benchPress);
+    exercises.add(pullover);
+    exercises.add(deadlift);
+    exercises.add(dbrows);
+    exercises.add(pullups);
+    exercises.add(skullcrushers);
+    exercises.add(dips);
+    exercises.add(tricepextensions);
+    exercises.add(bicepcurls);
+    exercises.add(inclinecurls);
+    exercises.add(preachercurls);
+    exercises.add(lateralraises);
+    exercises.add(shoulderpress);
+    exercises.add(inclinebenchpress);
+    exercises.add(backsquat);
+    exercises.add(boxjumps);
+    exercises.add(splitsquats);
 
-    for (Exercise ex in PossibleExercises) {
+    print("check data retrieve: " + await getMusclesData());
+
+    muscles = (await getMusclesData()).split(" ");
+
+
+    for (Exercise ex in exercises) {
       if(muscles.contains(ex.getMuscleGroup())) {
         exercises.add(ex);
         }

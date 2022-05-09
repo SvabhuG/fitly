@@ -2,6 +2,9 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'algo/Barbell.dart';
+import 'algo/Bodyweight.dart';
+import 'algo/Dumbell.dart';
 import 'algo/Exercise.dart';
 import 'algo/User.dart';
 
@@ -51,8 +54,6 @@ class _WorkoutPageState extends State<WorkoutPage> {
 
   List<Widget> _customExList = [];
 
-
-
   Widget _customEx(String ex, String sets, String reps, String maxReps) {
     return Column(
       children: [
@@ -96,8 +97,19 @@ class _WorkoutPageState extends State<WorkoutPage> {
 
   void updateRecommended(){
     var newExercises = user.workoutUpdate();
-
-
+    print("new exercises length: " + newExercises.length.toString());
+    for(Exercise e in newExercises){
+      print(e.getName());
+      if (e is Bodyweight) {
+        print((((("Sets: " + e.getSets().toString()) + " Reps: ") + e.getReps().toString()) + " of ") + e.getName());
+      }
+      else if (e is Dumbbell) {
+        print(((((((("Sets: " + e.getSets().toString()) + " Reps: ") + e.getReps().toString()) + " of ") + e.getName()) + " with ") + e.getWeight().toString()) + " lb dumbbells");
+      }
+      else if (e is Barbell) {
+        print(((((((("Sets: " + e.getSets().toString()) + " Reps: ") + e.getReps().toString()) + " of ") + e.getName()) + " at ") + e.getWeight().toString()) + " lbs");
+      }
+    }
   }
 
 
@@ -107,7 +119,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
     double unitHeightValue = MediaQuery.of(context).size.width * 0.001;
     double iconSize = unitHeightValue*50;
     TextStyle hintStyle = TextStyle(color: Color(0xff4c4c58), fontSize: unitHeightValue*30);
-    TextStyle alertTextStyle = TextStyle(fontSize: unitHeightValue*30);
+    TextStyle alertTextStyle = TextStyle(fontSize: unitHeightValue*25);
 
     buildUser();
 
@@ -178,7 +190,6 @@ class _WorkoutPageState extends State<WorkoutPage> {
                           showDialog(context: context, builder: (context) {
                             return StatefulBuilder(builder: (context, setState) {
                               return AlertDialog(
-
                                   backgroundColor: overlaycolor,
                                   title: Text('Record Workout'),
                                   alignment: Alignment.center,
@@ -187,7 +198,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                       children: [
                                         Container(
                                           width: 300,
-                                          height: 250,
+                                          height: 220,
                                           child: ListView.builder(
                                               itemCount: _customExList.length,
                                               itemBuilder: (context,index){
@@ -208,7 +219,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                                         )
                                                     ),
                                                     SizedBox(
-                                                      height: unitHeightValue*80,
+                                                      height: unitHeightValue*70,
                                                       child: Center(
                                                         child: SizedBox(
                                                             height: unitHeightValue*60,
@@ -239,7 +250,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                                       ),
                                                     ),
                                                     Container(
-                                                        height: unitHeightValue*80,
+                                                        height: unitHeightValue*70,
                                                         margin: EdgeInsets.only(right:15),
                                                         child: Center(
                                                           child: Text("Perform max reps\non last set: ", style: alertTextStyle),
@@ -252,7 +263,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                                   crossAxisAlignment: CrossAxisAlignment.end,
                                                   children:[
                                                     SizedBox(
-                                                        height: unitHeightValue*80,
+                                                        height: unitHeightValue*70,
                                                         child: Center(
                                                           child: DropdownButton<String>(
                                                             itemHeight: 50,
@@ -280,7 +291,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                                     ),
 
                                                     SizedBox(
-                                                      height: unitHeightValue*80,
+                                                      height: unitHeightValue*70,
                                                       child: Center(
                                                         child: SizedBox(
                                                             height: unitHeightValue*60,
@@ -311,7 +322,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                                       ),
                                                     ),
                                                     SizedBox(
-                                                      height: unitHeightValue*80,
+                                                      height: unitHeightValue*70,
                                                       child: Center(
                                                         child: SizedBox(
                                                             height: unitHeightValue*60,
@@ -345,43 +356,50 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                               ),
                                             ]
                                         ),
-                                        ElevatedButton(
-                                            style: ElevatedButton.styleFrom(
-                                              primary: Colors.purple,
-                                              onPrimary: Colors.white,
-                                              shadowColor: Colors.greenAccent,
-                                              elevation: 0,
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(20.0)),
-                                              minimumSize: const Size(200, 60), //////// HERE
-                                            ),
-                                            onPressed: () {
-                                              setState((){
-                                                _addCustomExWidget(
-                                                    customTempEx,
-                                                    customTempSets,
-                                                    customTempReps,
-                                                    customTempMaxReps);
-                                              });
-                                            },
-                                            child: const Text('Add Exercise',
-                                                style: TextStyle(fontSize: 18))
+                                        Padding(
+                                          padding: EdgeInsets.all(5),
+                                          child: ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                          primary: Colors.purple,
+                                          onPrimary: Colors.white,
+                                          shadowColor: Colors.greenAccent,
+                                          elevation: 0,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(20.0)),
+                                          minimumSize: const Size(150, 45), //////// HERE
                                         ),
-                                        ElevatedButton(
-                                            style: ElevatedButton.styleFrom(
-                                              primary: Colors.purple,
-                                              onPrimary: Colors.white,
-                                              shadowColor: Colors.greenAccent,
-                                              elevation: 0,
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(20.0)),
-                                              minimumSize: const Size(200, 60), //////// HERE
-                                            ),
+                                        onPressed: () {
+                                        setState((){
+                                          _addCustomExWidget(
+                                          customTempEx,
+                                          customTempSets,
+                                          customTempReps,
+                                          customTempMaxReps);
+                                        });
+                                        },
+                                        child: const Text('Add Exercise',
+                                          style: TextStyle(fontSize: 14))
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(top:5),
+                                          child: ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                          primary: Colors.purple,
+                                          onPrimary: Colors.white,
+                                          shadowColor: Colors.greenAccent,
+                                          elevation: 0,
+                                            shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(20.0)),
+                                          minimumSize: const Size(150, 45), //////// HERE
+                                          ),
                                             onPressed: () {
-
+                                                Navigator.pop(context);
+                                                updateRecommended();
                                             },
-                                            child: const Text('Submit Workout',
-                                                style: TextStyle(fontSize: 18)))
+                                          child: const Text('Submit Workout',
+                                            style: TextStyle(fontSize: 14)))
+                                        )
 
                                       ]
                                   )
