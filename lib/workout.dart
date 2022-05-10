@@ -350,7 +350,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                                       ),
                                                     ),
                                                     SizedBox(
-                                                      height: unitHeightValue*70,
+                                                      height: unitHeightValue*75,
                                                       child: Center(
                                                         child: SizedBox(
                                                             height: unitHeightValue*60,
