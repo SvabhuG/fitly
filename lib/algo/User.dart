@@ -93,6 +93,7 @@ class User
     musclesToday = getNextMuscles();
     print("Muscles today: " + musclesToday.toString());
     for (Exercise e in getExercises()) {
+      print(" In loop: " + e.getName());
       if (musclesToday.contains(e.getMuscleGroup())) {
         if (e is Bodyweight) {
           if (e.getReps() < e.getMaxlastreps()) {
@@ -185,13 +186,15 @@ class User
     Bodyweight pullups = new Bodyweight("Pullups", "Back");
     Barbell skullcrushers = new Barbell("Skull Crushers", "Triceps");
     Bodyweight dips = new Bodyweight("Dips", "Triceps");
-    Dumbbell tricepextensions = new Dumbbell("Overhead Tricep Extensions", "Triceps");
+    Dumbbell tricepextensions = new Dumbbell(
+        "Overhead Tricep Extensions", "Triceps");
     Dumbbell bicepcurls = new Dumbbell("Bicep Curls", "Biceps");
     Dumbbell inclinecurls = new Dumbbell("Incline Curls", "Biceps");
     Dumbbell preachercurls = new Dumbbell("Preacher Curls", "Biceps");
     Dumbbell lateralraises = new Dumbbell("Lateral Raises", "Shoulders");
     Dumbbell shoulderpress = new Dumbbell("Shoulder Press", "Shoulders");
-    Dumbbell inclinebenchpress = new Dumbbell("Incline Bench Press", "Shoulders");
+    Dumbbell inclinebenchpress = new Dumbbell(
+        "Incline Bench Press", "Shoulders");
     Barbell backsquat = new Barbell("Back Squat", "Legs");
     Bodyweight boxjumps = new Bodyweight("Box Jumps", "Legs");
     Bodyweight splitsquats = new Bodyweight("Split Squats", "Legs");
@@ -218,13 +221,5 @@ class User
     print("check data retrieve: " + await getMusclesData());
 
     muscles = (await getMusclesData()).split(" ");
-
-
-    for (Exercise ex in exercises) {
-      if(muscles.contains(ex.getMuscleGroup())) {
-        exercises.add(ex);
-        }
-      }
   }
-
 }
