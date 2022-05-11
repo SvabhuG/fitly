@@ -78,18 +78,21 @@ class _WorkoutPageState extends State<WorkoutPage> {
 
     if(ex is Barbell){
       String weight = ex.getWeight().toString();
-      _recommendedExList.add(Column(
-          children: [
-            Text(
-                "$name",
-                style: exStyle
-            ),
-            Text(
-                "$sets x $reps at $weight lbs",
-                style: exStyle
-            )
-          ]
-      ));
+      _recommendedExList.add(Padding(
+        padding: EdgeInsets.all(10),
+        child:Column(
+            children: [
+              Text(
+                  "$name",
+                  style: exStyle
+              ),
+              Text(
+                  "$sets x $reps at $weight lbs",
+                  style: exStyle
+              )
+            ]
+        ))
+      );
     }
     else if(ex is Dumbbell){
       String weight = ex.getWeight().toString();
@@ -137,10 +140,10 @@ class _WorkoutPageState extends State<WorkoutPage> {
 
   void updateRecommended(){
     var newExercises = user.workoutUpdate();
+    _recommendedExList = [];
     print("new exercises length: " + newExercises.length.toString());
     for(Exercise e in newExercises){
       print(e.getName());
-      _recommendedExList = [];
       _addRecommendedExWidget(e);
     }
   }
@@ -153,6 +156,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
     double iconSize = unitHeightValue*50;
     TextStyle hintStyle = TextStyle(color: Color(0xff4c4c58), fontSize: unitHeightValue*30);
     TextStyle alertTextStyle = TextStyle(fontSize: unitHeightValue*25);
+    TextStyle buttonTextStyle = TextStyle(fontSize: unitHeightValue*35);
 
     buildUser();
 
@@ -190,7 +194,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                         ),
                         Container(
                           width: 300,
-                          height: 220,
+                          height: 300,
                           child: ListView.builder(
                               itemCount: _recommendedExList.length,
                               itemBuilder: (context,index){
@@ -350,7 +354,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                                       ),
                                                     ),
                                                     SizedBox(
-                                                      height: unitHeightValue*75,
+                                                      height: unitHeightValue*80,
                                                       child: Center(
                                                         child: SizedBox(
                                                             height: unitHeightValue*60,
@@ -397,7 +401,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                                     elevation: 0,
                                                     shape: RoundedRectangleBorder(
                                                         borderRadius: BorderRadius.circular(20.0)),
-                                                    minimumSize: const Size(150, 45), //////// HERE
+                                                    minimumSize: Size(unitHeightValue*300, 45), //////// HERE
                                                   ),
                                                   onPressed: () {
                                                     setState((){
@@ -422,7 +426,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                                       elevation: 0,
                                                       shape: RoundedRectangleBorder(
                                                           borderRadius: BorderRadius.circular(20.0)),
-                                                      minimumSize: const Size(150, 45), //////// HERE
+                                                      minimumSize: Size(unitHeightValue*300, 45), //////// HERE
                                                     ),
                                                     onPressed: () {
                                                       Navigator.pop(context);
