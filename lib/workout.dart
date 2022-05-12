@@ -35,12 +35,13 @@ class _WorkoutPageState extends State<WorkoutPage> {
   var customExs = <String>[];
 
   String customTempMaxReps = "";
-  String customTempEx = "None";
+  String customTempEx = "Bench Press";
   String customTempSets = "";
   String customTempReps = "";
 
   List<Widget> _customExList = [];
   List<Widget> _recommendedExList = [];
+  List<String> exs = [];
 
   Widget _customEx(String ex, String sets, String reps, String maxReps) {
     return Column(
@@ -68,6 +69,10 @@ class _WorkoutPageState extends State<WorkoutPage> {
     if(!userBuilt){
       user.baseWorkout();
       userBuilt = true;
+
+      for(Exercise e in user.getExercises()){
+        exs.add(e.getName());
+      }
     }
   }
 
@@ -310,7 +315,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                                                 customTempEx = newValue!;
                                                               });
                                                             },
-                                                            items: <String>['None','Bench Press','Pec Flyes', 'Incline Press']
+                                                            items: exs
                                                                 .map<DropdownMenuItem<String>>((String value) {
                                                               return DropdownMenuItem<String>(
                                                                 value: value,
