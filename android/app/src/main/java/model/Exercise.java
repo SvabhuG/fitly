@@ -25,7 +25,6 @@ public class Exercise {
 		sets = userSets;
 		reps = userReps;
 		maxlastreps = 0;
-
 	}
 
 	/**

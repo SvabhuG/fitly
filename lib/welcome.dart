@@ -48,7 +48,7 @@ class _WelcomePageState extends State<WelcomePage> {
             duration: Duration(milliseconds: 2000),
 
             child: Text(
-              'Fitness\nmade\neasy',
+              'Fitness\nMade\nEasy',
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 42)
             ),
