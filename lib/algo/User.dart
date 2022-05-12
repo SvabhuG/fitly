@@ -20,7 +20,7 @@ class User
     rotation = false;
     lastmusclegroup = 0;
     mpw = muscle;
-    buildUser();
+    baseWorkout();
   }
 
   List<String> getMuscles()
@@ -219,5 +219,6 @@ class User
     exercises.add(splitsquats);
 
     muscles = (await getMusclesData()).split(" ");
+    print("check data retrieve" + muscles.toString());
   }
 }

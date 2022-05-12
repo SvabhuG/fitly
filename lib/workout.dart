@@ -42,6 +42,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
 
   List<Widget> _customExList = [];
   List<Widget> _recommendedExList = [];
+  List<Widget> _recommendedExDialogList = [];
   List<String> exs = [];
 
   Widget _customEx(String ex, String sets, String reps, String maxReps) {
@@ -66,9 +67,10 @@ class _WorkoutPageState extends State<WorkoutPage> {
   bool userBuilt = false;
   User user = User(2);
 
-  void buildUser(){
+  Future<void> buildUser() async {
     if(!userBuilt){
-      user.baseWorkout();
+      await user.buildUser();
+      updateRecommended();
       userBuilt = true;
 
       for(Exercise e in user.getExercises()){
@@ -79,6 +81,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
 
   void _addRecommendedExWidget(Exercise ex){
     String name = ex.getName();
+    print("add recommended widget: " + ex.getName());
     String sets = ex.getSets().toString();
     String reps = ex.getReps().toString();
 
@@ -98,6 +101,14 @@ class _WorkoutPageState extends State<WorkoutPage> {
               )
             ]
         ))
+      );
+      _recommendedExDialogList.add(Padding(
+          padding: EdgeInsets.all(10),
+          child:Text(
+              "$name",
+              style: exStyle
+          ),
+        )
       );
     }
     else if(ex is Dumbbell){
@@ -164,7 +175,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
     _recommendedExList = [];
     print("new exercises length: " + newExercises.length.toString());
     for(Exercise e in newExercises){
-      print(e.getName());
+      print("update recommended: " + e.getName());
       _addRecommendedExWidget(e);
     }
   }
@@ -232,7 +243,6 @@ class _WorkoutPageState extends State<WorkoutPage> {
                       ]
                   )
               ),
-
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 Container(
                     margin: EdgeInsets.all(20),
@@ -252,228 +262,16 @@ class _WorkoutPageState extends State<WorkoutPage> {
                             return StatefulBuilder(builder: (context, setState) {
                               return AlertDialog(
                                   backgroundColor: overlaycolor,
-                                  title: Text('Recommended Workout'),
+                                  title: Text('Record Recommended Workout'),
                                   alignment: Alignment.center,
-                                  content: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Container(
-                                          width: 300,
-                                          height: 220,
-                                          child: ListView.builder(
-                                              itemCount: _recommendedExList.length,
-                                              itemBuilder: (context,index){
-                                                return _customExList[index];
-                                              }),
-                                        ),
-                                        Column(
-                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              Row(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children:[
-                                                    Container(
-                                                        height: unitHeightValue*80,
-                                                        margin: EdgeInsets.only(right:15),
-                                                        child: Center(
-                                                          child: Text("Select exercise: ", style: alertTextStyle),
-                                                        )
-                                                    ),
-
-                                                    SizedBox(
-                                                        height: unitHeightValue*70,
-                                                        child: Center(
-                                                          child: DropdownButton<String>(
-                                                            itemHeight: 50,
-                                                            iconSize: iconSize,
-                                                            value: customTempEx,
-                                                            dropdownColor: const Color(0xff111111),
-                                                            icon: const Icon(Icons.arrow_downward),
-                                                            elevation: 16,
-                                                            style: const TextStyle(color: Colors.purple, fontSize: 28),
-                                                            onChanged: (String? newValue) {
-                                                              setState(() {
-                                                                customTempEx = newValue!;
-                                                              });
-                                                            },
-                                                            items: exs
-                                                                .map<DropdownMenuItem<String>>((String value) {
-                                                              return DropdownMenuItem<String>(
-                                                                value: value,
-                                                                child: Text(value, style: alertTextStyle),
-                                                              );
-                                                            }).toList(),
-
-                                                          ),
-                                                        )
-                                                    )
-                                                  ]
-                                              ),
-                                              Row(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                                  children:[
-                                                    SizedBox(
-                                                      height: unitHeightValue*75,
-                                                      child: Center(
-                                                        child: SizedBox(
-                                                            height: unitHeightValue*60,
-                                                            width: unitHeightValue*180,
-                                                            child: TextField(
-                                                              onChanged: (text) {
-                                                                customTempSets = text;
-                                                              },
-                                                              keyboardType: TextInputType.number,
-                                                              inputFormatters: [
-                                                                FilteringTextInputFormatter.digitsOnly
-                                                              ],
-                                                              textAlign: TextAlign.center,
-                                                              decoration: InputDecoration(
-
-                                                                contentPadding: EdgeInsets.all(0),
-                                                                focusedBorder: const OutlineInputBorder(
-                                                                  borderSide: BorderSide(color: Color(0xffaeb1b9), width: 1.0),
-                                                                ),
-                                                                enabledBorder: const OutlineInputBorder(
-                                                                  borderSide: BorderSide(color: Color(0xffaeb1b9), width: 1.0),
-                                                                ),
-                                                                hintStyle: hintStyle,
-                                                                hintText: 'sets',
-                                                              ),
-                                                            )
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    SizedBox(
-                                                      height: unitHeightValue*70,
-                                                      child: Center(
-                                                        child: SizedBox(
-                                                            height: unitHeightValue*60,
-                                                            width: unitHeightValue*180,
-                                                            child: TextField(
-                                                              onChanged: (text) {
-                                                                customTempReps = text;
-                                                              },
-                                                              keyboardType: TextInputType.number,
-                                                              inputFormatters: [
-                                                                FilteringTextInputFormatter.digitsOnly
-                                                              ],
-                                                              textAlign: TextAlign.center,
-                                                              decoration: InputDecoration(
-
-                                                                contentPadding: EdgeInsets.all(0),
-                                                                focusedBorder: OutlineInputBorder(
-                                                                  borderSide: BorderSide(color: Color(0xffaeb1b9), width: 1.0),
-                                                                ),
-                                                                enabledBorder: OutlineInputBorder(
-                                                                  borderSide: BorderSide(color: Color(0xffaeb1b9), width: 1.0),
-                                                                ),
-                                                                hintStyle: hintStyle,
-                                                                hintText: 'reps',
-                                                              ),
-                                                            )
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    SizedBox(
-                                                      height: unitHeightValue*75,
-                                                      child: Center(
-                                                        child: SizedBox(
-                                                            height: unitHeightValue*60,
-                                                            width: unitHeightValue*180,
-                                                            child: TextField(
-                                                              onChanged: (text) {
-                                                                customTempWeight = text;
-                                                              },
-                                                              keyboardType: TextInputType.number,
-                                                              inputFormatters: [
-                                                                FilteringTextInputFormatter.digitsOnly
-                                                              ],
-                                                              textAlign: TextAlign.center,
-                                                              decoration: InputDecoration(
-
-                                                                contentPadding: EdgeInsets.all(0),
-                                                                focusedBorder: const OutlineInputBorder(
-                                                                  borderSide: BorderSide(color: Color(0xffaeb1b9), width: 1.0),
-                                                                ),
-                                                                enabledBorder: const OutlineInputBorder(
-                                                                  borderSide: BorderSide(color: Color(0xffaeb1b9), width: 1.0),
-                                                                ),
-                                                                hintStyle: hintStyle,
-                                                                hintText: 'lbs',
-                                                              ),
-                                                            )
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ]
-                                              ),
-                                              Row(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                  children: [
-                                                    Container(
-                                                        height: unitHeightValue*80,
-                                                        margin: EdgeInsets.only(right:15),
-                                                        child: Center(
-                                                          child: Text("Perform max reps on last set: ", style: alertTextStyle),
-                                                        )
-                                                    ),
-                                                    SizedBox(
-                                                      height: unitHeightValue*80,
-                                                      child: Center(
-                                                        child: SizedBox(
-                                                            height: unitHeightValue*60,
-                                                            width: unitHeightValue*180,
-                                                            child: TextField(
-                                                              onChanged: (text) {
-                                                                customTempMaxReps = text;
-                                                              },
-                                                              keyboardType: TextInputType.number,
-                                                              inputFormatters: [
-                                                                FilteringTextInputFormatter.digitsOnly
-                                                              ],
-                                                              textAlign: TextAlign.center,
-                                                              decoration: InputDecoration(
-
-                                                                contentPadding: EdgeInsets.all(0),
-                                                                focusedBorder: OutlineInputBorder(
-                                                                  borderSide: BorderSide(color: Color(0xffaeb1b9), width: 1.0),
-                                                                ),
-                                                                enabledBorder: OutlineInputBorder(
-                                                                  borderSide: BorderSide(color: Color(0xffaeb1b9), width: 1.0),
-                                                                ),
-                                                                hintStyle: hintStyle,
-                                                                hintText: 'reps',
-                                                              ),
-                                                            )
-                                                        ),
-                                                      ),
-                                                    )
-                                                  ]
-                                              )
-                                            ]
-                                        ),
-                                        Padding(
-                                            padding: EdgeInsets.only(top:5),
-                                            child: ElevatedButton(
-                                                style: ElevatedButton.styleFrom(
-                                                  primary: Colors.purple,
-                                                  onPrimary: Colors.white,
-                                                  shadowColor: Colors.greenAccent,
-                                                  elevation: 0,
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius: BorderRadius.circular(20.0)),
-                                                  minimumSize: Size(unitHeightValue*300, 45), //////// HERE
-                                                ),
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                  updateRecommended();
-                                                },
-                                                child: const Text('Submit Workout',
-                                                    style: TextStyle(fontSize: 14)))
-                                        )
-                                      ]
+                                  content: Row(
+                                    children: [
+                                      ListView.builder(
+                                          itemCount: _recommendedExDialogList.length,
+                                          itemBuilder: (context,index){
+                                            return _recommendedExDialogList[index];
+                                          }),
+                                    ]
                                   )
                               );
                             }
