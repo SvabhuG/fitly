@@ -2,14 +2,14 @@ import 'Exercise.dart';
 
 class Barbell extends Exercise
 {
-  double weight = 0;
+  int weight = 0;
 
   Barbell(String name, String musclegroup) : super(name, musclegroup)
   {
 
   }
 
-  double getWeight()
+  int getWeight()
   {
     return weight;
   }
@@ -24,7 +24,7 @@ class Barbell extends Exercise
     weight += 10;
   }
 
-  void setWeight(double weight)
+  void setWeight(int weight)
   {
     this.weight = weight;
   }

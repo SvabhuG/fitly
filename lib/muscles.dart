@@ -31,7 +31,7 @@ class _MusclesPageState extends State<MusclesPage> {
       for(String muscle in muscles){
         save = save + muscle + " ";
       }
-      prefs.setString("Muscles", save);
+      prefs.setString("Muscles", save.substring(0,save.length-1));
     }
     else{
       Fluttertoast.showToast(

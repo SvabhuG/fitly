@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 
 import 'algo/Barbell.dart';
 import 'algo/Bodyweight.dart';
-import 'algo/Dumbell.dart';
+import 'algo/Dumbbell.dart';
 import 'algo/Exercise.dart';
 import 'algo/User.dart';
 
@@ -38,6 +38,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
   String customTempEx = "Bench Press";
   String customTempSets = "";
   String customTempReps = "";
+  String customTempWeight = "";
 
   List<Widget> _customExList = [];
   List<Widget> _recommendedExList = [];
@@ -101,30 +102,38 @@ class _WorkoutPageState extends State<WorkoutPage> {
     }
     else if(ex is Dumbbell){
       String weight = ex.getWeight().toString();
-      _recommendedExList.add(Column(
-          children: [
-            Text(
-                "$name",
-                style: exStyle
-            ),
-            Text(
-                "$sets x $reps with ${weight}lbs dumbbells",
-                style: exStyle
-            )
-          ]
-      ));
+      _recommendedExList.add(Padding(
+        padding: EdgeInsets.all(10),
+        child: Column(
+            children: [
+              Text(
+                  "$name",
+                  style: exStyle
+              ),
+              Text(
+                  "$sets x $reps with ${weight}lbs dumbbells",
+                  style: exStyle
+              )
+            ]
+        ))
+      );
     }
     else if(ex is Bodyweight){
-      _recommendedExList.add(Column(
-          children: [
-            Text(
-                "$name"
-            ),
-            Text(
-                "$sets x $reps"
-            )
-          ]
-      ));
+      _recommendedExList.add(Padding(
+        padding: EdgeInsets.all(10),
+        child: Column(
+            children: [
+              Text(
+                "$name",
+                style: exStyle,
+              ),
+              Text(
+                "$sets x $reps",
+                style: exStyle,
+              )
+            ]
+        ))
+      );
     }
   }
 
@@ -138,7 +147,14 @@ class _WorkoutPageState extends State<WorkoutPage> {
       if(exercise.getName() == ex){
         exercise.setMaxlastreps(int.parse(maxReps));
         exercise.setReps(int.parse(reps));
-        //exercise.se
+        exercise.setSets(int.parse(customTempSets));
+
+        if(exercise is Dumbbell){
+          exercise.setWeight(int.parse(customTempWeight));
+        }
+        else if(exercise is Barbell){
+          exercise.setWeight(int.parse(customTempWeight));
+        }
       }
     }
   }
@@ -153,7 +169,14 @@ class _WorkoutPageState extends State<WorkoutPage> {
     }
   }
 
-
+  void resetTempVars(){
+    customTempMaxReps = "";
+    customTempEx = "Bench Press";
+    customTempSets = "";
+    customTempReps = "";
+    customTempWeight = "";
+    _customExList = [];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -198,8 +221,8 @@ class _WorkoutPageState extends State<WorkoutPage> {
                           ),
                         ),
                         Container(
-                          width: 300,
-                          height: 300,
+                          width: 400,
+                          height: 400,
                           child: ListView.builder(
                               itemCount: _recommendedExList.length,
                               itemBuilder: (context,index){
@@ -209,6 +232,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                       ]
                   )
               ),
+
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 Container(
                     margin: EdgeInsets.all(20),
@@ -223,11 +247,12 @@ class _WorkoutPageState extends State<WorkoutPage> {
                           minimumSize: const Size(200, 60), //////// HERE
                         ),
                         onPressed: () {
+                          resetTempVars();
                           showDialog(context: context, builder: (context) {
                             return StatefulBuilder(builder: (context, setState) {
                               return AlertDialog(
                                   backgroundColor: overlaycolor,
-                                  title: Text('Record Workout'),
+                                  title: Text('Recommended Workout'),
                                   alignment: Alignment.center,
                                   content: Column(
                                       mainAxisSize: MainAxisSize.min,
@@ -236,16 +261,16 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                           width: 300,
                                           height: 220,
                                           child: ListView.builder(
-                                              itemCount: _customExList.length,
+                                              itemCount: _recommendedExList.length,
                                               itemBuilder: (context,index){
                                                 return _customExList[index];
                                               }),
                                         ),
-                                        Row(
+                                        Column(
                                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                             children: [
-                                              Column(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                              Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                   children:[
                                                     Container(
@@ -255,6 +280,40 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                                           child: Text("Select exercise: ", style: alertTextStyle),
                                                         )
                                                     ),
+
+                                                    SizedBox(
+                                                        height: unitHeightValue*70,
+                                                        child: Center(
+                                                          child: DropdownButton<String>(
+                                                            itemHeight: 50,
+                                                            iconSize: iconSize,
+                                                            value: customTempEx,
+                                                            dropdownColor: const Color(0xff111111),
+                                                            icon: const Icon(Icons.arrow_downward),
+                                                            elevation: 16,
+                                                            style: const TextStyle(color: Colors.purple, fontSize: 28),
+                                                            onChanged: (String? newValue) {
+                                                              setState(() {
+                                                                customTempEx = newValue!;
+                                                              });
+                                                            },
+                                                            items: exs
+                                                                .map<DropdownMenuItem<String>>((String value) {
+                                                              return DropdownMenuItem<String>(
+                                                                value: value,
+                                                                child: Text(value, style: alertTextStyle),
+                                                              );
+                                                            }).toList(),
+
+                                                          ),
+                                                        )
+                                                    )
+                                                  ]
+                                              ),
+                                              Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                                  children:[
                                                     SizedBox(
                                                       height: unitHeightValue*75,
                                                       child: Center(
@@ -286,47 +345,6 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                                         ),
                                                       ),
                                                     ),
-                                                    Container(
-                                                        height: unitHeightValue*80,
-                                                        margin: EdgeInsets.only(right:15),
-                                                        child: Center(
-                                                          child: Text("Perform max reps\non last set: ", style: alertTextStyle),
-                                                        )
-                                                    ),
-                                                  ]
-                                              ),
-                                              Column(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                                  children:[
-                                                    SizedBox(
-                                                        height: unitHeightValue*70,
-                                                        child: Center(
-                                                          child: DropdownButton<String>(
-                                                            itemHeight: 50,
-                                                            iconSize: iconSize,
-                                                            value: customTempEx,
-                                                            dropdownColor: const Color(0xff111111),
-                                                            icon: const Icon(Icons.arrow_downward),
-                                                            elevation: 16,
-                                                            style: const TextStyle(color: Colors.purple, fontSize: 28),
-                                                            onChanged: (String? newValue) {
-                                                              setState(() {
-                                                                customTempEx = newValue!;
-                                                              });
-                                                            },
-                                                            items: exs
-                                                                .map<DropdownMenuItem<String>>((String value) {
-                                                              return DropdownMenuItem<String>(
-                                                                value: value,
-                                                                child: Text(value, style: alertTextStyle),
-                                                              );
-                                                            }).toList(),
-
-                                                          ),
-                                                        )
-                                                    ),
-
                                                     SizedBox(
                                                       height: unitHeightValue*70,
                                                       child: Center(
@@ -357,6 +375,49 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                                             )
                                                         ),
                                                       ),
+                                                    ),
+                                                    SizedBox(
+                                                      height: unitHeightValue*75,
+                                                      child: Center(
+                                                        child: SizedBox(
+                                                            height: unitHeightValue*60,
+                                                            width: unitHeightValue*180,
+                                                            child: TextField(
+                                                              onChanged: (text) {
+                                                                customTempWeight = text;
+                                                              },
+                                                              keyboardType: TextInputType.number,
+                                                              inputFormatters: [
+                                                                FilteringTextInputFormatter.digitsOnly
+                                                              ],
+                                                              textAlign: TextAlign.center,
+                                                              decoration: InputDecoration(
+
+                                                                contentPadding: EdgeInsets.all(0),
+                                                                focusedBorder: const OutlineInputBorder(
+                                                                  borderSide: BorderSide(color: Color(0xffaeb1b9), width: 1.0),
+                                                                ),
+                                                                enabledBorder: const OutlineInputBorder(
+                                                                  borderSide: BorderSide(color: Color(0xffaeb1b9), width: 1.0),
+                                                                ),
+                                                                hintStyle: hintStyle,
+                                                                hintText: 'lbs',
+                                                              ),
+                                                            )
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ]
+                                              ),
+                                              Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Container(
+                                                        height: unitHeightValue*80,
+                                                        margin: EdgeInsets.only(right:15),
+                                                        child: Center(
+                                                          child: Text("Perform max reps on last set: ", style: alertTextStyle),
+                                                        )
                                                     ),
                                                     SizedBox(
                                                       height: unitHeightValue*80,
@@ -390,39 +451,265 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                                       ),
                                                     )
                                                   ]
+                                              )
+                                            ]
+                                        ),
+                                        Padding(
+                                            padding: EdgeInsets.only(top:5),
+                                            child: ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                  primary: Colors.purple,
+                                                  onPrimary: Colors.white,
+                                                  shadowColor: Colors.greenAccent,
+                                                  elevation: 0,
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(20.0)),
+                                                  minimumSize: Size(unitHeightValue*300, 45), //////// HERE
+                                                ),
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                  updateRecommended();
+                                                },
+                                                child: const Text('Submit Workout',
+                                                    style: TextStyle(fontSize: 14)))
+                                        )
+                                      ]
+                                  )
+                              );
+                            }
+                            );
+                          });
+                        },
+
+                        child: const Text('Log Recommended Workout',
+                            style: TextStyle(fontSize: 18))))
+              ]),
+              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Container(
+                    margin: EdgeInsets.all(20),
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.purple,
+                          onPrimary: Colors.white,
+                          shadowColor: Colors.greenAccent,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0)),
+                          minimumSize: const Size(200, 60), //////// HERE
+                        ),
+                        onPressed: () {
+                          resetTempVars();
+                          showDialog(context: context, builder: (context) {
+                            return StatefulBuilder(builder: (context, setState) {
+                              return AlertDialog(
+                                  backgroundColor: overlaycolor,
+                                  title: Text('Record Workout'),
+                                  alignment: Alignment.center,
+                                  content: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Container(
+                                          width: 300,
+                                          height: 220,
+                                          child: ListView.builder(
+                                              itemCount: _customExList.length,
+                                              itemBuilder: (context,index){
+                                                return _customExList[index];
+                                              }),
+                                        ),
+                                        Column(
+                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children:[
+                                                    Container(
+                                                        height: unitHeightValue*80,
+                                                        margin: EdgeInsets.only(right:15),
+                                                        child: Center(
+                                                          child: Text("Select exercise: ", style: alertTextStyle),
+                                                        )
+                                                    ),
+
+                                                    SizedBox(
+                                                        height: unitHeightValue*70,
+                                                        child: Center(
+                                                          child: DropdownButton<String>(
+                                                            itemHeight: 50,
+                                                            iconSize: iconSize,
+                                                            value: customTempEx,
+                                                            dropdownColor: const Color(0xff111111),
+                                                            icon: const Icon(Icons.arrow_downward),
+                                                            elevation: 16,
+                                                            style: const TextStyle(color: Colors.purple, fontSize: 28),
+                                                            onChanged: (String? newValue) {
+                                                              setState(() {
+                                                                customTempEx = newValue!;
+                                                              });
+                                                            },
+                                                            items: exs
+                                                                .map<DropdownMenuItem<String>>((String value) {
+                                                              return DropdownMenuItem<String>(
+                                                                value: value,
+                                                                child: Text(value, style: alertTextStyle),
+                                                              );
+                                                            }).toList(),
+
+                                                          ),
+                                                        )
+                                                    )
+                                                  ]
                                               ),
+                                              Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                                  children:[
+                                                    SizedBox(
+                                                      height: unitHeightValue*75,
+                                                      child: Center(
+                                                        child: SizedBox(
+                                                            height: unitHeightValue*60,
+                                                            width: unitHeightValue*180,
+                                                            child: TextField(
+                                                              onChanged: (text) {
+                                                                customTempSets = text;
+                                                              },
+                                                              keyboardType: TextInputType.number,
+                                                              inputFormatters: [
+                                                                FilteringTextInputFormatter.digitsOnly
+                                                              ],
+                                                              textAlign: TextAlign.center,
+                                                              decoration: InputDecoration(
+
+                                                                contentPadding: EdgeInsets.all(0),
+                                                                focusedBorder: const OutlineInputBorder(
+                                                                  borderSide: BorderSide(color: Color(0xffaeb1b9), width: 1.0),
+                                                                ),
+                                                                enabledBorder: const OutlineInputBorder(
+                                                                  borderSide: BorderSide(color: Color(0xffaeb1b9), width: 1.0),
+                                                                ),
+                                                                hintStyle: hintStyle,
+                                                                hintText: 'sets',
+                                                              ),
+                                                            )
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      height: unitHeightValue*70,
+                                                      child: Center(
+                                                        child: SizedBox(
+                                                            height: unitHeightValue*60,
+                                                            width: unitHeightValue*180,
+                                                            child: TextField(
+                                                              onChanged: (text) {
+                                                                customTempReps = text;
+                                                              },
+                                                              keyboardType: TextInputType.number,
+                                                              inputFormatters: [
+                                                                FilteringTextInputFormatter.digitsOnly
+                                                              ],
+                                                              textAlign: TextAlign.center,
+                                                              decoration: InputDecoration(
+
+                                                                contentPadding: EdgeInsets.all(0),
+                                                                focusedBorder: OutlineInputBorder(
+                                                                  borderSide: BorderSide(color: Color(0xffaeb1b9), width: 1.0),
+                                                                ),
+                                                                enabledBorder: OutlineInputBorder(
+                                                                  borderSide: BorderSide(color: Color(0xffaeb1b9), width: 1.0),
+                                                                ),
+                                                                hintStyle: hintStyle,
+                                                                hintText: 'reps',
+                                                              ),
+                                                            )
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      height: unitHeightValue*75,
+                                                      child: Center(
+                                                        child: SizedBox(
+                                                            height: unitHeightValue*60,
+                                                            width: unitHeightValue*180,
+                                                            child: TextField(
+                                                              onChanged: (text) {
+                                                                customTempWeight = text;
+                                                              },
+                                                              keyboardType: TextInputType.number,
+                                                              inputFormatters: [
+                                                                FilteringTextInputFormatter.digitsOnly
+                                                              ],
+                                                              textAlign: TextAlign.center,
+                                                              decoration: InputDecoration(
+
+                                                                contentPadding: EdgeInsets.all(0),
+                                                                focusedBorder: const OutlineInputBorder(
+                                                                  borderSide: BorderSide(color: Color(0xffaeb1b9), width: 1.0),
+                                                                ),
+                                                                enabledBorder: const OutlineInputBorder(
+                                                                  borderSide: BorderSide(color: Color(0xffaeb1b9), width: 1.0),
+                                                                ),
+                                                                hintStyle: hintStyle,
+                                                                hintText: 'lbs',
+                                                              ),
+                                                            )
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ]
+                                              ),
+                                              Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Container(
+                                                        height: unitHeightValue*80,
+                                                        margin: EdgeInsets.only(right:15),
+                                                        child: Center(
+                                                          child: Text("Perform max reps on last set: ", style: alertTextStyle),
+                                                        )
+                                                    ),
+                                                    SizedBox(
+                                                      height: unitHeightValue*80,
+                                                      child: Center(
+                                                        child: SizedBox(
+                                                            height: unitHeightValue*60,
+                                                            width: unitHeightValue*180,
+                                                            child: TextField(
+                                                              onChanged: (text) {
+                                                                customTempMaxReps = text;
+                                                              },
+                                                              keyboardType: TextInputType.number,
+                                                              inputFormatters: [
+                                                                FilteringTextInputFormatter.digitsOnly
+                                                              ],
+                                                              textAlign: TextAlign.center,
+                                                              decoration: InputDecoration(
+
+                                                                contentPadding: EdgeInsets.all(0),
+                                                                focusedBorder: OutlineInputBorder(
+                                                                  borderSide: BorderSide(color: Color(0xffaeb1b9), width: 1.0),
+                                                                ),
+                                                                enabledBorder: OutlineInputBorder(
+                                                                  borderSide: BorderSide(color: Color(0xffaeb1b9), width: 1.0),
+                                                                ),
+                                                                hintStyle: hintStyle,
+                                                                hintText: 'reps',
+                                                              ),
+                                                            )
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ]
+                                              )
                                             ]
                                         ),
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            Padding(
-                                              padding: EdgeInsets.all(5),
-                                              child: ElevatedButton(
-                                                  style: ElevatedButton.styleFrom(
-                                                    primary: Colors.purple,
-                                                    onPrimary: Colors.white,
-                                                    shadowColor: Colors.greenAccent,
-                                                    elevation: 0,
-                                                    shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.circular(20.0)),
-                                                    minimumSize: Size(unitHeightValue*300, 45), //////// HERE
-                                                  ),
-                                                  onPressed: () {
-                                                    setState((){
-                                                      _addCustomExWidget(
-                                                          customTempEx,
-                                                          customTempSets,
-                                                          customTempReps,
-                                                          customTempMaxReps);
-                                                    });
-                                                  },
-                                                  child: const Text('Add Exercise',
-                                                      style: TextStyle(fontSize: 14))
-                                              ),
-                                            ),
-                                            Padding(
-                                                padding: EdgeInsets.only(top:5),
+                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.all(5),
                                                 child: ElevatedButton(
                                                     style: ElevatedButton.styleFrom(
                                                       primary: Colors.purple,
@@ -434,13 +721,38 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                                       minimumSize: Size(unitHeightValue*300, 45), //////// HERE
                                                     ),
                                                     onPressed: () {
-                                                      Navigator.pop(context);
-                                                      updateRecommended();
+                                                      setState((){
+                                                        _addCustomExWidget(
+                                                            customTempEx,
+                                                            customTempSets,
+                                                            customTempReps,
+                                                            customTempMaxReps);
+                                                      });
                                                     },
-                                                    child: const Text('Submit Workout',
-                                                        style: TextStyle(fontSize: 14)))
-                                            )
-                                          ]
+                                                    child: const Text('Add Exercise',
+                                                        style: TextStyle(fontSize: 14))
+                                                ),
+                                              ),
+                                              Padding(
+                                                  padding: EdgeInsets.only(top:5),
+                                                  child: ElevatedButton(
+                                                      style: ElevatedButton.styleFrom(
+                                                        primary: Colors.purple,
+                                                        onPrimary: Colors.white,
+                                                        shadowColor: Colors.greenAccent,
+                                                        elevation: 0,
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.circular(20.0)),
+                                                        minimumSize: Size(unitHeightValue*300, 45), //////// HERE
+                                                      ),
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                        updateRecommended();
+                                                      },
+                                                      child: const Text('Submit Workout',
+                                                          style: TextStyle(fontSize: 14)))
+                                              )
+                                            ]
                                         )
                                       ]
                                   )
@@ -453,7 +765,6 @@ class _WorkoutPageState extends State<WorkoutPage> {
                         child: const Text('Log Custom Workout',
                             style: TextStyle(fontSize: 18))))
               ]),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[

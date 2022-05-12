@@ -2,7 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Barbell.dart';
 import 'Bodyweight.dart';
-import 'Dumbell.dart';
+import 'Dumbbell.dart';
 import 'Exercise.dart';
 
 class User
@@ -57,6 +57,7 @@ class User
   {
     var groups = <String>[];
     print("thing: " + lastmusclegroup.toString());
+    print("Muslces : " + muscles.toString());
     if (lastmusclegroup >= (muscles.length - mpw)) {
       groups.addAll(muscles.sublist(lastmusclegroup, muscles.length));
       groups.addAll(muscles.sublist(0, muscles.length - lastmusclegroup));
@@ -93,7 +94,6 @@ class User
     musclesToday = getNextMuscles();
     print("Muscles today: " + musclesToday.toString());
     for (Exercise e in getExercises()) {
-      print(" In loop: " + e.getName());
       if (musclesToday.contains(e.getMuscleGroup())) {
         if (e is Bodyweight) {
           if (e.getReps() < e.getMaxlastreps()) {
@@ -217,8 +217,6 @@ class User
     exercises.add(backsquat);
     exercises.add(boxjumps);
     exercises.add(splitsquats);
-
-    print("check data retrieve: " + await getMusclesData());
 
     muscles = (await getMusclesData()).split(" ");
   }
