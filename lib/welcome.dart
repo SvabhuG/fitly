@@ -69,7 +69,7 @@ class _WelcomePageState extends State<WelcomePage> {
                   borderRadius: BorderRadius.circular(32.0)),
               minimumSize: const Size(200, 60), //////// HERE
             ),
-
+        //sends to the next page
             onPressed: () {
               Navigator.push(
                 context,
