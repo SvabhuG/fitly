@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'info.dart';
 
+//inforamtional page asking what muscle groups the user would like to target
 class MusclesPage extends StatefulWidget {
   const MusclesPage({Key? key}) : super(key: key);
 
@@ -22,6 +23,8 @@ class _MusclesPageState extends State<MusclesPage> {
 
   static const TextStyle hintStyle = TextStyle(color: Color(0xff4c4c58), fontSize: 10);
   var muscles = <String>[];
+
+  //stores the data of the muscle groups the user wants to target
   Future<void> setData() async {
     final prefs = await SharedPreferences.getInstance();
 

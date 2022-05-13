@@ -5,6 +5,7 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 
 import 'info.dart';
 
+//informational page for the user's gender
 class GenderPage extends StatefulWidget {
   const GenderPage({Key? key}) : super(key: key);
 

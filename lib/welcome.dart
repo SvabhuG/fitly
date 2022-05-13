@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'gender.dart';
 
+//the first page the user sees when they open the app
 class WelcomePage extends StatefulWidget {
 
   @override
