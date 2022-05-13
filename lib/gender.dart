@@ -53,7 +53,7 @@ class _GenderPageState extends State<GenderPage> {
               Container(
                 margin: const EdgeInsets.only(top: 40),
                   child: const Text(
-                      'Pleast select your gender',
+                      'Please select your gender',
                       style: TextStyle(fontSize: 24)
                   )
               ),
