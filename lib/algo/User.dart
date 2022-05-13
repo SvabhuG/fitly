@@ -20,7 +20,6 @@ class User
     rotation = false;
     lastmusclegroup = 0;
     mpw = muscle;
-    buildUser();
   }
 
   List<String> getMuscles()
@@ -69,8 +68,10 @@ class User
     return groups;
   }
 
-  void baseWorkout()
+  List<Exercise> baseWorkout()
   {
+    List<Exercise> exercisesToday = <Exercise>[];
+    List<String> baseMuscles = muscles.sublist(0,mpw);
     for (Exercise e in getExercises()) {
       if (e is Bodyweight) {
         e.setReps(4);
@@ -86,7 +87,12 @@ class User
         e.setReps(8);
         e.setSets(3);
       }
+      if (baseMuscles.contains(e.getMuscleGroup())) {
+        exercisesToday.add(e);
+      }
     }
+    return exercisesToday;
+
   }
 
   List<Exercise> workoutUpdate() {
@@ -219,5 +225,6 @@ class User
     exercises.add(splitsquats);
 
     muscles = (await getMusclesData()).split(" ");
+    print("check data retrieve" + muscles.toString());
   }
 }
