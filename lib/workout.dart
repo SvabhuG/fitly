@@ -29,7 +29,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
       _selectedIndex = index;
     });
   }
-
+  double unitHeightValue = 0;
   bool valuefirst = false;
 
   var customExs = <String>[];
@@ -43,7 +43,10 @@ class _WorkoutPageState extends State<WorkoutPage> {
   List<Widget> _customExList = [];
   List<Widget> _recommendedExList = [];
   List<Widget> _recommendedExDialogList = [];
+  List<Widget> _recommendedExMaxList = [];
   List<String> exs = [];
+
+  TextStyle hintStyle = TextStyle(color: Color(0xff4c4c58), fontSize: 25);
 
   Widget _customEx(String ex, String sets, String reps, String maxReps) {
     return Column(
@@ -70,7 +73,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
   Future<void> buildUser() async {
     if(!userBuilt){
       await user.buildUser();
-      updateRecommended();
+      firstWorkout();
       userBuilt = true;
 
       for(Exercise e in user.getExercises()){
@@ -79,11 +82,76 @@ class _WorkoutPageState extends State<WorkoutPage> {
     }
   }
 
+
+  void _addCustomExWidget(String ex, String sets, String reps, String maxReps) {
+    var exercises = user.getExercises();
+    setState(() {
+      _customExList.add(_customEx(ex, sets, reps, maxReps));
+      print(_customExList.length);
+    });
+    for(Exercise exercise in exercises){
+      if(exercise.getName() == ex){
+        exercise.setMaxlastreps(int.parse(maxReps));
+        exercise.setReps(int.parse(reps));
+        exercise.setSets(int.parse(customTempSets));
+
+        if(exercise is Dumbbell){
+          exercise.setWeight(int.parse(customTempWeight));
+        }
+        else if(exercise is Barbell){
+          exercise.setWeight(int.parse(customTempWeight));
+        }
+      }
+    }
+  }
+
   void _addRecommendedExWidget(Exercise ex){
     String name = ex.getName();
-    print("add recommended widget: " + ex.getName());
     String sets = ex.getSets().toString();
     String reps = ex.getReps().toString();
+
+    _recommendedExMaxList.add(
+      SizedBox(
+        height: unitHeightValue*75,
+        child: Center(
+          child: SizedBox(
+              height: unitHeightValue*60,
+              width: unitHeightValue*180,
+              child: TextField(
+                onChanged: (text) {
+                  customTempSets = text;
+                },
+                keyboardType: TextInputType.number,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly
+                ],
+                textAlign: TextAlign.center,
+                decoration: InputDecoration(
+
+                  contentPadding: EdgeInsets.all(0),
+                  focusedBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Color(0xffaeb1b9), width: 1.0),
+                  ),
+                  enabledBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Color(0xffaeb1b9), width: 1.0),
+                  ),
+                  hintStyle: hintStyle,
+                  hintText: 'sets',
+                ),
+              )
+          ),
+        ),
+      ),
+    );
+
+    _recommendedExDialogList.add(Padding(
+      padding: EdgeInsets.all(10),
+      child:Text(
+          "$name",
+          style: exStyle
+      ),
+    )
+    );
 
     if(ex is Barbell){
       String weight = ex.getWeight().toString();
@@ -101,14 +169,6 @@ class _WorkoutPageState extends State<WorkoutPage> {
               )
             ]
         ))
-      );
-      _recommendedExDialogList.add(Padding(
-          padding: EdgeInsets.all(10),
-          child:Text(
-              "$name",
-              style: exStyle
-          ),
-        )
       );
     }
     else if(ex is Dumbbell){
@@ -148,36 +208,24 @@ class _WorkoutPageState extends State<WorkoutPage> {
     }
   }
 
-  void _addCustomExWidget(String ex, String sets, String reps, String maxReps) {
-    var exercises = user.getExercises();
+  void updateRecommended(){
     setState(() {
-      _customExList.add(_customEx(ex, sets, reps, maxReps));
-      print(_customExList.length);
-    });
-    for(Exercise exercise in exercises){
-      if(exercise.getName() == ex){
-        exercise.setMaxlastreps(int.parse(maxReps));
-        exercise.setReps(int.parse(reps));
-        exercise.setSets(int.parse(customTempSets));
-
-        if(exercise is Dumbbell){
-          exercise.setWeight(int.parse(customTempWeight));
-        }
-        else if(exercise is Barbell){
-          exercise.setWeight(int.parse(customTempWeight));
-        }
+      var newExercises = user.workoutUpdate();
+      _recommendedExList = [];
+      for(Exercise e in newExercises){
+        _addRecommendedExWidget(e);
       }
-    }
+    });
   }
 
-  void updateRecommended(){
-    var newExercises = user.workoutUpdate();
-    _recommendedExList = [];
-    print("new exercises length: " + newExercises.length.toString());
-    for(Exercise e in newExercises){
-      print("update recommended: " + e.getName());
-      _addRecommendedExWidget(e);
-    }
+  void firstWorkout(){
+    setState(() {
+      var newExercises = user.baseWorkout();
+      _recommendedExList = [];
+      for(Exercise e in newExercises){
+        _addRecommendedExWidget(e);
+      }
+    });
   }
 
   void resetTempVars(){
@@ -191,9 +239,9 @@ class _WorkoutPageState extends State<WorkoutPage> {
 
   @override
   Widget build(BuildContext context) {
-    double unitHeightValue = MediaQuery.of(context).size.width * 0.001;
+    unitHeightValue = MediaQuery.of(context).size.width * 0.001;
     double iconSize = unitHeightValue*50;
-    TextStyle hintStyle = TextStyle(color: Color(0xff4c4c58), fontSize: unitHeightValue*30);
+    hintStyle = TextStyle(color: Color(0xff4c4c58), fontSize: unitHeightValue*30);
     TextStyle alertTextStyle = TextStyle(fontSize: unitHeightValue*25);
     TextStyle buttonTextStyle = TextStyle(fontSize: unitHeightValue*35);
 
@@ -266,11 +314,24 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                   alignment: Alignment.center,
                                   content: Row(
                                     children: [
-                                      ListView.builder(
+                                      SizedBox(
+                                        width: 200,
+                                        height: 300,
+                                        child: ListView.builder(
                                           itemCount: _recommendedExDialogList.length,
                                           itemBuilder: (context,index){
                                             return _recommendedExDialogList[index];
-                                          }),
+                                          })
+                                      ),
+                                      SizedBox(
+                                        width: 200,
+                                        height: 300,
+                                        child: ListView.builder(
+                                            itemCount: _recommendedExMaxList.length,
+                                            itemBuilder: (context,index){
+                                              return _recommendedExMaxList[index];
+                                            })
+                                      )
                                     ]
                                   )
                               );
