@@ -26,16 +26,20 @@ class _MusclesPageState extends State<MusclesPage> {
     final prefs = await SharedPreferences.getInstance();
 
 
-    if(muscles.isNotEmpty) {
+    if(muscles.length >= 3) {
       String save = "";
       for(String muscle in muscles){
         save = save + muscle + " ";
       }
       prefs.setString("Muscles", save.substring(0,save.length-1));
+      Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => WorkoutPage())
+      );
     }
     else{
       Fluttertoast.showToast(
-          msg: "Please enter focus areas before proceeding",
+          msg: "Please enter 3 focus areas before proceeding",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
@@ -310,10 +314,7 @@ class _MusclesPageState extends State<MusclesPage> {
 
                         onPressed: () {
                           setData();
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => WorkoutPage())
-                          );
+
                         },
                         child: const Text(
                             'Next',

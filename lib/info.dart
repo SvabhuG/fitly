@@ -119,7 +119,7 @@ class _InfoPageState extends State<InfoPage> {
             Padding(
                 padding: const EdgeInsets.only(top: 15, left: 20, bottom: 15, right: 20),
                 child: Text(
-                    'How much protein do you consume weekly?',
+                    'How much protein do you consume daily?',
                     style: questStyle
                 )
             ),

@@ -1,6 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'algo/Barbell.dart';
 import 'algo/Bodyweight.dart';
@@ -45,6 +47,9 @@ class _WorkoutPageState extends State<WorkoutPage> {
   List<Widget> _recommendedExDialogList = [];
   List<Widget> _recommendedExMaxList = [];
   List<String> exs = [];
+  List<Exercise> newExercises = [];
+
+  List<TextEditingController> _controllers = [];
 
   TextStyle hintStyle = TextStyle(color: Color(0xff4c4c58), fontSize: 25);
 
@@ -71,15 +76,33 @@ class _WorkoutPageState extends State<WorkoutPage> {
   User user = User(2);
 
   Future<void> buildUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('intro_seen', true);
     if(!userBuilt){
       await user.buildUser();
       firstWorkout();
       userBuilt = true;
 
       for(Exercise e in user.getExercises()){
-        exs.add(e.getName());
+        if(user.getMuscles().contains(e.getMuscleGroup())){
+          exs.add(e.getName());
+        }
       }
     }
+  }
+
+  bool checkRecommendedController(){
+    bool check = true;
+    print("entered function");
+    print("new exercises length: " + newExercises.length.toString());
+    print("controller length: " + _controllers.length.toString());
+    for(TextEditingController c in _controllers){
+      print((c.text));
+      if(c.text == ""){
+        check = false;
+      }
+    }
+    return check;
   }
 
 
@@ -110,42 +133,8 @@ class _WorkoutPageState extends State<WorkoutPage> {
     String sets = ex.getSets().toString();
     String reps = ex.getReps().toString();
 
-    _recommendedExMaxList.add(
-      SizedBox(
-        height: unitHeightValue*75,
-        child: Center(
-          child: SizedBox(
-              height: unitHeightValue*60,
-              width: unitHeightValue*180,
-              child: TextField(
-                onChanged: (text) {
-                  customTempSets = text;
-                },
-                keyboardType: TextInputType.number,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly
-                ],
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(
-
-                  contentPadding: EdgeInsets.all(0),
-                  focusedBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xffaeb1b9), width: 1.0),
-                  ),
-                  enabledBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xffaeb1b9), width: 1.0),
-                  ),
-                  hintStyle: hintStyle,
-                  hintText: 'sets',
-                ),
-              )
-          ),
-        ),
-      ),
-    );
-
     _recommendedExDialogList.add(Padding(
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.all(13),
       child:Text(
           "$name",
           style: exStyle
@@ -210,17 +199,24 @@ class _WorkoutPageState extends State<WorkoutPage> {
 
   void updateRecommended(){
     setState(() {
-      var newExercises = user.workoutUpdate();
+      newExercises = user.workoutUpdate();
       _recommendedExList = [];
+      _recommendedExDialogList = [];
       for(Exercise e in newExercises){
         _addRecommendedExWidget(e);
       }
     });
   }
 
+  void saveRecommended(){
+    for(int i = 0; i < newExercises.length; i++){
+      newExercises[i].setMaxlastreps(int.parse(_controllers[i].text));
+    }
+  }
+
   void firstWorkout(){
     setState(() {
-      var newExercises = user.baseWorkout();
+      newExercises = user.baseWorkout();
       _recommendedExList = [];
       for(Exercise e in newExercises){
         _addRecommendedExWidget(e);
@@ -235,6 +231,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
     customTempReps = "";
     customTempWeight = "";
     _customExList = [];
+    _controllers = [];
   }
 
   @override
@@ -244,7 +241,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
     hintStyle = TextStyle(color: Color(0xff4c4c58), fontSize: unitHeightValue*30);
     TextStyle alertTextStyle = TextStyle(fontSize: unitHeightValue*25);
     TextStyle buttonTextStyle = TextStyle(fontSize: unitHeightValue*35);
-
+    print("Controllers length: " + _controllers.length.toString());
     buildUser();
 
     return MaterialApp(
@@ -310,29 +307,104 @@ class _WorkoutPageState extends State<WorkoutPage> {
                             return StatefulBuilder(builder: (context, setState) {
                               return AlertDialog(
                                   backgroundColor: overlaycolor,
-                                  title: Text('Record Recommended Workout'),
+                                  title: Text('Recommended Workout'),
                                   alignment: Alignment.center,
-                                  content: Row(
+                                  content: Column(
+                                    mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      SizedBox(
-                                        width: 200,
-                                        height: 300,
-                                        child: ListView.builder(
-                                          itemCount: _recommendedExDialogList.length,
-                                          itemBuilder: (context,index){
-                                            return _recommendedExDialogList[index];
-                                          })
+                                      Row(
+                                          children: [
+                                            SizedBox(
+                                                width: 150,
+                                                height: 300,
+                                                child: ListView.builder(
+                                                    itemCount: _recommendedExDialogList.length,
+                                                    itemBuilder: (context,index){
+                                                      return _recommendedExDialogList[index];
+                                                    })
+                                            ),
+                                            SizedBox(
+                                                width: 150,
+                                                height: 300,
+                                                child: ListView.builder(
+                                                    itemCount: 6,
+                                                    itemBuilder: (context,index){
+                                                      if(_controllers.length < 6){
+                                                        _controllers.add(TextEditingController());
+                                                      }
+
+                                                      return SizedBox(
+                                                          height: unitHeightValue*75,
+                                                          child: Center(
+                                                              child: SizedBox(
+                                                                  height: unitHeightValue*60,
+                                                                  width: unitHeightValue*180,
+                                                                  child: TextField(
+                                                                      controller: _controllers[index],
+                                                                      keyboardType: TextInputType.number,
+                                                                      inputFormatters: [
+                                                                        FilteringTextInputFormatter.digitsOnly
+                                                                      ],
+                                                                      textAlign: TextAlign.center,
+                                                                      decoration: InputDecoration(
+                                                                        contentPadding: EdgeInsets.all(0),
+                                                                        focusedBorder: const OutlineInputBorder(
+                                                                          borderSide: BorderSide(color: Color(0xffaeb1b9), width: 1.0),
+                                                                        ),
+                                                                        enabledBorder: const OutlineInputBorder(
+                                                                          borderSide: BorderSide(color: Color(0xffaeb1b9), width: 1.0),
+                                                                        ),
+                                                                        hintStyle: hintStyle,
+                                                                        hintText: 'max reps',
+                                                                      )
+                                                                  )
+                                                              )
+                                                          )
+                                                      );
+                                                    })
+                                            )
+                                          ]
                                       ),
-                                      SizedBox(
-                                        width: 200,
-                                        height: 300,
-                                        child: ListView.builder(
-                                            itemCount: _recommendedExMaxList.length,
-                                            itemBuilder: (context,index){
-                                              return _recommendedExMaxList[index];
-                                            })
-                                      )
-                                    ]
+                                      Padding(
+                                        padding: EdgeInsets.all(5),
+                                        child: ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              primary: Colors.purple,
+                                              onPrimary: Colors.white,
+                                              shadowColor: Colors.greenAccent,
+                                              elevation: 0,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(20.0)),
+                                              minimumSize: Size(unitHeightValue*300, 45), //////// HERE
+                                            ),
+                                            onPressed: () {
+                                              setState((){
+                                                if(checkRecommendedController()){
+                                                  saveRecommended();
+                                                  updateRecommended();
+                                                  Navigator.pop(context);
+                                                  _controllers = [];
+
+                                                }
+                                                else{
+                                                  Fluttertoast.showToast(
+                                                      msg: "Enter all max reps before saving",
+                                                      toastLength: Toast.LENGTH_SHORT,
+                                                      gravity: ToastGravity.BOTTOM,
+                                                      timeInSecForIosWeb: 1,
+                                                      backgroundColor: Colors.red,
+                                                      textColor: Colors.white,
+                                                      fontSize: 16.0
+                                                  );
+                                                }
+
+                                              });
+                                            },
+                                            child: const Text('Save',
+                                                style: TextStyle(fontSize: 14))
+                                        ),
+                                      ),
+                                    ],
                                   )
                               );
                             }
@@ -407,8 +479,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                                                 customTempEx = newValue!;
                                                               });
                                                             },
-                                                            items: exs
-                                                                .map<DropdownMenuItem<String>>((String value) {
+                                                            items: exs.map<DropdownMenuItem<String>>((String value) {
                                                               return DropdownMenuItem<String>(
                                                                 value: value,
                                                                 child: Text(value, style: alertTextStyle),
@@ -605,8 +676,21 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                                         minimumSize: Size(unitHeightValue*300, 45), //////// HERE
                                                       ),
                                                       onPressed: () {
-                                                        Navigator.pop(context);
-                                                        updateRecommended();
+                                                        if(_customExList.isNotEmpty){
+                                                          Navigator.pop(context);
+                                                          updateRecommended();
+                                                        }
+                                                        else{
+                                                          Fluttertoast.showToast(
+                                                              msg: "Add exercise before submitting",
+                                                              toastLength: Toast.LENGTH_SHORT,
+                                                              gravity: ToastGravity.BOTTOM,
+                                                              timeInSecForIosWeb: 1,
+                                                              backgroundColor: Colors.red,
+                                                              textColor: Colors.white,
+                                                              fontSize: 16.0
+                                                          );
+                                                        }
                                                       },
                                                       child: const Text('Submit Workout',
                                                           style: TextStyle(fontSize: 14)))
@@ -624,32 +708,28 @@ class _WorkoutPageState extends State<WorkoutPage> {
                         child: const Text('Log Custom Workout',
                             style: TextStyle(fontSize: 18))))
               ]),
-              Row(
+              Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  const SizedBox(
-                    width: 10,
+                children: const [
+                  SizedBox(
+                    height: 50,
                   ),
-                  const Text(
-                    'Completed?',
-                    style: TextStyle(color: Colors.white, fontSize: 17.0),
+                  Text(
+                    '* Perform max reps to failure on the last set of every exercise',
+                    style: TextStyle(color: Colors.white, fontSize: 14),
                   ),
-                  Checkbox(
-
-                    checkColor: Colors.white,
-                    activeColor: Colors.green,
-                    value: valuefirst,
-                    onChanged: (value) {
-                      setState(() {
-                        valuefirst = value!;
-                      });
-                    },
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    '* Too easy or difficult? Log a custom workout for better future recommendations',
+                    style: TextStyle(color: Colors.white, fontSize: 14),
                   ),
                 ],
               ),
             ],
           ),
-        ),
+        ),/*
         bottomNavigationBar: BottomNavigationBar(
           backgroundColor: Color(0xff1e1e1e),
           items: const <BottomNavigationBarItem>[
@@ -670,7 +750,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
           selectedItemColor: Colors.purple,
           unselectedItemColor: Colors.white,
           onTap: _onItemTapped,
-        ),
+        ),*/
       ),
     );
   }

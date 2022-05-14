@@ -57,7 +57,7 @@ class User
     var groups = <String>[];
     print("thing: " + lastmusclegroup.toString());
     print("Muslces : " + muscles.toString());
-    if (lastmusclegroup >= (muscles.length - mpw)) {
+    if (lastmusclegroup > (muscles.length - mpw)) {
       groups.addAll(muscles.sublist(lastmusclegroup, muscles.length));
       groups.addAll(muscles.sublist(0, muscles.length - lastmusclegroup));
     } else {
@@ -102,8 +102,8 @@ class User
     for (Exercise e in getExercises()) {
       if (musclesToday.contains(e.getMuscleGroup())) {
         if (e is Bodyweight) {
-          if (e.getReps() < e.getMaxlastreps()) {
-            e.setReps((e.getMaxlastreps() * 0.5).toInt());
+          if (e.getMaxlastreps() > e.getReps()) {
+            e.setReps(((e.getMaxlastreps() + e.getReps()) * 0.5).toInt());
           }
           if (((e.getReps() * 3) ~/ 4) > e.getMaxlastreps()) {
             e.setReps(e.getReps() - 1);
@@ -112,64 +112,58 @@ class User
               e.setReps((e.getReps() * 0.75).toInt());
             }
           }
-
-          print((((("Sets: " + e.getSets().toString()) + " Reps: ") + e.getReps().toString()) + " of ") + e.getName());
         }
         if (e is Dumbbell) {
-          if ((e.getSets() == 5) && (e.getReps() == 10)) {
-            if ((e.getMaxlastreps() > 15) && (e.getMaxlastreps() < 20)) {
+          if ((e.getSets() == 5) && (e.getReps() >= 10)) {
+            if ((e.getMaxlastreps() > 12) && (e.getMaxlastreps() < 20)) {
               e.updateWeightsoft();
-            } else {
-              if (e.getMaxlastreps() >= 20) {
-                e.updateWeighthard();
-              }
+              e.setSets(3);
+              e.setReps(8);
             }
-          } else {
-            if ((e.getReps() < e.getMaxlastreps()) && (e.getReps() != 10)) {
-              e.setReps(10);
-            } else {
-              if ((e.getSets() < 5) && (e.getMaxlastreps() > (e.getReps() + 2))) {
-                e.setSets(e.getSets() + 1);
-              } else {
-                if (e.getMaxlastreps() == 0) {
-                  e.setWeight(e.getWeight() - 5);
-                } else {
-                  if (e.getMaxlastreps() <= (e.getReps() * 0.25)) {
-                    e.setReps((e.getReps() * 0.75).toInt());
-                  }
-                }
-              }
+            else if (e.getMaxlastreps() >= 20) {
+              e.updateWeighthard();
             }
           }
-          print(((((((("Sets: " + e.getSets().toString()) + " Reps: ") + e.getReps().toString()) + " of ") + e.getName()) + " with ") + e.getWeight().toString()) + " lb dumbbells");
+          else if ((e.getReps() < e.getMaxlastreps()) && (e.getReps() < 10)) {
+            e.setReps(e.getReps() + 1);
+          }
+          else if ((e.getReps() < e.getMaxlastreps()) && (e.getReps() >= 10)) {
+            e.setSets(e.getSets() + 1);
+            e.setReps(e.getReps()-4);
+          }
+          else if(e.getMaxlastreps() == 0) {
+            e.setWeight((e.getWeight() - 5));
+          }
+          else if (e.getMaxlastreps() <= (e.getReps() * 0.25)) {
+            e.setReps((e.getReps() * 0.75).toInt());
+          }
         }
         if (e is Barbell) {
-          if ((e.getSets() == 5) && (e.getReps() == 10)) {
-            if ((e.getMaxlastreps() > 15) && (e.getMaxlastreps() < 20)) {
+          if ((e.getSets() == 5) && (e.getReps() >= 8)) {
+            if ((e.getMaxlastreps() >= 8) && (e.getMaxlastreps() < 20)) {
               e.updateWeightsoft();
-            } else {
-              if (e.getMaxlastreps() >= 20) {
+
+            }
+            else if (e.getMaxlastreps() >= 20) {
                 e.updateWeighthard();
-              }
             }
-          } else {
-            if ((e.getReps() < e.getMaxlastreps()) && (e.getReps() != 10)) {
-              e.setReps(10);
-            } else {
-              if ((e.getSets() < 5) && (e.getMaxlastreps() > (e.getReps() + 2))) {
-                e.setSets(e.getSets() + 1);
-              } else {
-                if (e.getMaxlastreps() == 0) {
-                  e.setWeight((e.getWeight() - 10));
-                } else {
-                  if (e.getMaxlastreps() <= (e.getReps() * 0.25)) {
-                    e.setReps((e.getReps() * 0.75).toInt());
-                  }
-                }
-              }
-            }
+
+            e.setSets(3);
+            e.setReps(5);
           }
-          print(((((((("Sets: " + e.getSets().toString()) + " Reps: ") + e.getReps().toString()) + " of ") + e.getName()) + " at ") + e.getWeight().toString()) + " lbs");
+          else if ((e.getReps() < e.getMaxlastreps()) && (e.getReps() < 8)) {
+              e.setReps(e.getReps() + 1);
+          }
+          else if ((e.getReps() >= 8) && (e.getReps() < e.getMaxlastreps())) {
+                e.setSets(e.getSets() + 1);
+                e.setReps(e.getReps()-2);
+          }
+          else if(e.getMaxlastreps() == 0) {
+            e.setWeight((e.getWeight() - 10));
+          }
+          else if (e.getMaxlastreps() <= (e.getReps() * 0.25)) {
+            e.setReps((e.getReps() * 0.75).toInt());
+          }
         }
         exercisesToday.add(e);
       }
