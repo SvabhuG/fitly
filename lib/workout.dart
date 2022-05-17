@@ -78,7 +78,9 @@ class _WorkoutPageState extends State<WorkoutPage> {
   Future<void> buildUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('intro_seen', true);
+    print("building user");
     if(!userBuilt){
+      print("in build if statement");
       await user.buildUser();
       firstWorkout();
       userBuilt = true;
@@ -86,6 +88,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
       for(Exercise e in user.getExercises()){
         if(user.getMuscles().contains(e.getMuscleGroup())){
           exs.add(e.getName());
+          print("builduser: " + e.getName());
         }
       }
     }

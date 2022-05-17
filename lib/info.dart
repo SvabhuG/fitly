@@ -117,14 +117,21 @@ class _InfoPageState extends State<InfoPage> {
               ),
             ),
             Padding(
-                padding: const EdgeInsets.only(top: 15, left: 20, bottom: 15, right: 20),
+                padding: const EdgeInsets.only(top: 15, left: 20, bottom: 0, right: 20),
                 child: Text(
                     'How much protein do you consume daily?',
                     style: questStyle
                 )
             ),
             Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                padding: const EdgeInsets.only(left: 20, bottom: 15, right: 20),
+                child: Text(
+                    'For reference: 1oz of chicken contains 8g protein',
+                    style: TextStyle(fontSize: unitHeightValue*30)
+                )
+            ),
+            Padding(
+                padding: const EdgeInsets.only(left: 20, right:20, bottom: 10),
                 child: SizedBox(
                     height: 40,
                     child: TextField(
