@@ -156,7 +156,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                   style: exStyle
               ),
               Text(
-                  "$sets x $reps at $weight lbs",
+                  "$sets x $reps at ${weight}lbs",
                   style: exStyle
               )
             ]
@@ -655,11 +655,24 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                                     ),
                                                     onPressed: () {
                                                       setState((){
-                                                        _addCustomExWidget(
-                                                            customTempEx,
-                                                            customTempSets,
-                                                            customTempReps,
-                                                            customTempMaxReps);
+                                                        if(customTempSets == "" || customTempReps == "" || customTempMaxReps == ""){
+                                                          Fluttertoast.showToast(
+                                                              msg: "Enter all parameters before adding",
+                                                              toastLength: Toast.LENGTH_SHORT,
+                                                              gravity: ToastGravity.BOTTOM,
+                                                              timeInSecForIosWeb: 1,
+                                                              backgroundColor: Colors.red,
+                                                              textColor: Colors.white,
+                                                              fontSize: 16.0
+                                                          );
+                                                        }
+                                                        else {
+                                                          _addCustomExWidget(
+                                                              customTempEx,
+                                                              customTempSets,
+                                                              customTempReps,
+                                                              customTempMaxReps);
+                                                        }
                                                       });
                                                     },
                                                     child: const Text('Add Exercise',

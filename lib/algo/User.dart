@@ -95,6 +95,7 @@ class User
 
   }
 
+
   List<Exercise> workoutUpdate() {
     List<Exercise> exercisesToday = <Exercise>[];
     musclesToday = getNextMuscles();
