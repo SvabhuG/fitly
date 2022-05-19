@@ -10,7 +10,9 @@ import 'algo/Dumbbell.dart';
 import 'algo/Exercise.dart';
 import 'algo/User.dart';
 
-
+/*
+the workout page - main page
+ */
 class WorkoutPage extends StatefulWidget {
   const WorkoutPage({Key? key}) : super(key: key);
 
@@ -25,7 +27,9 @@ class _WorkoutPageState extends State<WorkoutPage> {
   static const TextStyle exStyle =
   TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white);
 
-
+/*
+navbar functionality - when the icon is pressed that page is opened
+ */
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -36,6 +40,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
 
   var customExs = <String>[];
 
+  //temporary variables
   String customTempMaxReps = "";
   String customTempEx = "Bench Press";
   String customTempSets = "";
@@ -75,12 +80,14 @@ class _WorkoutPageState extends State<WorkoutPage> {
   bool userBuilt = false;
   User user = User(2);
 
+  /*
+  creates a user object and assigns them the base recommended sets/reps/weight for their first workout
+   */
   Future<void> buildUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('intro_seen', true);
     print("building user");
     if(!userBuilt){
-      print("in build if statement");
       await user.buildUser();
       firstWorkout();
       userBuilt = true;
@@ -108,7 +115,9 @@ class _WorkoutPageState extends State<WorkoutPage> {
     return check;
   }
 
-
+/*
+assigns values to the exercise object based on what the user was recommended and able to do
+ */
   void _addCustomExWidget(String ex, String sets, String reps, String maxReps) {
     var exercises = user.getExercises();
     setState(() {
@@ -130,7 +139,9 @@ class _WorkoutPageState extends State<WorkoutPage> {
       }
     }
   }
-
+/*
+displays the exercises with the name, sets, and reps the user is doing - depending on the class, the display will look different
+ */
   void _addRecommendedExWidget(Exercise ex){
     String name = ex.getName();
     String sets = ex.getSets().toString();
@@ -199,7 +210,9 @@ class _WorkoutPageState extends State<WorkoutPage> {
       );
     }
   }
-
+/*
+calls workout update, which scales the proper exercises, for the user
+ */
   void updateRecommended(){
     setState(() {
       newExercises = user.workoutUpdate();
@@ -217,6 +230,9 @@ class _WorkoutPageState extends State<WorkoutPage> {
     }
   }
 
+  /*
+  calls base workout, which establishes the recommended starting reps, sets, and weight for the exercises
+   */
   void firstWorkout(){
     setState(() {
       newExercises = user.baseWorkout();
@@ -227,6 +243,9 @@ class _WorkoutPageState extends State<WorkoutPage> {
     });
   }
 
+  /*
+  resets the temporary variables
+   */
   void resetTempVars(){
     customTempMaxReps = "";
     customTempEx = "Bench Press";

@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'muscles.dart';
 
+//informational page to gather user data
 class InfoPage extends StatefulWidget {
   const InfoPage({Key? key}) : super(key: key);
 
@@ -24,7 +25,7 @@ class _InfoPageState extends State<InfoPage> {
 
   static const TextStyle hintStyle = TextStyle(color: Color(0xff4c4c58), fontSize: 18);
 
-
+//sets the inputted data to the corresponding variables
   Future<void> setData() async {
     final prefs = await SharedPreferences.getInstance();
     if(checkFilled()) {
@@ -46,7 +47,7 @@ class _InfoPageState extends State<InfoPage> {
     }
   }
 
-
+//checks to make sure the user entered data for each field
   bool checkFilled(){
       if(weight.isEmpty || protein.isEmpty){
         return false;

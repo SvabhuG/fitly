@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'gender.dart';
 
+//the first page the user sees when they open the app
 class WelcomePage extends StatefulWidget {
 
   @override
@@ -69,7 +70,7 @@ class _WelcomePageState extends State<WelcomePage> {
                   borderRadius: BorderRadius.circular(32.0)),
               minimumSize: const Size(200, 60), //////// HERE
             ),
-
+        //sends to the next page
             onPressed: () {
               Navigator.push(
                 context,

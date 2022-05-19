@@ -5,6 +5,7 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 
 import 'info.dart';
 
+//informational page for the user's gender
 class GenderPage extends StatefulWidget {
   const GenderPage({Key? key}) : super(key: key);
 
@@ -52,7 +53,7 @@ class _GenderPageState extends State<GenderPage> {
               Container(
                 margin: const EdgeInsets.only(top: 40),
                   child: const Text(
-                      'Pleast select your gender',
+                      'Please select your gender',
                       style: TextStyle(fontSize: 24)
                   )
               ),
