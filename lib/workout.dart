@@ -465,7 +465,6 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                                           child: Text("Select exercise: ", style: alertTextStyle),
                                                         )
                                                     ),
-
                                                     SizedBox(
                                                         height: unitHeightValue*70,
                                                         child: Center(
